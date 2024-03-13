@@ -14,8 +14,8 @@
     <script>
       Dos(document.getElementById("jsdos"), {
       }).ready((fs, main) => {
-        fs.extract("game.zip").then(() => {
-          main(["-c", GAME_ARGS])
+        fs.extract("comal.zip").then(() => {
+          main(["-c", "comal\\COMAL.EXE"])
         });
       });
     </script>
