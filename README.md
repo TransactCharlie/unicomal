@@ -9,7 +9,7 @@ You can then play the game of go in your browser.
 
 ### Run it yourself
 ```
-docker build -t unicomal-go
+docker build . -t unicomal-go
 docker run -p 8000:8000 unicomal-go
 ```
 
