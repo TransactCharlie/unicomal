@@ -1,0 +1,639 @@
+0100 USE gadgets, graphics
+0110 
+0120 version$:="1.01"
+0130 
+0140 l#:=0
+0150 FOR y#:=0 TO 18 DO
+0160   FOR x#:=0 TO 18 DO
+0170     click_zone(STR$(x#)+","+STR$(y#),x#*20+69,y#*20+69,11,11,release_only#)
+0180     l#:+1
+0190   ENDFOR x#
+0200 ENDFOR y#
+0210 
+0220 bevel_box(490,61,120,388,TRUE)
+0230 button("pass",491,428,118,20,"Pass",boxless#)
+0240 button("reset",491,83,118,20,"Reset",boxless#)
+0250 button("quit",491,62,118,20,"Quit",boxless#)
+0260 text_display("status",492,295,116,20,"...............Play           ",left_justify#)
+0270 text_display("black",550,400,47,15,"0",right_justify#)
+0280 text_display("white",550,380,47,15,"0",right_justify#)
+0290 komi#:=new_button_rack#
+0300 radio_button("0.0",komi#,505,340,10,10,"0.0",TRUE,text_to_right#)
+0301 radio_button("0.5",komi#,560,340,10,10,"0.5",FALSE,text_to_right#)
+0310 radio_button("5.5",komi#,505,325,10,10,"5.5",FALSE,text_to_right#)
+0320 radio_button("7.5",komi#,560,325,10,10,"7.5",FALSE,text_to_right#)
+0330 
+0340 size#:=8; piecesize:=8.7
+0350 
+0360 DIM pieces$(1:12) OF shapesize#(100-size#,100+size#,100-size#,100+size#)
+0370 // 1=inter, 2=dot inter, 3=left, 4=right, 5=top, 6=bottom
+0380 // 7=topleft, 8=topright, 9=bottomleft, 10=bottomright
+0390 // 11=black, 12=white
+0400 
+0410 DIM grid#(-1:19,-1:19)
+0420 FOR y#:=-1 TO 19 DO
+0430   grid#(-1,y#):=-1
+0440   grid#(19,y#):=-1
+0450 ENDFOR y#
+0460 FOR x#:=-1 TO 19 DO
+0470   grid#(x#,-1):=-1
+0480   grid#(x#,19):=-1
+0490 ENDFOR x#
+0500 DIM s$ OF 30
+0510 s$:="Play           "
+0520 
+0530 DIM prev#(-1:19,-1:19)
+0540 DIM next#(-1:19,-1:19)
+0550 DIM select#(-1:19,-1:19)
+0560 next#(,):=grid#(,)
+0570 
+0580 make_pieces
+0590 setup_game_colours
+0600 //setup_gui_colours
+0610 draw_buttons
+0620 draw_board
+0630 putstyle(0); hidepointer
+0640 FOR y#:=0 TO 18 DO
+0650   FOR x#:=0 TO 18 DO
+0660     clear_square(x#,y#)
+0670   ENDFOR x#
+0680 ENDFOR y#
+0690 
+0700 //random_grid
+0710 
+0720 //aw_board
+0730 showpointer; player#:=2; last#:=0; pass#:=0; mode#:=1; new_game#:=TRUE
+0740 
+0750 REPEAT
+0760   TIMER 0
+0770   REPEAT
+0780     mouse_pointer(mx#,my#,ml#,mm#,mr#)
+0790     IF TIMER>0.025 AND get_text$("status")(1:1)="." THEN
+0800       TIMER 0
+0810       s$:=get_text$("status")
+0820       a$:=s$(1:1)
+0830       s$:=s$(2:LEN(s$))
+0840       s$:+a$
+0850       status(s$)
+0860     ELIF TIMER>10 THEN
+0870       s$:=get_text$("status")
+0880       WHILE s$(1:1)<>"." DO
+0890         a$:=s$(1:1)
+0900         s$:=s$(2:LEN(s$))
+0910         s$:+a$
+0920       ENDWHILE
+0930       status(s$)
+0940     ENDIF
+0950   UNTIL ml# OR mm# OR mr#
+0960   ev$:=wait_event$
+0970   IF mode#=1 THEN
+0971     IF new_game# AND "." IN ev$ THEN
+0972       white:=VAL(ev$); set_text("white",STR$(white))
+0980     ELIF "," IN ev$ THEN
+0981       IF new_game# THEN
+0982         new_game#:=FALSE
+0983         set_flags("0.0",text_to_right#+unclickable#)
+0984         set_flags("0.5",text_to_right#+unclickable#)
+0985         set_flags("5.5",text_to_right#+unclickable#)
+0986         set_flags("7.5",text_to_right#+unclickable#)
+0987       ENDIF
+0990       pass#:=0
+1000       gx#:=gridx#(ev$)
+1010       gy#:=gridy#(ev$)
+1020       IF grid#(gx#,gy#)=0 THEN
+1030         player#:=3-player#
+1040         grid#(gx#,gy#):=player#
+1050         //draw_piece(gx#,gy#,player#+10)
+1060         total#:=0
+1070         next#(,):=grid#(,)
+1080         check_kill(gx#-1,gy#); total#:+kills#
+1090         check_kill(gx#+1,gy#); total#:+kills#
+1100         check_kill(gx#,gy#-1); total#:+kills#
+1110         check_kill(gx#,gy#+1); total#:+kills#
+1120         IF total#=0 THEN
+1130           IF equal# THEN
+1140             status("...............Illegal (ko)   ")
+1150             player#:=3-player#
+1160             grid#(gx#,gy#):=0
+1170           ELSE
+1180             player#:=3-player#
+1190             check_kill(gx#,gy#)
+1200             player#:=3-player#
+1210             IF kills#>0 THEN
+1220               status("...............Illegal move   ")
+1230               player#:=3-player#
+1240               grid#(gx#,gy#):=0
+1250             ELSE
+1260               score(total#)
+1270               grid#(gx#,gy#):=0
+1280               prev#(,):=grid#(,)
+1290               next#(gx#,gy#):=player#
+1300               draw_piece(gx#,gy#,player#+10)
+1310               grid#(,):=next#(,)
+1320               clean_disp
+1330               IF NOT "      " IN get_text$("status") THEN status("...............Play           ")
+1340             ENDIF
+1350           ENDIF
+1360         ELSE
+1370           IF equal# THEN
+1380             status("...............Illegal (ko)   ")
+1390             player#:=3-player#
+1400             grid#(gx#,gy#):=0
+1410             next#(,):=grid#(,)
+1420           ELSE
+1430             score(total#)
+1440             grid#(gx#,gy#):=0
+1450             prev#(,):=grid#(,)
+1460             next#(gx#,gy#):=player#
+1470             draw_piece(gx#,gy#,player#+10)
+1480             grid#(,):=next#(,)
+1490             clean_disp
+1500             IF NOT "      " IN get_text$("status") THEN status("...............Play           ")
+1510           ENDIF
+1520         ENDIF
+1530       ENDIF
+1540     ELIF ev$="reset" THEN
+1550       reset
+1560     ELIF ev$="pass" THEN
+1570       player#:=3-player#; pass#:+1
+1580       IF pass#=2 THEN pass#:=0; mode#:=2; set_text("pass","Done"); status("...............Select Dead    ")
+1590     ENDIF
+1600     ink(13-player#)
+1610     x1#:=75; y1#:=75; x2#:=435; y2#:=435
+1620     hidepointer; box(x1#-13,y1#-13,x2#+13,y2#+13)
+1630     ink(15-player#)
+1640     box(x1#-14,y1#-14,x2#+14,y2#+14); showpointer
+1650   ELIF mode#=2 THEN
+1660     IF "," IN ev$ THEN
+1670       gx#:=gridx#(ev$)
+1680       gy#:=gridy#(ev$)
+1690       IF grid#(gx#,gy#)>0 THEN
+1700         selected#:=grid#(gx#,gy#)
+1710         colour#:=13-selected#
+1720         selecting#:=select#(gx#,gy#)
+1730         selto#:=selected#
+1740         select_area(gx#,gy#)
+1750       ENDIF
+1760     ELIF ev$="reset" THEN
+1770       reset
+1780     ELIF ev$="pass" THEN
+1790       FOR gy#:=18 DOWNTO 0 DO
+1800         FOR gx#:=0 TO 18 DO
+1810           IF select#(gx#,gy#)=1 THEN
+1820             white:+1; grid#(gx#,gy#):=0; select#(gx#,gy#):=0; clear_square(gx#,gy#); set_text("white",STR$(white))
+1830           ELIF select#(gx#,gy#)=2 THEN
+1840             black#:+1; grid#(gx#,gy#):=0; select#(gx#,gy#):=0; clear_square(gx#,gy#); set_text("black",STR$(black#))
+1850           ENDIF
+1860         ENDFOR gx#
+1870       ENDFOR gy#
+1880       FOR gy#:=0 TO 18 DO
+1890         FOR gx#:=0 TO 18 DO
+1900           FOR ty#:=0 TO 18 DO
+1910             FOR tx#:=0 TO 18 DO
+1920               IF grid#(tx#,ty#)=3 THEN grid#(tx#,ty#):=0
+1930             ENDFOR tx#
+1940           ENDFOR ty#
+1950           IF grid#(gx#,gy#)=0 AND select#(gx#,gy#)=0 THEN
+1960             bound#:=2
+1970             IF NOT areafloodfill#(gx#,gy#) THEN
+1980               FOR ty#:=0 TO 18 DO
+1990                 FOR tx#:=0 TO 18 DO
+2000                   IF grid#(tx#,ty#)=3 THEN grid#(tx#,ty#):=0
+2010                 ENDFOR tx#
+2020               ENDFOR ty#
+2030               selected#:=0
+2040               colour#:=11
+2050               selecting#:=0
+2060               selto#:=1
+2070               select_area(gx#,gy#)
+2080             ELSE
+2090               bound#:=1
+2100               FOR ty#:=0 TO 18 DO
+2110                 FOR tx#:=0 TO 18 DO
+2120                   IF grid#(tx#,ty#)=3 THEN grid#(tx#,ty#):=0
+2130                 ENDFOR tx#
+2140               ENDFOR ty#
+2150               IF NOT areafloodfill#(gx#,gy#) THEN
+2160                 FOR ty#:=0 TO 18 DO
+2170                   FOR tx#:=0 TO 18 DO
+2180                     IF grid#(tx#,ty#)=3 THEN grid#(tx#,ty#):=0
+2190                   ENDFOR tx#
+2200                 ENDFOR ty#
+2210                 selected#:=0
+2220                 colour#:=12
+2230                 selecting#:=0
+2240                 selto#:=2
+2250                 select_area(gx#,gy#)
+2260               ENDIF
+2270             ENDIF
+2280           ENDIF
+2290         ENDFOR gx#
+2300       ENDFOR gy#
+2310       FOR gy#:=0 TO 18 DO
+2320         FOR gx#:=0 TO 18 DO
+2330           IF select#(gx#,gy#)=1 THEN
+2340             black#:+1
+2350           ELIF select#(gx#,gy#)=2 THEN
+2360             white:+1
+2370           ENDIF
+2380         ENDFOR gx#
+2390       ENDFOR gy#
+2400       set_text("black",STR$(black#))
+2410       set_text("white",STR$(white))
+2420       IF black#>white THEN
+2430         status("...............Black Wins!    "); winner#:=2
+2440       ELIF white>black# THEN
+2450         status("...............White Wins!    "); winner#:=1
+2460       ELSE
+2470         status("................Draw Game!    "); winner#:=2
+2480       ENDIF
+2490       ink(13-winner#)
+2500       x1#:=75; y1#:=75; x2#:=435; y2#:=435
+2510       hidepointer; box(x1#-13,y1#-13,x2#+13,y2#+13)
+2520       ink(15-winner#)
+2530       box(x1#-14,y1#-14,x2#+14,y2#+14); showpointer
+2540       set_text("pass","New Game")
+2550       mode#:=5
+2560     ENDIF
+2570   ELSE
+2580     IF ev$="reset" OR ev$="pass" THEN
+2590       reset
+2600     ENDIF
+2610   ENDIF
+2620 UNTIL ev$="quit"
+2630 END
+2640 
+2650 PROC setup_game_colours
+2660   rgb(8,0.8,0.7,0.3)
+2670   rgb(0,0.6,0.5,0.2)
+2680   rgb(9,0.4,0.3,0.1)
+2690   rgb(10,0.3,0.2,0.1)
+2700   rgb(13,0,0,0)
+2710   rgb(14,0.6,0.5,0.1)
+2720   rgb(11,0,0,0) // black
+2730   rgb(12,1,1,1) // white
+2740 ENDPROC setup_game_colours
+2750 
+2760 PROC setup_gui_colours
+2770   FOR l#:=2 TO 3 DO rgb(l#,0.4,0.3,0.1)   // outline 1
+2780   rgb(7,0.6,0.5,0.2)   // outline 2
+2790   rgb(6,0.3,0.7,0.8) // interior
+2800   rgb(1,0.1,0.3,0.4) // unsel text
+2810   rgb(5,0.4,0.8,0.9) // sel interior
+2820   rgb(4,0.1,0.3,0.4) //sel text
+2830 ENDPROC setup_gui_colours
+2840 
+2850 PROC draw_board CLOSED
+2860   IMPORT block, line, ink, hidepointer, showpointer, box, writetext, disptext, version$
+2870   hidepointer
+2880   x1#:=75; y1#:=75; x2#:=435; y2#:=435
+2890   block(x1#-12,y1#-12,x2#+12,y2#+12,8)
+2900   ink(11)
+2910   box(x1#-13,y1#-13,x2#+13,y2#+13)
+2920   box(x1#-14,y1#-14,x2#+14,y2#+14)
+2930   ink(10)
+2940   FOR y#:=0 TO 18 DO
+2950     line(x1#,y#*20+75,x2#,y#*20+75)
+2960   ENDFOR y#
+2970   FOR x#:=0 TO 18 DO
+2980     line(x#*20+75,y1#,x#*20+75,y2#)
+2990   ENDFOR x#
+3000   FOR y#:=3 TO 15 STEP 6 DO
+3010     FOR x#:=3 TO 15 STEP 6 DO
+3020       block(x#*20+74,y#*20+74,x#*20+76,y#*20+76,10)
+3030     ENDFOR x#
+3040   ENDFOR y#
+3050   ink(11)
+3060   writetext(506,403,"Black")
+3070   writetext(494,355,"     Komi")
+3080   ink(12)
+3090   writetext(506,383,"White")
+3100   
+3110   disptext(530,270,"UniGo")
+3120   disptext(494,255," ------------")
+3130   disptext(494,240," Version "+version$)
+3140   disptext(494,230," by Iain King")
+3150   disptext(494,190," my e-mail:")
+3160   disptext(494,210," ------------")
+3170   disptext(494,170," iain_king@")
+3180   disptext(494,162," bigfoot.com")
+3190   disptext(494,145," ------------")
+3200   disptext(494,125,"  written in")
+3210   disptext(494,115,"   UniComal")
+3220   showpointer
+3230 ENDPROC draw_board
+3240 
+3250 PROC make_pieces
+3260   hidepointer; clears
+3270   x#:=100; y#:=100
+3280   ink(10)
+3290   line(x#,y#-size#,x#,y#+size#)
+3300   line(x#-size#,y#,x#+size#,y#)
+3310   getshape(x#-size#,x#+size#,y#-size#,y#+size#,pieces$(1))
+3320   block(x#-1,y#-1,x#+1,y#+1,10)
+3330   getshape(x#-size#,x#+size#,y#-size#,y#+size#,pieces$(2))
+3340   clears
+3350   line(x#,y#-size#,x#,y#+size#)
+3360   line(x#,y#,x#+size#,y#)
+3370   getshape(x#-size#,x#+size#,y#-size#,y#+size#,pieces$(3))
+3380   clears
+3390   line(x#,y#-size#,x#,y#+size#)
+3400   line(x#,y#,x#-size#,y#)
+3410   getshape(x#-size#,x#+size#,y#-size#,y#+size#,pieces$(4))
+3420   clears
+3430   line(x#,y#+size#,x#,y#)
+3440   line(x#-size#,y#,x#+size#,y#)
+3450   getshape(x#-size#,x#+size#,y#-size#,y#+size#,pieces$(5))
+3460   clears
+3470   line(x#,y#-size#,x#,y#)
+3480   line(x#-size#,y#,x#+size#,y#)
+3490   getshape(x#-size#,x#+size#,y#-size#,y#+size#,pieces$(6))
+3500   clears
+3510   box(x#,y#,x#+10,y#+10)
+3520   getshape(x#-size#,x#+size#,y#-size#,y#+size#,pieces$(7))
+3530   getshape(10+x#-size#,10+x#+size#,y#-size#,y#+size#,pieces$(8))
+3540   getshape(x#-size#,x#+size#,10+y#-size#,10+y#+size#,pieces$(9))
+3550   getshape(10+x#-size#,10+x#+size#,10+y#-size#,10+y#+size#,pieces$(10))
+3560   clears
+3570   //ink(5)
+3580   //circle(x#,y#,piecesize)
+3590   //ink(11)
+3600   //fill(x#,y#)
+3610   //circle(x#,y#,piecesize)
+3620   ink(11)
+3630   circ(x#,y#,piecesize)
+3640   getshape(x#-size#,x#+size#,y#-size#,y#+size#,pieces$(11))
+3650   ink(12)
+3660   //fill(x#,y#)
+3670   circ(x#,y#,piecesize)
+3680   getshape(x#-size#,x#+size#,y#-size#,y#+size#,pieces$(12))
+3690   clearscreen; showpointer
+3700 ENDPROC make_pieces
+3710 
+3720 FUNC gridx#(s$) CLOSED
+3730   a#:="," IN s$
+3740   RETURN VAL(s$(1:a#-1))
+3750 ENDFUNC gridx#
+3760 
+3770 FUNC gridy#(s$) CLOSED
+3780   a#:="," IN s$
+3790   RETURN VAL(s$(a#+1:LEN(s$)))
+3800 ENDFUNC gridy#
+3810 
+3820 PROC clear_square(x#,y#)
+3830   IF x#=0 THEN
+3840     IF y#=0 THEN
+3850       p#:=7
+3860     ELIF y#=18 THEN
+3870       p#:=9
+3880     ELSE
+3890       p#:=3
+3900     ENDIF
+3910   ELIF x#=18 THEN
+3920     IF y#=0 THEN
+3930       p#:=8
+3940     ELIF y#=18 THEN
+3950       p#:=10
+3960     ELSE
+3970       p#:=4
+3980     ENDIF
+3990   ELIF y#=0 THEN
+4000     p#:=5
+4010   ELIF y#=18 THEN
+4020     p#:=6
+4030   ELSE
+4040     p#:=1
+4050     FOR xt#:=3 TO 15 STEP 6 DO
+4060       FOR yt#:=3 TO 15 STEP 6 DO
+4070         IF x#=xt# AND y#=yt# THEN p#:=2
+4080       ENDFOR yt#
+4090     ENDFOR xt#
+4100   ENDIF
+4110   hidepointer; putshape(x#*20+75-size#,y#*20+75-size#,pieces$(p#)); showpointer
+4120 ENDPROC clear_square
+4130 
+4140 PROC clears
+4150   block(0,0,639,479,8)
+4160 ENDPROC clears
+4170 
+4180 PROC draw_piece(x#,y#,p#) CLOSED
+4190   IMPORT hidepointer, showpointer, putshape, pieces$, clear_square, size#
+4200   IF p#=0 THEN
+4210     clear_square(x#,y#)
+4220   ELSE
+4230     hidepointer; putshape(x#*20+75-size#,y#*20+75-size#,pieces$(p#)); showpointer
+4240   ENDIF
+4250 ENDPROC draw_piece
+4260 
+4270 FUNC floodfill#(x#,y#) CLOSED
+4280   IMPORT next#, player#, clear_square
+4290   pl#:=3-player#
+4300   IF next#(x#,y#)<>pl# THEN RETURN TRUE
+4310   ymin#:=y#+1
+4320   REPEAT
+4330     ymin#:-1
+4340   UNTIL next#(x#,ymin#-1)<>pl#
+4350   IF next#(x#,ymin#-1)=0 THEN RETURN TRUE
+4360   ymax#:=y#-1
+4370   REPEAT
+4380     ymax#:+1
+4390   UNTIL next#(x#,ymax#+1)<>pl#
+4400   IF next#(x#,ymax#+1)=0 THEN RETURN TRUE
+4410   FOR yt#:=ymin# TO ymax# DO
+4420     next#(x#,yt#):+2
+4430     //clear_square(x#,yt#)
+4440   ENDFOR yt#
+4450   FOR yt#:=ymin# TO ymax# DO
+4460     IF next#(x#-1,yt#)=0 THEN
+4470       RETURN TRUE
+4480     ELIF next#(x#-1,yt#)=pl# THEN
+4490       IF floodfill#(x#-1,yt#) THEN RETURN TRUE
+4500     ENDIF
+4510     IF next#(x#+1,yt#)=0 THEN
+4520       RETURN TRUE
+4530     ELIF next#(x#+1,yt#)=pl# THEN
+4540       IF floodfill#(x#+1,yt#) THEN RETURN TRUE
+4550     ENDIF
+4560   ENDFOR yt#
+4570   RETURN FALSE
+4580 ENDFUNC floodfill#
+4590 
+4600 PROC check_kill(gx#,gy#)
+4610   kills#:=0
+4620   IF NOT floodfill#(gx#,gy#) THEN
+4630     FOR y#:=0 TO 18 DO
+4640       FOR x#:=0 TO 18 DO
+4650         IF next#(x#,y#)>2 AND next#(x#,y#)<5 THEN
+4660           //ear_square(x#,y#)
+4670           next#(x#,y#):+2
+4680           kills#:+1
+4690         ENDIF
+4700       ENDFOR x#
+4710     ENDFOR y#
+4720   ELSE
+4730     FOR y#:=0 TO 18 DO
+4740       FOR x#:=0 TO 18 DO
+4750         IF next#(x#,y#)>2 AND next#(x#,y#)<5 THEN
+4760           next#(x#,y#):-2
+4770         ENDIF
+4780       ENDFOR x#
+4790     ENDFOR y#
+4800   ENDIF
+4810 ENDPROC check_kill
+4820 
+4830 PROC reset
+4840   FOR y#:=0 TO 18 DO
+4850     FOR x#:=0 TO 18 DO
+4860       grid#(x#,y#):=0; select#(x#,y#):=0; prev#(x#,y#):=0
+4870     ENDFOR x#
+4880   ENDFOR y#
+4890   black#:=0; white:=0; player#:=2; pass#:=0; mode#:=1
+4900   set_text("white","0"); set_text("black","0"); set_text("pass","Pass")
+4910   draw_board; status("...............Play           "); new_game#:=TRUE
+4911   set_flags("0.0",text_to_right#)
+4912   set_flags("0.5",text_to_right#)
+4913   set_flags("5.5",text_to_right#)
+4914   set_flags("7.5",text_to_right#)
+4920 ENDPROC reset
+4930 
+4940 PROC score(kills#)
+4950   IF player#=1 THEN
+4960     black#:+kills#
+4970     set_text("black",STR$(black#))
+4980   ELSE
+4990     white:+kills#
+5000     set_text("white",STR$(white))
+5010   ENDIF
+5020 ENDPROC score
+5030 
+5040 FUNC get_score
+5050   IF player#=1 THEN
+5060     RETURN black#
+5070   ELSE
+5080     RETURN white
+5090   ENDIF
+5100 ENDFUNC get_score
+5110 
+5120 PROC status(s$)
+5130   set_text("status",s$)
+5140 ENDPROC status
+5150 
+5160 FUNC equal#
+5170   e#:=FALSE
+5180   FOR ty#:=0 TO 18 DO
+5190     FOR tx#:=0 TO 18 DO
+5200       a#:=next#(tx#,ty#)
+5210       IF a#>2 THEN a#:=0
+5220       IF prev#(tx#,ty#)<>a# THEN RETURN FALSE
+5230     ENDFOR tx#
+5240   ENDFOR ty#
+5250   RETURN TRUE
+5260 ENDFUNC equal#
+5270 
+5280 PROC clean_disp
+5290   FOR ty#:=0 TO 18 DO
+5300     FOR tx#:=0 TO 18 DO
+5310       IF grid#(tx#,ty#)>2 THEN
+5320         grid#(tx#,ty#):=0
+5330         clear_square(tx#,ty#)
+5340       ENDIF
+5350     ENDFOR tx#
+5360   ENDFOR ty#
+5370 ENDPROC clean_disp
+5380 
+5390 PROC circ(x#,y#,r) CLOSED
+5400   IMPORT plot
+5410   FOR ty#:=y#-r TO y#+r DO
+5420     FOR tx#:=x#-r TO x#+r DO
+5430       IF SQR((x#-tx#)^2+(y#-ty#)^2)<r THEN plot(tx#,ty#)
+5440     ENDFOR tx#
+5450   ENDFOR ty#
+5460 ENDPROC circ
+5470 
+5480 PROC mark(x#,y#,p#) CLOSED
+5490   IMPORT block, hidepointer, showpointer
+5500   hidepointer; block(x#*20+73,y#*20+73,x#*20+77,y#*20+77,p#); showpointer
+5510 ENDPROC mark
+5520 
+5530 PROC select_area(x#,y#) CLOSED
+5540   IMPORT grid#, select#, selected#, selto#, selecting#, colour#, draw_piece, mark, clear_square
+5550   pl#:=selected#
+5560   IF grid#(x#,y#)<>pl# THEN RETURN
+5570   ymin#:=y#+1
+5580   REPEAT
+5590     ymin#:-1
+5600   UNTIL grid#(x#,ymin#-1)<>pl#
+5610   ymax#:=y#-1
+5620   REPEAT
+5630     ymax#:+1
+5640   UNTIL grid#(x#,ymax#+1)<>pl#
+5650   FOR yt#:=ymin# TO ymax# DO
+5660     IF selecting# THEN
+5670       IF selected#=0 THEN
+5680         clear_square(x#,yt#); select#(x#,yt#):=0
+5690       ELSE
+5700         draw_piece(x#,yt#,selected#+10); select#(x#,yt#):=0
+5710       ENDIF
+5720     ELSE
+5730       select#(x#,yt#):=selto#; mark(x#,yt#,colour#)
+5740       //USE
+5750     ENDIF
+5760   ENDFOR yt#
+5770   FOR yt#:=ymin# TO ymax# DO
+5780     IF grid#(x#-1,yt#)=pl# AND select#(x#-1,yt#)=selecting# THEN
+5790       select_area(x#-1,yt#)
+5800     ENDIF
+5810     IF grid#(x#+1,yt#)=pl# AND select#(x#+1,yt#)=selecting# THEN
+5820       select_area(x#+1,yt#)
+5830     ENDIF
+5840   ENDFOR yt#
+5850 ENDPROC select_area
+5860 
+5870 PROC random_grid
+5880   FOR y#:=0 TO 18 DO
+5890     FOR x#:=0 TO 18 DO
+5900       grid#(x#,y#):=RND(0,2)
+5910       IF grid#(x#,y#) THEN draw_piece(x#,y#,grid#(x#,y#)+10)
+5920     ENDFOR x#
+5930   ENDFOR y#
+5940 ENDPROC random_grid
+5950 
+5960 PROC disptext(x#,y#,text$)
+5970   ink(11)
+5980   writetext(x#+1,y#,text$)
+5990   ink(12)
+6000   writetext(x#,y#+1,text$)
+6010 ENDPROC disptext
+6020 
+6030 FUNC areafloodfill#(x#,y#) CLOSED
+6040   IMPORT grid#, bound#
+6050   pl#:=bound#
+6060   IF grid#(x#,y#)<>0 THEN RETURN TRUE
+6070   ymin#:=y#+1
+6080   REPEAT
+6090     ymin#:-1
+6100   UNTIL grid#(x#,ymin#-1)<>0
+6110   IF grid#(x#,ymin#-1)=pl# THEN RETURN TRUE
+6120   ymax#:=y#-1
+6130   REPEAT
+6140     ymax#:+1
+6150   UNTIL grid#(x#,ymax#+1)<>0
+6160   IF grid#(x#,ymax#+1)=pl# THEN RETURN TRUE
+6170   FOR yt#:=ymin# TO ymax# DO
+6180     grid#(x#,yt#):=3
+6190     //select#(x#,yt#):=pl#
+6200   ENDFOR yt#
+6210   FOR yt#:=ymin# TO ymax# DO
+6220     IF grid#(x#-1,yt#)=pl# THEN
+6230       RETURN TRUE
+6240     ELIF grid#(x#-1,yt#)=0 THEN
+6250       IF areafloodfill#(x#-1,yt#) THEN RETURN TRUE
+6260     ENDIF
+6270     IF grid#(x#+1,yt#)=pl# THEN
+6280       RETURN TRUE
+6290     ELIF grid#(x#+1,yt#)=0 THEN
+6300       IF areafloodfill#(x#+1,yt#) THEN RETURN TRUE
+6310     ENDIF
+6320   ENDFOR yt#
+6330   RETURN FALSE
+6340 ENDFUNC areafloodfill#

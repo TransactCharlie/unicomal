@@ -1,0 +1,150 @@
+//
+//----- German messages used by compiled COMAL program. Version 3.11
+//
+//      (C) Copyright UniComal A/S 1989-1992.
+//      Åberarbeitet 19.11.89 / DoNo
+//
+
+//
+//----- Runtime messages:
+//
+
+  0       "REPORT-Fehler"
+  1       "Argument falsch"
+  2       "öberlauf"
+  3       "Division durch Null"
+  4       "Substring-Fehler"
+  5       "Wert au·erhalb des erlaubten Bereiches"
+  6       "STEP = 0"
+  7       "unerlaubte Grenze"
+  8       "Fehler im Stringformat"
+  9       "Ausdruck zu kompliziert"
+  10      "Indexwert au·erhalb des erlaubten Bereiches"
+  11      "ungÅltiger Dateiname"
+  12      "falscher Typ als DATA-Konstante"
+  13      "das ist keine Zahl (NaN)"
+  14      "Programm zu gro·"
+  15      "zu wenig Speicherplatz fÅr swapping"
+  16      "das ist keine COMAL-Programmdatei"
+  17      "Programm fÅr andere COMAL-Version"
+  18      "Zu wenig Speicherplatz fÅr Externe"
+  19      "Tabellen sind verschieden dimensioniert"
+  20      "dynamischer Speicher voll"
+  21      "VOID-Pointer fÅr Zuweisung benutzt"
+  22      "Attribut nicht dimensioniert"
+  23      "die entsprechende WHEN-Anweisung fehlt"
+  24      "Funktionswert wurde nicht zurÅckgegeben"
+  25      "Variable wurde schon dimensioniert"
+  26      "Fehlernummer in diesem MODULE/STRUC nicht lokal vorhanden"
+  27      "strukturierte Variable zu tief verschachtelt"
+  28      "keine Fehlermeldungen fÅr diese(s) MODULE/STRUC"
+  29      "Variable kann hier nicht dimensioniert werden"
+  30      "Zu wenig Speicherplatz fÅr Tabellen & Strings"
+
+//
+//----- SCAN-Meldungen.
+//
+
+//47      "Diese Mîglichkeit gibt es nicht in der Entry-Version"
+  48      "MODULE/STRUC '"
+  50      "MODULE/STRUC beinhaltet nicht die erwarteten Objekte"
+  51      "System-Fehler"
+  52      "Zu wenig Speicherplatz fÅr Stapel"
+  57      "nicht implementiert"
+  65      "Variable wurde nicht dimensioniert"
+  66      "zu tiefe Verschachtelung von PROC/FUNC"
+  67      "Parameterlisten sind verschieden - oder es fehlt CLOSED"
+  68      "keine CLOSED PROC/FUNC in der Datei"
+  77      "das ist keine MODULE/STRUC-Datei"
+
+//  "Error" is given when message is unknown by COMAL.
+
+  99      "nicht nÑher definierbarer Fehler"
+
+//
+//----- Ein - Ausgabefehler.
+//
+
+  200     "keine DATA-Anweisungen mehr vorhanden"
+  201     "Dateiende"
+  202     "Datei schon erîffnet"
+  203     "Datei nicht erîffnet"
+  204     "das ist keine Eingabedatei"
+  205     "das ist keine Ausgabedatei"
+  206     "numerische Konstante erwartet"
+  207     "das ist keine Direktzugriffsdatei"
+  208     "Datensatz zu lang"
+  209     "zu viele Dateien erîffnet"
+  210     "Lesefehler"
+  211     "Schreibfehler"
+//----- no message 212 ---------//
+  213     "Laufwerk nicht bereit"
+  214     "kein Papier mehr oder Drucker nicht bereit"
+//----- no message 215 ---------//
+  216     "Datei nicht gefunden"
+  217     "GerÑt unbekannt"
+  218     "Operation nicht erlaubt"
+  219     "Unterbrechung bei Ein- oder Ausgabe"
+  220     "Pfad nicht gefunden"
+  221     "Die Diskette ist schreibgeschÅtzt"
+  222     "das aktuelle Verzeichnis kann nicht entfernt werden"
+  223     "nicht dasselbe GerÑt"
+  224     "Diskette oder Platte ist voll"
+  225     "Datei schon vorhanden"
+  226     "Grenzen in der DOS-Konfiguration Åberschritten"
+  227     "Netzwerk-Fehler"
+  228     "beschÑftigt"
+  229     "Zugriff verweigert"
+  230     "schlechtes Dateiformat"
+
+//
+//----- Various other texts.
+//
+
+//  Example: "Stop at 0110"
+//  Is given when a STOP statement is met.
+
+  231     ""13""10"STOP in Zeile "
+
+//      Used as DOS prompt during PASS:
+
+  232     "zur RÅckkehr von dem shell 'EXIT' eingeben"
+
+//      When a module refers to unassigned message: "No message"
+
+  233     "keine Meldung"
+
+//      Example "Breaked"
+//      Is given when Ctrl-Break stops the program.
+
+  234     ""13""10"Unterbrochen"13""10""
+
+//      Example: "Out of memory in MYPROG.CML, line 1150"
+
+  241     ", Zeile "
+  242     " in "
+
+//      Example: "Division by zero in WIN.MOD, line #1150"
+//               "Index out of range in MYPROG.CML, offset 1150"
+//      (See also #241)
+
+  266      ", Zeile #"
+  267      ", Offset "
+
+//          Message "MODULE/STRUC name not found", 48 & 273
+
+  273      "' nicht gefunden"
+
+//----- Phrasen fÅr Hilfesystem.
+
+   274       " Esc: Verlassen  Enter: AuswÑhlen"
+   275       "  PgDn"
+   276       "  PgUp  PgDn"
+   277       "  PgUp"
+   278       "   zurÅck"
+   279       "  F1: HauptmenÅ"
+   280       "HilfemenÅ"
+   281       " Esc: Hilfe verlassen   Enter: Hilfe îffnen    zum auswÑhlen "
+
+//----- End of messages.
+

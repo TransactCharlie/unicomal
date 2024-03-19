@@ -1,0 +1,31 @@
+0100 // Multiplication Tables
+0110 // Sample program 6 for Internet Module
+0120 // (C) MacharSoft March 2000
+0130 USE internet
+0140 table$:=get_parameter$("name")
+0150 start_html("Web COMAL: Multiplication Table")
+0160 PRINT "<H2>Here is the "+table$+" times table:</H2>"
+0170 PRINT "<table border>"
+0180 FOR multiplier#:=1 TO 12 DO
+0190   PRINT "<tr align=center>"
+0200   PRINT "<td width=100>"
+0210   PRINT table$+" X "+STR$(multiplier#)
+0220   PRINT "</td>"
+0230   PRINT "<td width=80>"
+0240   PRINT STR$(VAL(table$)*multiplier#)
+0250   PRINT "</td>"
+0260   PRINT "</tr>"
+0270 ENDFOR multiplier#
+0280 PRINT "</table>"
+0290 end_html
+0300 END
+0310 //
+0320 PROC start_html(title$)
+0330   PRINT "<html><head>"+title$+"</head>"
+0340   PRINT "<body bgcolor=teal>"
+0350   PRINT "<h1>"+title$+"</H1>"
+0360 ENDPROC start_html
+0370 //
+0380 PROC end_html
+0390   PRINT "</body></html>"
+0400 ENDPROC end_html

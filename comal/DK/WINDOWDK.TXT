@@ -1,0 +1,4 @@
+1    "Ulovligt vindue id"
+2    "Ulovligt vindue navn"
+3    "R‘kken vil overskride sk‘rmens st›rrelse"
+4    "Kolonnen vil overskride sk‘rmens st›rrelse"

@@ -1,0 +1,77 @@
+
+            THIS FILE CONTAINS A LIST OF DOCUMENTATION CHANGES TO
+           T H E   U N I C O M A L   C O M P I L E R   M A N U A L
+
+
+      ****************************************************************
+
+       CHANGES AND ADDITIONS TO UNICOMAL COMPILER SYSTEM Version 3.10
+
+      ****************************************************************
+
+MATH COPROCESSOR MODULES
+
+Earlier version of the UniComal 3.0 compiler did not take special care of
+math coprocessor modules. It now works this way:
+
+  COMALC /87 polygon,\poly\,graphics.exe;
+
+The above line generates
+            \poly\polygon.exe        The executable file.
+            \poly\graphi87.exe       The graphics module to use.
+            \poly\graphius.exe       The message file for the module.
+
+When the polygon program refers to the graphics module with
+
+            USE graphics
+or
+            MODULE graphics EXTERNAL "graphics"
+
+it prefers the GRAPHI87.EXE module, if present.
+
+In general, when compiling to the math coprocessor, modules and structures
+with file names ending with "87" are preferred to the modules and structures
+with file names not ending with "87".
+
+This scheme also works when the module is included in the executable file,
+like this:
+
+  COMALC /87 polygon,,&graphics.exe;
+
+
+SCREEN LOGGING
+
+In the interactive Comal it is possible to get screen output printed also on
+the printer by pressing Ctrl-PrtSc during program run. This facility was left
+out in compiled programs in order to avoid an unlucky press of the Ctrl-PrtSc
+and following printout which almost always was a nuisance for the program
+user.
+
+In this version of the compiler, users of compiled programs still do not have
+the ability to press Ctrl-PrtSc, but the program itself can print the Ctrl-
+PrtSc control sequence in order to activate screen printout also on the
+printer. The screen logging facility can be enabled and disabled the
+following way:
+
+  PRINT CHR$(0)+CHR$(114)  // Ctrl-PrtSc: Start logging
+  do_some_screen_output    // Is also printed to PRN:
+  PRINT CHR$(0)+CHR$(114)  // Ctrl-PrtSc: Stop logging
+
+
+DEFAULT MESSAGE FILE FOR MODULE OR STRUC
+
+If an external module or struc does not have a message file for the language
+specified to the compiler, the message file ending in "US" is used, if
+present.
+
+
+INCREASED NUMBER OF FILES OPEN
+
+In earlier versions of Comal it was not possible for a compiled program to
+open more than 16 files using the Comal statement OPEN, although the
+Reference Manual states that 20 files can be opened in a Comal program at the
+same time.
+
+Using DOS 3.30 or later, you can open 20 files with file numbers, and 41 file
+handles in all can be used by the Comal system including its .exe modules.
+

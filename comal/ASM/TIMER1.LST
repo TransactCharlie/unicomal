@@ -1,0 +1,87 @@
+0010 //SAVE "timer1"
+0020 //
+0030 // This program demonstrates event handling in UniComal ver. 3.00.
+0040 //
+0050 // The program operates in two windows, one at the top and one at the
+0060 // bottom of the screen.
+0070 //
+0080 // The main loop of the program prints out numbers in the bottom
+0090 // window, stopping every 10000 times by asking for a number in
+0100 // an input statement.
+0110 //
+0120 // The UniTimer package is set up to make an event every 2 seconds.
+0130 //
+0140 // When the event arrives, a text is printed in the top window, followed
+0150 // by the time, and the value of the variable counter#. counter# is
+0160 // incremented for each event. For every 10 events, an INPUT statement
+0170 // is executed to get a new text.
+0180 //
+0190 // Note how the UniComal system keeps handling of events going, even
+0200 // when the main program is executing an INPUT statement.
+0210 //
+0220 // Note that if you wait more than 20 seconds before pressing return
+0230 // to the INPUT statement in the event handler, events will be lost.
+0240 // This is due to the fact that the UniTimer package has an event
+0250 // queue long enough to hold 10 events.
+0260 //
+0270 USE unitimer
+0280 USE system
+0290 
+0300 DIM lasttext$ OF 80
+0310 
+0320 PAGE
+0330 
+0340 PRINT AT 1,1: "Ú"+5*"Ä"+" Event window "+59*"Ä"+"¿",
+0350 FOR i#:=2 TO 23 DO PRINT AT i#,1: "³"+SPC$(78)+"³",
+0360 PRINT AT 7,1: "Ã"+5*"Ä"+" Main window "+60*"Ä"+"´",
+0370 PRINT AT 24,1: "À"+78*"Ä"+"Ù",
+0380 
+0390 counter#:=0; last_col#:=1; last_row#:=1
+0400 lasttext$:="text 1. "
+0410 textwindow(8,23,2,79)
+0420 
+0430 // Initialize timer tick event //
+0440 set_timer_action(timer_tick,8)
+0450 set_timer_speed(2.0)       // Interrupt every 2.0 seconds
+0460 
+0470 // Do something while event handling is active //
+0480 FOR i#:=1 TO 100000 DO
+0490   PRINT i#;
+0500   IF i# MOD 10000=0 THEN
+0510     PRINT
+0520     INPUT AT 0,0,10: "Enter a number, max. 10 characters: ": x
+0530     PRINT
+0540   ENDIF
+0550 ENDFOR i#
+0560 PRINT
+0570 
+0580 // Turn event handling off //
+0590 set_timer_speed(0)
+0600 END
+0610 
+0620 PROC timer_tick CLOSED
+0630   //
+0640   // This is the procedure called at each timer tick interrupt
+0650   //
+0660   // The cursor position is stored in the IMPORT'ed variables
+0670   // last_row# and last_col#.
+0680   //
+0690   // The lasttext$ variable contains the text printed in the beginning
+0700   // of each line. This is replaced by an input statement every
+0710   // 10th interrupt.
+0720   
+0730   IMPORT last_row#, last_col#, counter#, textwindow, lasttext$
+0740   
+0750   textwindow(2,6,2,79)
+0760   CURSOR last_row#,last_col#
+0770   counter#:+1
+0780   PRINT
+0790   PRINT lasttext$;TIME$;counter#,
+0800   IF counter# MOD 10=0 THEN
+0810     PRINT
+0820     INPUT AT 0,0,10: "Enter new text: ": lasttext$,
+0830   ENDIF
+0840   last_row#:=CURROW
+0850   last_col#:=CURCOL
+0860   textwindow(8,23,2,79)
+0870 ENDPROC timer_tick

@@ -1,0 +1,59 @@
+;
+;	EDITOR.SYM:
+;
+;	This file contains definitions for comal packages that
+;	want to call functions in the comal screen editor.
+;
+;	Syntax for calling editor functions:
+;
+;	mov	ah,<function code>
+;	call	editor_functions
+;
+;	List of function codes:
+;
+scroll_down	=0	;scroll cl lines down
+scroll_up	=1
+newline 	=2
+inst_char	=3
+del_char	=4
+erase		=5
+del_line	=6
+inst_line	=7
+next_word	=8
+previous_word	=9
+del_fkey	=10
+inst_fkey	=11
+inchar		=12
+clear_screen	=13
+home		=14
+clear_editor	=15
+set_bottom_right=16
+read_bottom_right=17
+set_top_left	=18
+read_top_left	=19
+set_full_screen =20
+home_line	=21
+end_line	=22
+crlf		=23
+set_show	=24
+updatebackground=25
+get_pos 	=26
+set_pos 	=27
+ega_present	=28
+access_method	=29
+default_video	=30
+clear_wrap_table =31
+set_pos2	=32
+viovectors	=33
+;
+;
+;	macros:
+;
+dos	macro
+	int	21h
+	endm
+;
+bios	macro
+	int	10h
+	endm
+

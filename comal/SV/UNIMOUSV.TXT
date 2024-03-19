@@ -1,0 +1,13 @@
+// UNIMOUSV.TXT
+// Svenska Unimouse systemmeddelanden f”r UniComal Version 3.10.
+//
+// (C) Copyright UniComal A/S 1989-1991.
+//
+   0  "Mus-driver inte installerad"
+   1  "Ingen mus installerad"
+   2  "Funktionen underst”ds inte av mus-driver"
+   3  "Str„ngen f”r kort"
+   4  "Fel figurstr„ng"
+   5  "Fel sk„rml„ge"
+   6  "Ok„nt fel"
+

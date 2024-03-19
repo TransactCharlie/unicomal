@@ -1,0 +1,52 @@
+  MODULE internet EXTERNAL
+    //
+    //  Description of the INTERNET module for UniCOMAL Ver. 3.11
+    //
+    //  (C) Copyright 2000, PandD Software - Rotterdam (Netherlands)
+    //      All Rights Reserved.
+    //
+    //  Module version: 0.3 (21032000)
+    //
+    remote_addr$
+    remote_host$
+    remote_user$
+    auth_type$
+    character_encoding$
+    content_length#
+    content_type$
+    method$
+    DIM path_info$
+    DIM path_translated$
+    protocol$
+    DIM query_string$
+    DIM scheme$
+    DIM server_info$
+    DIM server_name$
+    server_port#
+    DIM servlet_path$
+    DIM servlet_in$
+    DIM servlet_out$
+    parameter_count#
+    header_count#
+    PROC print_context
+      // prints the internet-page context information
+      //
+    FUNC get_header$(name$)
+      // gives the value of a <HEADER> tag with a given NAME
+      // an empty string is returned if name is not found
+      //
+    FUNC get_header_name$(index#)
+      // gives the name of a <HEADER> tag of the header
+      // with a given index
+      // empty string is returned if index is out of bounds
+      //
+    FUNC get_parameter$(name$)
+      // gives the value of the parameter with the given NAME
+      // if name is not found an empty value is returned
+      //
+    FUNC get_parameter_name$(index#)
+      // gives the name of a <PARAM> tag of the parameter
+      // with a given index.
+      // an empty string is returned if index# is out of bounds
+      //
+  ENDMODULE internet

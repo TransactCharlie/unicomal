@@ -1,0 +1,363 @@
+//
+//       English messages used by interactive COMAL system. Version 3.11
+//
+//       (C) Copyright UniComal A/S 1989-1992.
+//
+
+//
+//----- Runtime messages:
+//
+
+   0          "REPORT error"
+   1          "Argument error"
+   2          "Overflow"
+   3          "Division by zero"
+   4          "Substring error"
+   5          "Value out of range"
+   6          "Step = 0"
+   7          "Illegal bound"
+   8          "Invalid format string"
+   9          "Expression too complex"
+   10         "Index out of range"
+   11         "Invalid file name"
+   12         "Wrong type of DATA constant"
+   13         "Not-a-Number"
+   14         "Program too big"
+   15         "Insufficient memory for swapping"
+   16         "Not COMAL program file"
+   17         "Program made for other COMAL version"
+   18         "Out of space for externals"
+   19         "Nonconformant arrays"
+   20         "Out of heap space"
+   21         "VOID pointer used for reference"
+   22         "Attribute not dimensioned"
+   23         "No matching WHEN"
+   24         "Function value not RETURNed"
+   25         "Variable already dimensioned"
+   26         "No such message number local to this MODULE/STRUC"
+   27         "Too deep nesting of STRUCtured variables"
+   28         "No message file for this MODULE/STRUC"
+   29         "The variable can not be dimensioned here"
+   30         "Out of space for arrays and strings"
+//
+//----- SCAN messages.
+//
+   44         "Name conflict. Can be resolved by qualification"
+   45         "Unintelligible line"
+   46         "Variable has no value"
+   47         "Facility not available in entry version"
+   48         "MODULE/STRUC '"
+   49         "Illegal use of PROCedure parameter"
+   50         "The MODULE/STRUC does not contain the expected items"
+   51         "System error"
+   52         "Out of stack space"
+   53         "Parameter of wrong dimension"
+   54         "Parameter must be an array"
+   55         "Too few indices"
+   56         "Cannot assign function call or loop counter"
+   57         "Facility not implemented"
+   58         "CON/TRACE not possible"
+   59         "Program not SCANned"
+   60         "Too many indices"
+   61         "This program text cannot be modified nor SAVEd"
+   62         "Not a procedure"
+   63         "Undefined procedure or statement"
+   64         "Illegal GOTO"
+   65         "Variable not dimensioned"
+   66         "Too deep nesting of PROCs/FUNCs"
+   67         "Parameter lists differ"
+   68         "No appropriate CLOSED PROC/FUNC in file"
+   69         "Too few parameters"
+   70         "Wrong index type"
+   71         "Parameter must be a variable"
+   72         "Wrong parameter type"
+   73         "Parameter may not be an array"
+   74         "Not an array nor a function"
+   75         "Not a simple variable"
+   76         "Unknown array or function"
+   77         "Not a MODULE/STRUC file"
+   78         "Name cannot be IMPORTed"
+   79         "Too many parameters"
+   80         "No DATA statements at label"
+   81         "Not a structured variable nor a module"
+   82         "Attribute not EXPORTed"
+   83         "Not a STRUCture"
+   84         "Not a structured variable"
+   85         "Not an array"
+   86         "Wrong number of indices"
+   87         "Only allowed within closed structures"
+   88         "EXPORT allowed in MODULE/STRUC only"
+   89         "Variable of wrong STRUC type"
+   90         "Name already declared"
+   91         "MODULE not allowed within STRUC"
+   92         "Variable is not real"
+   93         "Label, MODULE, or STRUC cannot be EXPORTed"
+   94         "File not SCANned"
+   95         "Not a label"
+   96         "Not a module or not found"
+   97         "Wrong dimension"
+   98         "Unknown label"
+
+//       "Error" is given when message is unknown by COMAL.
+
+   99         "Error"
+
+//
+//----- Messages given when lines are entered.
+//
+
+   101        "Syntax error"
+   102        "Wrong type"
+   103        "Statement too long or too complicated"
+   104        "Statement only, not command"
+   105        "Name already defined"
+   106        "Line number range: 1 to 65534"
+   107        "There are lines in the destination range"
+   108        "Block does not exist"
+   109        "Structured statement not allowed here"
+   110        "Not a statement"
+   111        "Line numbers will exceed 65534"
+   112        "Source protected!!!"
+   113        "Illegal character"
+   114        "Constant out of range or ill formed"
+   115        "Error in exponent"
+   116        "Name is too long"
+   117        "The name is not accessible here"
+
+//
+//----- Runtime I/O messages.
+//
+
+   200        "End of DATA"
+   201        "End of file"
+   202        "File already open"
+   203        "File not open"
+   204        "Not input file"
+   205        "Not output file"
+   206        "Numeric constant expected"
+   207        "Not random access file"
+   208        "Record too long"
+   209        "Too many files open"
+   210        "Read error"
+   211        "Write error"
+//----- no message 212 ---------//
+   213        "Drive not ready"
+   214        "Printer out of paper or not ready"
+//----- no message 215 ---------//
+   216        "File not found"
+   217        "Unknown device"
+   218        "Illegal operation"
+   219        "I/O break"
+   220        "Path not found"
+   221        "Attempt to write on write-protected diskette"
+   222        "Attempted to remove current directory"
+   223        "Not same device"
+   224        "Disk full"
+   225        "File already exists"
+   226        "Out of ressources"
+   227        "Network error"
+   228        "Busy"
+   229        "Access denied"
+   230        "Bad file format"
+
+//
+//----- Various other texts.
+//
+
+//       Example: "Stop at 0110"
+//       Is given when a STOP statement is met.
+
+   231        ""13""10"Stop at "
+
+//       Used as DOS prompt during PASS:
+
+   232        "Enter 'EXIT' to return to the COMAL system"
+
+//       When a module refers to unassigned message: "No message"
+
+   233        "No message"
+
+//       Is given when Ctrl-Break stops the program.
+
+   234        ""13""10"Breaked in line"13""10""
+
+//       Example: "ENDFOR missing after last line was reached"
+//       Is given when there are open structures at program end.
+
+   236        " after last line was reached"
+
+//       Example:   "Too few parameters in"
+//                  "  my_proc(1,2)"
+//       Is given when SCANning error in direct command.
+
+   237        " in"
+
+//       The name of the file to SAVE to after NEW. Shown in top line.
+
+   238        "UNTITLED"
+
+//       When the program ENDs:
+
+   239        ""13""10"Ready"13""10""13""10""
+
+//       Example: "Too many parameters in line"
+//                  "0110   my_proc(1,2)"
+//       Is given when SCANning error in program line.
+
+   242        " in line"
+
+//       Shown in top line: "ProgFree: 32455"
+
+   243        "ProgFree:"
+
+//----- TRACE messages:
+
+   244        "  The program stopped at"
+   245        "  which is called at"
+   246        "  within"
+   247        "  which is invoked by an event at"
+
+//----- SIZE messages:
+
+   250        "                   Used       Free"
+   251        "Program    :"
+   252        "Stack      :"
+   253        "Arr & Str  :"
+   254        "Heap       :"
+   255        "DOS memory :"
+   256        "EMS memory :"
+   257        "Swap memory:"
+   258        "Swap file  :"
+
+//       Message given by SCOPE/INTERFACE.
+
+   265        "  (The program is not SCANned)"13""10""13""10""
+
+   266        "Warning: variable has no value in"13""10""
+   267        "... and there are more variables without values."13""10""
+   268        "Do you still want to RUN"
+
+//       Messages given for SAVE warning.
+//
+//       "Program changed. Save %filename% [Y/N] ? Y"
+//       "Replace %filename% [Y/N] ? Y"
+//
+   269        "Replace "
+   270        "Program changed. Save "
+   271        " [Y/N] ? Y"0""117""0""75""
+   272        "YN"
+
+//       Message "MODULE/STRUC name not found", 48 & 273
+
+   273        "' not found"
+
+//       Help text phrases.
+
+   274        " Esc: Exit  Enter: Select"
+   275        "  PgDn"
+   276        "  PgUp  PgDn"
+   277        "  PgUp"
+   278        "   Back"
+   279        "  F1: Index"
+   280        " UniComal Help System "
+   281        " Esc: Exit help   Enter: Open help   Use  to select item "
+
+//----- Key line shown during listings (80 characters wide):
+
+   290        " Esc: Cancel  Space: Next page  Enter: Next line  Shift: Slow  Ctrl+Shift: Fast "
+
+//
+//----- Phrases used by syntax analysis and SCAN.
+//       They are when constructing messages.
+//
+//       Examples:
+//         expression expected, not PRINT
+//         ":=" or "(" missing
+//         Wrong type of RETURN
+//
+
+   300        "expression"                 ;200
+   301        "variable"                   ;201
+   302        "operand"                    ;202
+   303        "variable name"              ;203
+   304        "num. variable name"         ;204
+   305        "numeric expression"         ;205
+   306        "string expression"          ;206
+   307        "pointer expression"         ;207
+   308        """:="" or ""("""      ;208
+   309        ""","" or "";"""             ;209
+   310        """:="" or "":+"""           ;210
+   311        "mode"                       ;211
+   312        "constant"                   ;212
+   313        "line number"                ;213
+   314        "binary constant"      ;214
+   315        "label"                      ;215
+   316        "ELIF/ELSE/ENDIF"      ;216
+   317        "ENDIF"                      ;217
+   318        "ENDPROC"                    ;218
+   319        "ENDFUNC"                    ;219
+   320        "ENDFOR"                     ;220
+   321        "UNTIL"                      ;221
+   322        "ENDWHILE"                   ;222
+
+//       Example: "WHEN expected"
+
+   323        " expected"                  ;223
+
+   324        "WHEN/OTHERWISE/ENDCASE"     ;224
+   325        "ENDCASE"                    ;225
+
+//       Example: "," not expected
+
+   326        " not expected"              ;226
+
+//       Example: "UNTIL missing"
+
+   327        " missing"                   ;227
+
+//       Example: "," or ";" expected, not CLOSE
+
+   328        " expected, not "      ;228
+
+   329        "real constant"              ;229
+   330        "integer constant"           ;230
+   331        "string constant"      ;231
+   332        "name"                       ;232
+   333        "integer name"               ;233
+   334        "string name"                ;234
+   335        "pointer name"               ;235
+
+//       Example: "ENDLOOP without LOOP"
+
+   336        " without "                  ;236
+
+   337        "ENDLOOP"                    ;237
+   338        "WHEN"                       ;238
+   339        "structure expression"       ;239
+
+//       Example: "Wrong type of RETURN"
+
+   340        "Wrong type of "             ;240
+
+//       Example: "IMPORT not allowed in control structures"
+
+   341        " not allowed in control structures";241
+
+//       Example: "CLOSED or EXTERNAL expected, not string constant"
+
+   342        "CLOSED or EXTERNAL"         ;242
+   343        "hex constant"               ;243
+
+   345        "HANDLER"                    ;245
+   346        "ENDTRAP"                                     ;246
+
+//       Example: "," or ")" missing
+
+   349        ""","" or "")"""             ;249
+
+   351        "array"                      ;251
+
+   354        "share mode"                 ;254
+
+//----- End of messages.
+

@@ -1,0 +1,501 @@
+            THIS FILE CONTAINS A LIST OF DOCUMENTATION CHANGES TO
+
+           T H E   U N I C O M A L   G R A P H I C S   M A N U A L
+
+
+      ****************************************************************
+
+         UniComal GRAPHICS WITH A HERCULES MONOCHROME GRAPHICS CARD
+
+      ****************************************************************
+
+
+This text describes, how the graphics facilities of UniComal, using your
+Hercules Monochrome Graphics Card, differ from those of a standard PC,
+described in the GRAPHICS MANUAL. In general, the description in the GRAPHICS
+MANUAL applies to your computer, with a few exceptions:
+
+
+ACTIVATING THE GRAPHICS INSTRUCTIONS
+
+If the installed graphics adapter supports the modes of several display
+adapters, it must be set to Hercules mode by dip-switch settings. See the
+installation guide.
+
+When properly installed, the graphics adapter is set to the desired screen
+mode by software control. The screen can be used in three different modes:
+
+DIAG:       This is the startup mode. Access to the graphics modes is not
+            possible.
+
+HALF:       This mode enables the graphics mode, where access to one graphic
+            page is possible.
+
+FULL:       Access to graphics mode with two graphics pages. Note, this mode
+            is not possible, if a Color/Graphics card is installed in the
+            machine, too.
+
+The screen can be set to the appropriate graphics mode using the HGC program
+from Hercules, or compatibles. Some display adapters support the modes of
+several display adapters. They are supplied with their own special program
+for setting the correct screen mode. Note, that defining the screen mode does
+not put the adapter in Hercules mode.
+
+If your adapter is not supplied with a program for setting the screen mode,
+this might be accomplished by calling one of the UniComal procedures shown
+below:
+
+       USE system
+
+       PROC set_diag
+         out($3BF,0)
+       ENDPROC set_diag
+
+       PROC set_half
+         out($3BF,1)
+       ENDPROC set_half
+
+       PROC set_full
+         out($3BF,3)
+       ENDPROC set_full
+
+
+The UniComal distribution disks contain two graphics modules which machine
+code procedures and functions are designed in a special version for your
+Hercules card:
+
+       GRAPHH.EXE     and       GRAPHH87.EXE
+
+for use with configurations without or with a mathematics x87 coprocessor.
+When making Hercules graphics known to the UniComal system, these names
+apply:
+
+       USE graphh          or
+
+       MODULE graphics EXTERNAL "graphh"
+       USE graphics
+
+The module (and its error/help messages) must be present in a (sub)directory,
+specified in the Comal Profile. In the default COMAL.PRO on the distribution
+disks, the settings are the current directory and the directory, from which
+the Comal system was booted.
+
+The country code for national messages from external modules must be
+specified in the Comal profile, too. COMALUS.PRO, COMALGR.PRO and COMALDK.PRO
+on the distribution disks illustrate national arrangements, including the
+country codes for selecting the graphics messages GRAPHHUS.MSG, GRAPHHGR.MSG
+and GRAPHHDK.MSG, respectively.
+
+
+To make the cursor and other characters from the extended character set
+appear correct on a graphics screen the program HIASCII.COM or equivalent
+must be executed.
+
+
+THE GRAPHICS SCREEN
+
+The computer must be equipped with a graphics card before it is possible to
+make use of the instructions in the graphics modules.
+
+The graphics screen is composed of 720 x 348 = 250.560 different picture
+elements (pixels): 720 in the horizonal direction, and 348 vertically.
+
+
+COMAL GRAPHICS FEATURES
+
+Introductory examples:
+
+A program which will outline the screen with a box would look like this:
+
+       EXAMPLE 1:
+
+       USE graphics
+       graphicscreen(0)
+       drawto(639,0)
+       drawto(639,199)
+       drawto(0,199)
+       drawto(0,0)
+
+The next program segment draws a triangle in the lower part of the screen:
+
+       EXAMPLE 2:
+
+       USE graphics
+       graphicscreen(0)
+       window(-2,2,-1,1)
+       moveto(0,0)
+       drawto(2,-1)
+       drawto(-2,-1)
+       drawto(0,0)
+
+Text can be placed on the graphics screen by means of the PRINT statement or
+by means of the special graphics instruction plottext. The following example
+shows how a short text can be written sideways in double width and double
+height upwards from the point (100,10) in the default coordinate system:
+
+       EXAMPLE 3:
+
+       USE graphics
+       graphicscreen(0)
+       textstyle(2,2,1,0)
+       plottext(100,10,"Comal graphics")
+
+
+IN-DEPTH TREATMENT
+
+Changes apply to the description of the following procedures and functions:
+
+       background     border         circle              graphicscreen
+       inq            interiorcolor  outlinecolor        palette
+       pencolor       pixelx         pixely              plottext
+       polygon        printscreen    savescreen     
+       setcolor       setcolor_cmy   setcolor_hls        setcolor_rgb
+       setfont        showscreen     textbackground      updatescreen
+       viewport       window
+
+
+BACKGROUND
+
+       The procedure has no effect in the Hercules graphics modules, but is
+       present for compatibility reasons.
+
+BORDER
+
+       The procedure has no effect in the Hercules graphics modules, but is
+       present for compatibility reasons.
+
+CIRCLE
+
+       If the coordinate system is selected in the drawing area, so that:
+
+            coordinate width   viewport height      58
+            ---------------- * ----------------  = ---
+            coordinate height  viewport width       75
+
+       or expressed in terms of variable names:
+
+            wxmax - wxmin + 1   vymax - vymin + 1    58
+            ----------------- * ----------------- = ----
+            wymax - wymin + 1   vxmax - vxmin + 1    75
+
+       then the circle should appear round on the screen.
+
+       When graphics is initialized with the instruction USE turtle then the
+       height/width-ratio is automatically selected, so that circles appear
+       round on a correctly adjusted monitor.
+
+       SAMPLE PROGRAM 1:
+
+       A well-proportioned circle will be drawn in the middle of the screen.
+       Note that the ratio mentioned above equals 58/75 in this case:
+
+       USE graphics
+       graphicscreen(0)
+       viewport(0,719,0,347)
+       window(0,639,-200,199)
+       circle(320,0,150)
+
+
+       SAMPLE PROGRAM 2:
+
+       The program adjusts the height/width-ratio so that the circle is
+       displayed correctly.
+
+       USE graphics
+       vp_width:=inq(20)-inq(19)
+       vp_height:=inq(22)-inq(21)
+       wxmin:=0; wxmax:=100
+       wymin:=0
+       wymax:=wymin+(wxmax-wxmin)*vp_height/vp_width/(58/75)
+       window(wxmin,wxmax,wymin,wymax)
+       circle(wxmin+(wxmax-wxmin)/2,wymin+(wymax-wymin)/2,20)
+
+GRAPHICSCREEN
+
+       This procedure is only present for compatibility reasons, as the
+       Hercules Card supports one graphics mode, mode 0:
+
+       Mode           Screen         Number of
+                      resolution     colors
+       ----           ----------     ---------
+       0              720 x 348      2
+       -1             720 x 348      2
+
+
+INQ
+
+       The parameter no must lie between 0 and 33.
+
+       no        Information about        Range     Affected by
+       --        -----------------        -----     -----------
+       0         graphics mode            0         graphicscreen
+       4         graphics border          0         border
+       5         graphics background      0         background
+       6         pencolor                 0 - 3     pencolor
+       17        x - position             0 - 719   most drawing procedures
+       18        y - position             0 - 347   most drawing procedures
+       19        vxmin                    0 - 719   viewport
+       20        vxmax                    0 - 719   viewport
+       21        vymin                    0 - 347   viewport
+       22        vymax                    0 - 347   viewport
+
+INTERIORCOLOR
+
+       color options:  -1, 0, 1, 2, or 3. (See also pencolor).
+
+       SAMPLE PROGRAM:
+
+       The program draws two partially overlapping regular octagons. The last
+       one drawn is removed again, leaving the first one unchanged.
+
+       USE graphics
+       n:=8
+       DIM x(n), y(n)
+       n_gon(300,100,60,n) // draw the first polygon
+       PAUSE
+       n_gon(320,120,60,n) // draw overlapping polygon
+       PAUSE
+       n_gon(320,120,60,n) // erase last polygon
+       PAUSE
+       textscreen
+       //
+       PROC n_gon(x0,y0,r,n)
+         interiorcolor(3); outlinecolor(3)
+         FOR i:=1 TO n DO
+           x(i):=x0+2*r*COS((i-1)*2*PI/n)
+           y(i):=y0+r*SIN((i-1)*2*PI/n)
+         ENDFOR i
+         polygon(n,x(),y())
+       ENDPROC n_gon
+
+OUTLINECOLOR
+
+       color options:  -1, 0, 1, 2, or 3 (See also pencolor)
+
+       EXAMPLES:
+
+       outlinecolor(3) causes polygon to draw edges using color number 3, i.e.
+       draw white in XOR mode.
+       outlinecolor(0) causes edges to be drawn using the background color.
+
+PALETTE
+       This procedure is not implemented in the Hercules graphics modules.
+
+PENCOLOR
+
+       Color 0:       Draw with background color.
+       Color 1:       Draw with foreground color.
+       Color 2:       Draw with background color in XOR mode: This has the
+                      same effect as drawing nothing.
+       Color 3:       Draw with foreground color in XOR mode: This will
+                      reverse the color of the activated dots.
+
+       In addition the option pencolor(-1) is available. This procedure call
+       has the same effect as pencolor(0).
+
+       SAMPLE PROGRAM:
+
+       In this program a rubber band is moved (by pressing the cursor keys)
+       across randomly drawn lines without disturbing them.
+
+
+       USE graphics
+       up$:=""0"H"; down$:=""0"P"
+       lt$:=""0"K"; rt$:=""0"M"
+       ok$:=up$+down$+lt$+rt$+""13""
+       randomlines // draw random lines
+       pencolor(3) // XOR
+       moveto(300,100)
+       x:=300; y:=100 // start of elastic line
+       REPEAT // move the elastic line around
+         REPEAT
+           answer$:=KEY$
+         UNTIL answer$ IN ok$
+         moveto(300,100); drawto(x,y)
+         y:+(answer$=up$)-(answer$=down$)
+         x:+(answer$=rt$)-(answer$=lt$)
+         moveto(300,100); drawto(x,y)
+       UNTIL answer$=""13"" // until <Enter> is pressed
+       textscreen
+       //
+       PROC randomlines
+         FOR i:=1 TO 30 DO
+           moveto(RND(0,200),RND(0,200))
+           drawto(RND(400,600),RND(0,200))
+         ENDFOR i
+       ENDPROC randomlines
+
+PIXELX
+
+       SAMPLE PROGRAM:
+
+       Hercules graphics supports only one graphics mode.
+
+PIXELY
+
+       SAMPLE PROGRAM:
+
+       USE graphics
+       viewport(0,200,20,100)
+       window(-1000,1000,-10,10)
+       PRINT "PIXELX, PIXELY: ",pixelx;pixely
+
+       RUN
+       PIXELX, PIXELY: 10 0.25
+
+PLOTTEXT
+
+       SAMPLE PROGRAM:
+
+       There will be no "Shadow" effect.
+
+POLYGON
+
+       SAMPLE PROGRAM 1:
+
+       // polygon vertex coordinates specified by data
+       DIM x(30), y(30)
+       DATA 10,10,90,90,10,90,90,10
+       number:=0
+       WHILE NOT EOD DO
+         number:+1
+         READ x(number),y(number)
+       ENDWHILE
+       USE graphics
+       window(0,100,0,100)
+       interiorcolor(1)
+       outlinecolor(1)
+       polygon(number,x(),y())
+       PAUSE
+       textscreen
+
+       SAMPLE PROGRAM 2:
+
+       A polygon can extend across several unconnected partial regions. The
+       polygon is formed by the connecting lines between the vertex
+       coordinates (in the order specified). The following program draws an
+       8-pointed star.
+
+       n:=17
+       DIM x(n), y(n)
+       USE graphics
+       interiorcolor(1)
+       outlinecolor(1)
+       make_circle(n,x(),y(),320,100,95)
+       polygon(n,x(),y())
+       PAUSE
+       textscreen
+       END
+       //
+       PROC make_circle(n,REF x(),REF y(),x0,y0,r) CLOSED
+         FOR i:=1 TO n DO
+           rad:=(i-1)/(n-1)*PI*2
+             IF i MOD 2=0 THEN
+               r':=r
+             ELSE
+               r':=-r/2
+             ENDIF
+           x(i):=x0+r'*COS(rad)*2
+           y(i):=y0+r'*SIN(rad)
+         ENDFOR i
+       ENDPROC make_circle
+
+PRINTSCREEN
+
+       Transfers the entire screen to a compatible printer. See the DOS
+       Manual.
+       NOTE THAT A HERCULES PRINTER DRIVER MUST BE LOADED FROM DOS BEFORE
+       PRINTSCREEN IS EXECUTED.
+
+       EXAMPLE:
+
+       printscreen                   The screen image is transferred to the
+                                     printer.
+
+SAVESCREEN
+
+       EXAMPLES:
+
+       savescreen("drawing.gra")     saves an image to disk with the name
+                                     drawing.gra.
+
+SETCOLOR, SETCOLOR_CMY, SETCOLOR_HLS and SETCOLOR_RGB
+
+       These procedures are not implemented in the Hercules graphics modules.
+
+SETFONT
+
+       This procedure is present for compatibility reasons, as the Hercules
+       Graphics Card only supports one font. The parameter fontno takes the
+       values 0 or 1. The fontsize is 14x8 pixels. On the bottom (25th) text
+       line, the bottom two scanlines will not be shown.
+
+       EXAMPLE:
+
+       setfont(0)
+
+SHOWSCREEN
+
+       The possible values of the parameter screen number depends upon the
+       mode of the Graphics Card selected:
+
+       HALF:     Only one screen available, no. 0.
+       FULL:     Two screens available, no. 0 or 1.
+
+
+       SAMPLE PROGRAM:
+
+       The program switches between screens 0 and 1 as the active and the
+       visible screen. The example requires therefore the card to be set up
+       in FULL mode.
+
+       USE graphics 
+       graphicscreen(0) 
+       textstyle(9,18,0,0) 
+       plottext(10,10,"Screen 0") 
+       updatescreen(1) 
+       PRINT AT 1,1: "Wait... drawing on the hidden screen 1" 
+       textstyle(9,18,2,0) 
+       plottext(600,180,"Screen 1") 
+       PRINT AT 1,1: "Drawing on screen is complete. Press a key..." 
+       PAUSE
+       PRINT AT 1,1: SPC$(75) 
+       showscreen(1) 
+       PAUSE
+       showscreen(0)
+
+TEXTBACKGROUND
+
+       The procedure has no effect in the Hercules graphics modules, but is
+       present for compatibility reasons.
+
+UPDATESCREEN
+
+       See showscreen for setting up the graphics card and a sample program.
+
+VIEWPORT
+
+       The viewport parameters always refer to the physical screen image
+       itself with (0,0) in the lower left hand corner and (719,347) in the
+       upper right corner.
+
+       Default values for viewport:
+
+       USE graphics / USE turtle used as a -
+       ------------------------------------------------------
+       command:                      statement:
+       viewport(0,719,12,291)        viewport(0,719,0,347)
+
+WINDOW
+
+       Default values for the window parameters:
+
+       Activated with USE graphics as a -
+       ------------------------------------------------------
+       command:                      statement:
+       window(0,639,0,199)           window(0,639,0,199)
+
+       Activated with USE turtle as a -
+       ------------------------------------------------------
+       command:                      statement:
+       window(-200,199,-100,99)      window(-160,199,-100,99)

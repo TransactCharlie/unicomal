@@ -1,0 +1,50 @@
+// DK message file for:
+//
+// Serial communication package. Version 3.02
+//
+// (C) Copyright UniComal A/S 1989-1991.
+// (C) Copyright Dansk System Elektronik A/S 1989-1991.
+//
+
+        0         "Fel i environment str„ng"
+        1         "Felaktig tid"
+        2         "DOS fel: Fel p† yttre minne"
+        3         "DOS fel: Inget buffertminne"
+        4         "DOS fel: Felaktigt minnesblock"
+        5         "Inget tecken hittat"
+        6         "Ingen plats i konverteringsarealen"
+        7         "Otill†ten baud hastighet"
+        8         "Otill†ten paritet"
+        9         "Otill†ten ordl„ngd"
+        10        "Otill†ten stopp-bit"
+        11        "Inget utrymme i s„ndbufferten"
+        12        "Felaktigt max-tecken"
+        13        "Mottager timeout"
+        14        "Buffertar inte skapade"
+        15        "Felaktig storlek p† mottagarbufferten"
+        16        "Felaktig storlek p† s„ndbufferten"
+        17        "Felaktig storlek p† konverteringsarealen"
+        18        "F”r stor total buffertareal"
+//19    "Out of dynamic memory"
+        20        "Felaktigt tillst†nd"
+        21        "Felaktig riktning"
+        22        "Mottager fel"
+        23        "Felaktig mask"
+//24    "Offset out of range"
+        25        "Felaktig mottagarkontroll"
+        26        "Felaktig s„ndarkontroll"
+        27        "Felaktig textl„ngd"
+        28        "Konverteringstexten f”r l†ng"
+        29        "Felaktigt attribut"
+        30        "Felaktig l†g niv†"
+        31        "Felaktig h”g niv†"
+        32        "Felaktigt teckenantal"
+        33        "Felaktig test"
+        34        "Texten f”r kort"
+        35        "Felaktig niv†"
+        36        "Felaktig position"
+        37        "Kommunikationsenhetrn inte tillg„nglig"
+        38        "Kommunikationsenheten ej ansluten (attached)"
+        39        "Felaktigt COM-nummer"
+
+

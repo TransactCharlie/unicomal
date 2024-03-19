@@ -1,0 +1,56 @@
+0100 // WebCOMAL Text Colour Sample 4
+0110 // (C) MacharSoft March 2000
+0120 // to accompany WebCOMAL by P&D Software
+0130 USE internet, system
+0140 // System module used to provide hex$ for the string representation
+0150 // of hexadecimal colour numbers
+0160 start_html("WebCOMAL Text Colours")
+0170 col$:=get_parameter$("name")
+0180 PRINT "<h2><font color="+col$+">WebCOMAL: RGB Colour Triangle</font></h2>"
+0190 PRINT "<table>"
+0200 PRINT "<tr>"
+0210 PRINT "<td>"
+0220 PRINT "<p>Top corner: 100% red"
+0230 PRINT "<br>Bottom Left: 100% green"
+0240 PRINT "<br>Bottom right: 100% blue"
+0250 PRINT "</td>"
+0260 red#:=255; green#:=0; blue#:=0
+0270 PRINT "<td><center>"
+0280 FOR row#:=1 TO 17 DO
+0290   PRINT "<br>"
+0300   FOR col#:=1 TO row# DO
+0310     blue#:=16*(col#-1)
+0320     IF blue#>255 THEN blue#:=255
+0330     green#:-16
+0340     IF green#<0 THEN green#:=0
+0350     red$:=hex$(red#)(7:)
+0360     green$:=hex$(green#)(7:)
+0370     blue$:=hex$(blue#)(7:)
+0380     colour$:="#"+red$+green$+blue$
+0390     PRINT "<font color="+CHR$(34)+colour$+CHR$(34)+">"
+0400     PRINT "*"
+0410     PRINT "</font>"
+0420   ENDFOR col#
+0430   red#:-16
+0440   IF red#<0 THEN red#:=0
+0450   green#:=16*(row#+1)
+0460   IF green#>271 THEN green#:=271
+0470   blue#:=0
+0480 ENDFOR 
+0490 PRINT "</center></td>"
+0500 PRINT "</tr>"
+0510 PRINT "</table>"
+0520 end_html
+0530 END
+0540 //
+0550 PROC start_html(title$)
+0560   PRINT "<html><head><title>"
+0570   PRINT title$
+0580   PRINT "</title></head><body bgcolor=silver>"
+0590   PRINT "<h1>"+title$+"</h1>"
+0600 ENDPROC start_html
+0610 //
+0620 PROC end_html
+0630   PRINT "</body>"
+0640   PRINT "</html>"
+0650 ENDPROC end_html

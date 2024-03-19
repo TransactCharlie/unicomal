@@ -1,0 +1,14 @@
+// Minimal menu for a text editor
+Project
+ Load := 11 // Load text file
+ Save
+  Ascii := 121 // Store file as ascii
+  Binary := 122 // Store file as code
+ () // Empty comment
+ Quit := 13 // Leave text editor
+ (컴컴컴컴컴컴컴) // Seperator line
+ (  Copyright) // Two comment lines
+ ( UniComal A/S)
+Insert
+ On := 21 // Insert toggle on
+ Off := 22 // Insert toggle off

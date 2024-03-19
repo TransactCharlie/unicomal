@@ -1,0 +1,203 @@
+
+      ****************************************************************
+
+                        A description of the files in
+
+                     the C module development directory
+
+      ****************************************************************
+
+This text describes the contents of the development directory for modules
+coded in the C language for COMAL version 3.11.
+
+It is necessary to have one of the C compilers below:
+
+    DOS:            Microsoft C version 5.x
+                    Microsoft C version 6.0
+
+    DOS & OS/2:     IBM C/2 version 1.10
+
+You must also have a Microsoft compatible Assembler program (version 2.0 or
+later). If you have a MAKE utility, you can build modules using the rules
+described in the file MAKEFILE.
+
+If you program modules for Comal under OS/2, make sure that your compiled
+.DLL modules are in a subdirectory listed in the LIBPATH line in the CONFIG.SYS.
+
+
+Comments on MS C 6.0
+====================
+
+A number of new facilities have been introduced with MS C 6.0. For example,
+the ability to link object files compiled with different memory models. This is
+not supported in connection with Comal. You will have to use the same memory
+model throughout the entire module, even if you split the source code in more
+files. You can still qualify functions and pointers to near or far as you like,
+but you must not mix models in other ways.
+
+The _fastcall convention is not supported for the exported C-functions.
+
+If there are functions declared as _fastcall or .c-files compiled with -Gr,
+you must assemble the interface file (the file ending in I.ASM) with
+the /Dfastcall option to enable a special stack overflow checking for such
+functions. If stack checking is disabled, you don't have to specify /Dfastcall.
+
+FAR stack is not supported.
+
+A module can not be linked into a .COM-file.
+
+
+STACK SIZE
+==========
+
+The processor stack size of a C module is by default 2048 bytes in DOS and
+2560 in OS/2. This can be changed, if desired, in two ways.
+
+The stack size can be set as a command line parameter when assembling
+the interface file, specifying /D_ST=size:
+
+    masm /Dprotect /Dlarge /D_ST=5000 samplei,sampleh;
+
+or it can be defined in the interface file, before the inclusion of the
+MODC.INC file:
+
+    _ST=5000    ;Use 5K for stack
+    INCLUDE modc.inc
+    ...etc
+
+
+The COMAL.H file
+================
+
+The header file, COMAL.H, has been extended with an external
+declaration of the function, cursor. It is declared as follows:
+
+  extern cursor(char row, char col);  /* Position the cursor */
+
+The parameters row and col is the position on the screen to print
+from. The position (0,0) is the upper left corner. (24,79) is the
+lower right corner. This function is useful in connection with
+the outchar function to display information on the screen using
+Comal's own video I/O routines, thus taking advantage of the
+diverse screen handling methods.
+
+
+FILE NAME       DESCRIPTION
+=========       ===========
+
+DEV      RME    contains this document.
+
+GENML    EXE    is used to translate a .MOD module defintion file
+                into an .ASM and .INC file.
+
+GENMLP   EXE    is an OS/2 mode version of GENML.EXE
+
+MAKEFILE        When you have a MAKE-tool, this file contains rules
+                on how to build the modules.
+
+MAKES    BAT    Use this batch file when you don't have a MAKE-tool.
+                Compiles to the small memory model under DOS.
+                For example: makes stack
+                generates the module stack.exe from the files
+                        stackd.mod   -- The COMAL module interface
+                        stack.c      -- The assembly language implementation
+                        stacki.asm   -- The interface description
+
+MAKES    CMD    Compile to small memory model under OS/2.
+
+MAKEC    BAT    Compile to compact memory model under DOS.
+
+MAKEC    CMD    Compile to compact memory model under OS/2.
+
+MAKEM    BAT    Compile to medium memory model under DOS.
+
+MAKEM    CMD    Compile to medium memory model under OS/2.
+
+MAKEL    BAT    Compile to large memory model under DOS.
+
+MAKEL    CMD    Compile to large memory model under OS/2.
+
+MAKEH    BAT    Compile to huge memory model under DOS.
+
+MAKEH    CMD    Compile to huge memory model under OS/2.
+
+MAKEFILE        Can be used together with a MAKE utility to generate
+                all the necessary files during compilation.
+
+COMAL    H      A header file with symbols and external declarations
+                to include in the C-code of your C-module.
+
+MODC     INC    Must be included in your .ASM interface files. It contains
+                symbols and macros defining the interface description
+                language.
+
+MODC     OBJ    This file must be linked together with your own .OBJ files
+                when linking the .EXE file module (DOS).
+
+MODCP    OBJ    This file must be linked together with your own .OBJ files
+                when linking the .DLL file module (OS/2).
+
+MODC     ASM    is the source code of MODC.OBJ and MODCP.OBJ.
+
+MODC     DEF    is a defition file to be specified to the LINK program
+                when a .DLL module must be created (OS/2).
+
+MSCRTDOS INC    Contains the runtime initialisation code of a DOS C module.
+                It is automatically included in the interface file.
+
+MSCRTOS2 INC    Contains the runtime initialisation code of a OS/2 C module.
+
+GENML    EXE    Generates an .ASM and .INC file from a .MOD file.
+
+GENMLP   EXE    Same as GENML.EXE, running under OS/2.
+
+The modules sig1 and sig2 export nothing. They only print the signals
+they receive from the COMAL system. The modules are useful when you
+want to see when the signals are issued. If you use both modules,
+you can see that some signals are sent from the first loaded module
+to the last and others are sent in the opposite direction.
+
+The sample module shows how to handle the different kinds of parameters
+in a C module. It can be compiled with
+
+    makes sample    or      makel sample
+
+SAMPLE   C      The actual implementation of the module in the C language.
+SAMPLED  MOD    The interface described as a Comal module.
+SAMPLEI  ASM    The interface description between C and Comal.
+
+SAMPLE   CML    A program calling the procedures of the sample module.
+SAMPLE   DLL    The compiled module for OS/2.
+SAMPLE   EXE    The compiled module for DOS.
+
+SAMPLED  ASM    is generated by GENML.EXE from SAMPLED.MOD.
+SAMPLED  INC    is generated by GENML.EXE from SAMPLED.MOD to be included
+                in SAMPLEI.ASM.
+
+SAMPLEDK MSG    This message file is used if you have COUNTRY "DK" in your
+                profile file in stead of the English messages coded in
+                the sample module.
+
+SAMPLEDK TXT    The source text of SAMPLEDK.MSG. Is compiled with GENMSG.EXE.
+SAMPLEGR MSG    German messages used if COUNTRY "GR" is specified in the Comal
+                profile file, COMAL.PRO.
+
+SAMPLEGR TXT    The source text of SAMPLEGR.MSG.
+
+The stack module is a very small module, demonstrating only what is needed
+in a simple module. It can be compiled with
+
+    makes stack     or      makel stack
+
+STACK    C      The actual implementation of the module in the C language.
+STACKD   MOD    The interface described as a Comal module.
+STACKI   ASM    The interface description between C and Comal.
+
+STACK    CML    A program calling the procedures of the sample module.
+STACK    DLL    The compiled module for OS/2.
+STACK    EXE    The compiled module for DOS.
+
+STACKD   ASM    is generated by GENML.EXE from STACKD.MOD.
+STACKD   INC    is generated by GENML.EXE from STACKD.MOD to be included
+                in STACKI.ASM.
+

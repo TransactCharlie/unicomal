@@ -1,0 +1,13 @@
+//
+// German Unimouse system messages for UniComal Version 3.10.
+//
+// (C) Copyright UniComal A/S 1989-1991.
+//
+   0  "MOUSE-Treiber nicht installiert"
+   1  "Maus nicht installiert"
+   2  "Funktion wird vom Treiber nicht unterstÅtzt"
+   3  "Zeichenkette zu kurz"
+   4  "unerlaubte SHAPE-Zeichenkette"
+   5  "inkompatibler Bildschirm-Modus"
+   6  "unbekannter Fehler"
+

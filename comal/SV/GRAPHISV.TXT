@@ -1,0 +1,32 @@
+//   GRAPHISV.TXT
+//   Svenska fel/hj„lp-meddelanden till grafikmodulen Ver. 3.10.
+//
+//   (C) Copyright UniComal A/S 1989-1991.
+
+//   RAN-data Lysekil, Rustan Ligander, svensk version.
+//   Immestad 3201, 454 00  BRASTAD, 0523-482 21.
+
+0    "Otill†ten f„rg"
+1    "Otill†tet f”nster"
+2    "Fel sk„rml„ge"
+3    "Sk„rml„get inte m”jligt f”r datorn"
+4    "Otill†ten viewport"
+5    "Fel f„rgpalett"
+6    "Fel f„rgdefinition"
+7    "Bakgrunden inte m”jlig"
+8    "Fel bakgrundsf„rg"
+9    "Fel kantf„rg"
+10   "Fel inq-funktion"
+11   "Fel texttyp"
+12   "Fel teckengrupp"
+13   "POLYGON kr„ver minst 3 punkter"
+14   "Talen till POLYGON f”r sm†"
+15   "Fel sidnummer"
+16   "Fel figurkoordinater"
+17   "Fel figurstr„ng"
+18   "Of”renliga sk„rmtillst†nd"
+19   "Fel put-typ"
+20   "Fel filformat f”r sk„rmbild"
+
+//   Inga fler meddelanden.
+

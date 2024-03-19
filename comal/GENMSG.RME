@@ -1,0 +1,100 @@
+                    THIS FILE CONTAINS INFORMATION HOW TO
+
+                    TRANSLATE AND GENERATE A MESSAGE FILE
+
+
+      ****************************************************************
+
+                       The UniComal GENMSG.EXE Program
+
+      ****************************************************************
+
+
+How to translate and generate a message file.
+=============================================
+
+The message file.
+-----------------
+
+The interactive Comal system needs a file with messages, when a language
+different from English is wanted.
+
+In the profile file is specified the path and name of a file containing the
+messages. It has the syntax:
+
+    MESSAGE "pathname"
+
+Examples:
+
+    MESSAGE "C:\COMAL\COMALUS.MSG"  // Use standard English message file
+    MESSAGE "C:\COMAL\COMALGR.MSG"  // Use German messages
+
+External MODULEs and STRUCs can have their own messages, too. The name of the
+message file is given by the first 6 characters of the module/struc file name
+plus the letters given in the COUNTRY .. line in the profile file. The
+message file must be placed in the same directory as the MODULE or STRUC.
+
+Example:
+
+If GRAPHICS.MOD is the module, then the message file looked for
+is GRAPHIUS.MSG (the standard value of COUNTRY is "US").
+
+The module GRAPHICS.MOD can refer to the messages with its own private
+numbers:
+
+    ERR(0)            // The first message number, the message offset.
+    REPORT ERR(10)    // Issue local error 10.
+    ERRTEXT$(ERR(10)) // The message itself.
+    graphics.ERR(10)  // Refer to the message from outside the module.
+
+
+How to create a message file.
+-----------------------------
+
+The message file (.MSG) is created by the program GENMSG.EXE. It uses a text
+file with messages (.TXT) and generates a message file from that.
+
+The GENMSG.EXE program accepts parameters from the keyboard or from the DOS
+command line.
+
+Keyboard example:
+
+    C:>GENMSG
+    Generate Message File For COMAL or MODULE. Version 1.0
+    (C) Copyright UniComal A/S 1989. All rights reserved.
+
+    Text file    [C:\.TXT]: comalgr
+    Message file [C:\COMALGR.MSG]:
+
+The file C:\COMALGR.TXT is used to generate the file C:\COMALGR.MSG.
+
+Command line example:
+
+    C:>GENMSG comalgr;                      // Same as above
+
+    C:>GENMSG graphics,graphigr;
+    C:>GENMSG graphius,turtleus;
+
+
+The text file.
+--------------
+
+The text file, used to generate the message file, consists of lines beginning
+with a message number followed by a text string in COMAL format. A line can
+also be empty or be a COMAL-style comment. The file is created using an
+ordinary ASCII editor or wordprocessor.
+
+Example of a text file for a small module:
+
+    //
+    // Messages for DAF module:
+    //
+
+    0       "DAF - Version 1.0"     // A message to print
+    1       "Illegal delimiter"     // Only " ", "," and ";" are allowed
+    2       ""13""10"Error: "16""   // Phrase to print
+
+See also the files:
+
+    COMALUS.TXT     Contains COMAL system messages.
+    GRAPHIUS.TXT    Contains messages for the GRAPHICS module.

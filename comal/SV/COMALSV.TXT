@@ -1,0 +1,372 @@
+//
+// Svenska meddelanden, som anv„ndes av COMAL-systemet. Version 3.11
+//
+// (C) Copyright UniComal A/S 1989-1992.
+//     RAN-data LYSEKIL, Rustan Ligander, svensk version.
+//     Immestad 3201, 454 00  BRASTAD, 0523-482 21.
+//
+//----- Runtime meddelanden:
+//
+
+  0       "REPORT fel"
+  1       "Argument-fel"
+  2       "Spill (Overflow)"
+  3       "Division med noll"
+  4       "Deltextfel"
+  5       "Utanf”r v„rdeomr†det"
+  6       "STEP = 0"
+  7       "Otill†ten gr„ns"
+  8       "Felaktigt str„ngformat"
+  9       "Uttrycket f”r komplicerat"
+  10      "Otill†tet indexv„rde"
+  11      "Otill†tet filnamn"
+  12      "DATA-konstant av felaktig typ"
+  13      "Inget tal, Not-A-Number (NaN)"
+  14      "Programmet f”r stort"
+  15      "Inget minne kvar f”r swapping"
+  16      "Inte sparat med SAVE"
+  17      "Programmet f”r annan COMAL-version"
+  18      "Inget utrymme f”r externa enheter"
+  19      "Tabellen „r felaktigt dimensionerad"
+  20      "Inget minne kvar f”r dynamiska variabler"
+  21      "VOID-pekare kan inte peka p† en variabel"
+  22      "Attribut inte dimensionerat"
+  23      "Passande WHEN-v„rde saknas"
+  24      "RETURN har inte returnerat ett funktionsv„rde"
+  25      "Variabeln „r redan dimensionerad"
+  26      "Meddelandenumret finns inte lokalt i MODULE/STRUC"
+  27      "F”r m†nga STRUC-variabler inne i varandra"
+  28      "Ingen meddelandefil till MODULE/STRUC"
+  29      "Variabeln kan inte dimensioneras h„r"
+  30      "Inget minne kvar f”r tabeller eller str„ngar"
+
+//
+//----- SCAN-meddelanden.
+//
+
+  44      "Namnkonflikt skall l”sas med punkt(dot)-notation"
+  45      "Denna linje „r felbeh„ftad. Var v„nlig r„tta den."
+  46      "Otilldelad variabel"
+//----- 45 reserverat f”r GOTO/GOSUB
+//----- 46 reserverat f”r GOTO/GOSUB
+  47      "Saknas i entry versionen"
+  48      "MODULE/STRUC '"
+  49      "Otill†ten anv„ndning av PROC-parameter"
+  50      "MODULE/STRUC inneh†ller inte vad som f”rv„ntas"
+  51      "Systemfel"
+  52      "Ingen plats p† stacken"
+  53      "Parametern har fel dimension"
+  54      "Parametern skall vara en tabell"
+  55      "F”r f† index"
+  56      "Kan inte tilldela funktionsanrop eller LOOP-r„knare"
+  57      "Finns inte inbyggt i systemet"
+  58      "CON/TRACE „r inte m”jligt"
+  59      "Programmet „r inte SCAN-at"
+  60      "F”r m†nga index"
+  61      "Programtexten kan varken „ndras eller sparas med SAVE"
+  62      "Ingen procedur"
+  63      "Odefinierad procedur eller sats"
+  64      "GOTO ej till†tet"
+  65      "Variabeln „r inte dimensionerad"
+  66      "F”r m†nge PROC/FUNC inne i varandra"
+  67      "Parameterlistorna „r olika, eller s† saknas CLOSED"
+  68      "Ingen passende CLOSED PROC/FUNC i fil"
+  69      "F”r f† parametrar"
+  70      "Felaktig indextyp"
+  71      "Parametern skall vara en variabel"
+  72      "Felaktig parametertyp"
+  73      "Parametern kan inte vara en tabell"
+  74      "Varken en tabell eller en funktion"
+  75      "Ingen enkel variabel"
+  76      "Ok„nd tabell eller funktion"
+  77      "Ingen MODULE/STRUC-fil"
+  78      "Namnet kan inte IMPORT-eras"
+  79      "F”r m†nga parametrar"
+  80      "Inga DATA-satser vid etikett"
+  81      "Varken en strukturerad variabel eller en MODULE"
+  82      "Attribut kan inte EXPORT-eras"
+  83      "Ingen STRUC"
+  84      "Ingen strukturerad variabel"
+  85      "Ingen tabell"
+  86      "Fel indexantal"
+  87      "Endast till†tet i slutna strukturer"
+  88      "EXPORT „r bara till†tet i MODULE/STRUC"
+  89      "Variabeln har felaktig STRUC-typ"
+  90      "Namnet „r redan deklarerat"
+  91      "MODULE „r inte till†tet inne i STRUC"
+  92      "Variabeln „r ingen reell variabel"
+  93      "Etikett, MODULE och STRUC kan inte EXPORT-eras"
+  94      "Filen „r inte SCAN-ad"
+  95      "Ingen etikett"
+  96      "Ingen modul, eller ej hittad"
+  97      "Fel dimension"
+  98      "Ok„nd etikett"
+
+//   "Fel" ges, n„r meddelandet „r ok„nt f”r COMAL.
+
+  99      "Fel"
+
+//
+//----- Meddelanden, som ges under inmatning av satser.
+//
+
+  101     "Syntaxfel"
+  102     "Felaktig typ"
+  103     "Satsen f”r l†ng eller f”r komplicerad"
+  104     "Endast som sats, inte som kommando"
+  105     "Namnet „r redan definierat"
+  106     "Radnumren g†r fr†n 1 till 65534"
+  107     "Radnumren kommer att ”verlappa varandra"
+  108     "Avsnittet saknas"
+  109     "Strukturerad sats ej till†ten h„r"
+  110     "Ingen sats"
+  111     "Radnumren blir st”rre „n 65534"
+  112     "K„lltexten skyddad!!!"
+  113     "Otill†tet tecken"
+  114     "Fel i konstant"
+  115     "Fel i exponent"
+  116     "Namnet †r f”r l†ngt"
+  117     "Namnet „r inte tillg„ngligt h„r"
+
+//----- 190-199 reserverade f”r fel vid Comalsystemets start.
+
+//
+//----- Runtime I/O-meddelanden.
+//
+
+  200     "Inga fler DATA-satser"
+  201     "Slut p† filen"
+  202     "Filen redan ”ppnad"
+  203     "Filen inte ”ppnad"
+  204     "Ingen input-fil"
+  205     "Ingen output-fil"
+  206     "Numerisk konstant f”rv„ntad"
+  207     "Ingen direktfil"
+  208     "Posten f”r l†ng"
+  209     "F”r m†nga filer ”ppna"
+  210     "L„sfel"
+  211     "Skrivfel"
+
+  213     "Skivenheten ej klar"
+  214     "Papperet slut eller skrivaren ej klar"
+  216     "Hittar inte filen"
+  217     "Ok„nd enhet"
+  218     "Otill†ten operation"
+  219     "I/O-avbrott"
+  220     "Hittar inte s”kv„gen"
+  221     "F”rs”k att skriva p† en skrivskyddad skiva"
+  222     "F”rs”k att ta bort den aktuella katalogen"
+  223     "Inte samma enhet"
+  224     "Skivan full"
+  225     "Filen finns redan"
+  226     "DOS klarar inte detta"
+  227     "N„tverksfel"
+  228     "Upptaget"
+  229     "Tillg†ng medges inte"
+  230     "Fel filformat"
+
+//
+//----- ™vriga texter.
+//
+
+//   Exempel: "Stopp p† rad 0110"
+//   - gives vid en STOP-sats.
+
+  231     ""13""10"Stopp p† rad "
+
+//   Anv„ndes som DOS-meddelande under PASS:
+
+  232     "Skriv 'EXIT' f”r att †terg† till COMAL"
+
+//   Om moduler h„nvisar till otilldelade meddelanden: "Inget meddelande"
+
+  233     "Inget meddelande"
+
+//   Exempel: "Avbrott p† rad"
+//   - ges, n„r Ctrl-Break avbryter programmet.
+
+  234     ""13""10"Avbrott p† rad"13""10""
+
+//   Exempel: "ENDFOR saknas i programmet"
+//   - ges, n„r programmet slutar i en ”ppen struktur.
+
+  236     " i programmet"
+
+//   Exempel: "F”r f† parametrar i"
+//           " min_proc(1,2)"
+//           - ges, om fel SCAN-as i ett direktkommando.
+
+  237     " i"
+
+//   SAVE- filnamnet efter NEW. Visas p† ”versta statusraden.
+
+  238     "NAMNL™S"
+
+//   N„r programmet avslutas:
+
+  239     ""13""10"Programmet avslutat"13""10""13""10""
+
+//   Exempel: "F”r m†nga parametrar p† rad"
+//             "0110   min_proc(1,2)"
+//           - ges, n„r fel SCAN-as p† en programrad.
+
+  242     " p† rad"
+
+//   Visas p† ”versta statusraden: "ProgFri: 32455"
+
+  243     "ProgFri:"
+
+//   TRACE meddelanden:
+
+  244     "  Programmet stannade i"
+  245     "  som anropades i"
+  246     "  inne i"
+  247     "  som anropades av en aktivitet i"
+
+//   SIZE meddelanden:
+
+  250     "                Anv„nt       Kvar"
+  251     "Program   :"
+  252     "Stack     :"
+  253     "Tabell/Str:"
+  254     "Dyn var   :"
+  255     "DOS minne :"
+  256     "EMS minne :"
+  257     "Swap minne:"
+  258     "Swapfil   :"
+
+//   Meddelanden vid SCOPE/INTERFACE.
+
+  265     "  (Programmet „r inte SCAN-at)"13""10""13""10""
+
+//   Meddelanden vid SCAN och RUN.
+
+  266     "Varning: Otilldelad variabel i"13""10""
+  267     "... och det finns flera variabler, som inte har tildelats v„rden."13""10""
+  268     "™nskar du trots allt att RUNna"
+
+//   Varningsmeddelanden vid BYE etc.
+//
+//      "Ers„tte %file% [J/N] ? J"
+//      "Programmet „r „ndrat. Spara %file% [J/N] ? J"
+//
+  269     "Ers„tte "
+  270     "Programmet „r „ndrat. Spara "
+  271     " [J/N] ? J"0""117""0""75""
+  272     "JN"
+
+//   "MODULE/STRUC '"+namn+"' ej hittat"   48 & 273
+
+  273     "' ej hittat"
+
+//   Hj‘lpetekstfraser.
+
+  274     " Esc: G† ut  Enter: V„lg"
+  275     "  PgDn"
+  276     "  PgUp  PgDn"
+  277     "  PgUp"
+  278     "   V„nd tillbaka"
+  279     "  F1: huvudmeny"
+  280     "UniComal Hj„lpsystem"
+  281     " Esc: G† ur hj„lp   Enter: ™ppna hj„lp   Utv„lj „mne  "
+
+//----- Key line shown during listings (80 characters wide):
+
+   290    " Esc: G† ut  Space: Ny sida  Enter: Ny linje  Shift: L†ngsam  Ctrl+shift: Fort  "
+
+//
+//----- Uttryck, anv„nda vid syntaxanalys och SCAN.
+//           - anv„ndes vid sammans„ttning av meddelanden.
+//
+//   Exempel:
+//           uttryck f”rv„ntat, inte PRINT
+//           ":=" eller "(" saknas
+/            Felaktig RETURN
+//
+
+  300     "uttryck"
+  301     "variabel"
+  302     "operand"
+  303     "variabelnamn"
+  304     "numeriskt variabelnamn"
+  305     "numeriskt uttryck"
+  306     "textuttryck"
+  307     "pointer-uttryck"
+  308     """:="" eller ""("""
+  309     ""","" eller "";"""
+  310     """:="" eller "":+"""
+  311     "typ"
+  312     "konstant"
+  313     "radnummer"
+  314     "bin„r konstant"
+  315     "etikett"
+
+  316     "ELIF/ELSE/ENDIF"
+  317     "ENDIF"
+  318     "ENDPROC"
+  319     "ENDFUNC"
+  320     "ENDFOR"
+  321     "UNTIL"
+  322     "ENDWHILE"
+
+//   Exempel: "WHEN f”rv„ntat"
+
+  323     " f”rv„ntat"
+
+  324     "WHEN/OTHERWISE/ENDCASE"
+  325     "ENDCASE"
+
+//   Exempel: "," inte f”rv„ntat
+
+  326     " inte f”rv„ntat"
+
+//   Exampel: "UNTIL saknas"
+
+  327     " saknas"
+
+//   Exempel: "," eller ";" f”rv„ntat, inte CLOSE
+
+  328     " f”rv„ntat, inte "
+
+  329     "reell konstant"
+  330     "heltalskonstant"
+  331     "textkonstant"
+  332     "namn"
+  333     "heltalsnamn"
+  334     "textnamn"
+  335     "pointer-namn"
+
+//   Exempel: "ENDLOOP utan LOOP"
+
+  336     " utan "
+
+  337     "ENDLOOP"
+  338     "WHEN"
+  339     "struktur-uttryck"
+
+//   Exempel: "Felaktig RETURN"
+
+  340     "Felaktig "
+
+//   Exempel: "IMPORT inte till†tet i styrstrukturer"
+
+  341     " inte till†tet i styrstrukturer"
+
+//   Exempel: "CLOSED eller EXTERNAL f”rv„ntat, inte textkonstant"
+
+  342     "CLOSED eller EXTERNAL"
+  343     "hexadecimal konstant"
+
+  345     "HANDLER"
+  346     "ENDTRAP"
+
+//   Exempel: "," eller ")" saknas
+
+  349     ""","" eller "")"""
+
+  351     "tabell"
+
+  354     "fleranv„ndar-mode"
+
+//----- Inga fler meddelanden.
+

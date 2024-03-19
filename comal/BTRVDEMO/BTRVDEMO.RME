@@ -1,0 +1,120 @@
+                              THIS FILE CONTAINS
+
+T H E   U N I C O M A L   B T R I E V E   D E M O    D O C U M E N T A T I O N
+
+
+******************************************************************************
+
+        Using the UniComal Btrieve Interface to build a simple database
+
+******************************************************************************
+
+
+                            UniComal Btrieve Demo.
+                            ======================
+
+       1.   General Information.
+
+This disk contains a program written in UniComal, which demonstrates how a
+simple database program can be made using the file management system Btrieve -
+se description below. To run the program it is nessecary to have either a
+Btrieve system (The BTRIEVE.EXE and BUTIL.EXE files) or LAN software with a
+built-in Btrieve system.
+
+
+       2.   Btrieve Demonstrational Program
+
+The demonstrational program itself is a little telephone database, where it is
+possible to do simple operations like inserting, deleting, editing and going
+through the entries in the database. The program is in a compiled version in the
+file DATABASE.EXE, whereas the Comal program itself is in the file DATABASE.CML.
+
+If the Btrieve system installed, then the batch file START.BAT on the disk can
+be used to start up the database. If the Btrieve system is in the Net software,
+then only the DATABASE.EXE should be started.
+
+
+       3.   Btrieve File Management System
+
+Btrieve is a complete, key-indexed file management system that can be used with
+any programming language for high performance file handling and improved
+programming productivity. Btrieve's fault tolerant processing guarantees data
+integrity without additional programming. Based on the btree indexing method and
+implemented with cache buffers, Btrieve delivers fast, maintenancefree o-
+peration.
+
+Btrieve's variable cache buffer lets users determine the runtime size. And by
+storing its key values in b-trees, Btrieve provides maximum speed in accessing
+data.
+
+Btrieve automatically provides fault tolerant operation for guaranteed databa-
+se integrity at both the file level and the database level. Security and data
+protection are accomplished with data encryption, password protection and
+readafterwrite verification.
+
+Features
+
+* Access speed does not degrade as the database grows.
+
+* Files expand dynamically as records are added, eliminating the need to allo-
+  cate disk space when creating a file.
+
+* Written in Assembly language for the PC.
+
+* Based on b-tree file indexing system, providing maximum speed in accessing
+  data.
+
+* Available for NetWare, single-user DOS systems, DOS 3.x LAN environments, DOS
+  multitasking environments, OS/2 and XENIX.
+
+* Applications written for one version of Btrieve execute correctly with all ot-
+  her versions.
+
+* Reuses space that becomes available when records are deleted.
+
+* Records can be written to the exact length required, conserving disk space.
+
+* Variable length records can contain over 64.000 bytes, while fixed length re-
+  cords can contain up to 4.090 bytes.
+
+* Unique method of data encryption provides greater protection of sensitive data.
+  All data residing on the disk at the server is encrypted.
+
+* File level password protection with read/write or read-only security.
+
+* Read after write verify option guarantees the correctness of data written to
+  selected files, allowing verification of important datawithout a significant
+  decrease in performance.
+
+* Quickly and easily incorporated into program development, with manual co-
+  ntaining examples of every function for UniComal as well as other programming
+  languages, such as Basic, Pascal, Cobol and C.
+
+* NetWire bulletin board with technical tips and regular updates, and "Direct
+  Connect" telephone support, both available at a nominal annual fee.
+
+
+Technical Specifications
+
+Records per file:     No limit.
+Maximum file:         Over 4 billion bytes.
+Maximum record size:  64K.
+Maximum key length:   255
+Maximum indexes/file: 24
+Index attributes:     Duplicate/unique, modifiable/nonmodifiable, null keys,
+                      noncontiguous segments.
+Maximum open files:   No limit (15 with Basic interpreter).
+File structures:      B-tree indexes into relational file structures.
+
+Language interfaces:  UniComal Comal, IBM Basic, IBM Pascal, IBM COBOL, Lattice
+                      C, Ci-C86, Microsoft C, MBP COBOL, Micro Focus COBOL,
+                      Microsoft COBOL, Realia COBOL, DeSmet C, Mark Williams C,
+                      Turbo Pascal, Turbo C, Turbo Basic, STSC APL*PLUS.
+
+Environments:         MS-DOS 3.x, XENIX, OS/2, PC MOS/386, all DOS 3.x compatible
+                      LAN's.
+
+Versions available:   Single user, DOS 3 LAN, DOS Multitasking, OS/2, XENIX/286,
+                      server based version for IBM PC Network.
+
+No Royalties.

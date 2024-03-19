@@ -1,0 +1,49 @@
+// DK message file for:
+//
+// Serial communication package. Version 3.02
+//
+// (C) Copyright UniComal A/S 1989-1991.
+// (C) Copyright Dansk System Elektronik A/S 1989-1991.
+//
+
+        0         "Fejl i environment string"
+        1         "Forkert tid"
+        2         "DOS fejl: Eksternt lager i uorden"
+        3         "DOS fejl: Ikke nok buffer lager"
+        4         "DOS fejl: Invalid lager blok"
+        5         "Tegn ikke fundet"
+        6         "Ikke plads i konverteringsareal"
+        7         "Ulovlig baud hastighed"
+        8         "Ulovlig paritet"
+        9         "Ulovlig ordl‘ngde"
+        10        "Ulovlig stop bit"
+        11        "Ikke plads i sendebuffer"
+        12        "Forkert max tegn"
+        13        "Modtager timeout"
+        14        "Buffere ikke oprettede"
+        15        "Forkert st›rrelse modtagerbuffer"
+        16        "Forkert st›rrelse sendebuffer"
+        17        "Forkert st›rrelse konverteringsareal"
+        18        "For stort totalt bufferareal"
+//19    "Out of dynamic memory"
+        20        "Forkert tilstand"
+        21        "Forkert retning"
+        22        "Modtager fejl"
+        23        "Forkert maske"
+//24    "Offset out of range"
+        25        "Forkert modtager kontrol"
+        26        "Forkert sender kontrol"
+        27        "Forkert tekst l‘ngde"
+        28        "Konverteringstekst for lang"
+        29        "Forkert attribut"
+        30        "Forkert lav niveau"
+        31        "Forkert h›j niveau"
+        32        "Forkert tegnantal"
+        33        "Forkert test"
+        34        "Tekst for kort"
+        35        "Forkert niveau"
+        36        "Forkert position"
+        37        "Kommunikationsenhed ikke tilg‘ngelig"
+        38        "Kommunikationsenhed ikke tilsluttet (attached)"
+        39        "Forkert COM nummer"
+

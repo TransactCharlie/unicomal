@@ -1,0 +1,22 @@
+0100 // WebCOMAL Sample 3: graphics
+0110 // (C) MacharSoft 2000
+0120 USE internet
+0130 start_html("WebCOMAL Sample 3: GIF files")
+0140 count$:=get_parameter$("name")
+0150 FOR pic#:=1 TO VAL(count$) DO display_graphic("c:\comal\comalico.gif")
+0160 end_html
+0170 END
+0180 //
+0190 PROC start_html(title$)
+0200   PRINT "<html><head><title>"+title$+"</title></head>"
+0210   PRINT "<body bgcolor=gold>"
+0220   PRINT "<h1>"+title$+"</h1>"
+0230 ENDPROC 
+0240 //
+0250 PROC display_graphic(file$)
+0260   PRINT "<img src="+CHR$(34)+file$+CHR$(34)+">"
+0270 ENDPROC display_graphic
+0280 //
+0290 PROC end_html
+0300   PRINT "</body></html>"
+0310 ENDPROC end_html

@@ -1,0 +1,49 @@
+//
+// SCOM-Fehlermeldungen fr SCOM Ver. 3.02.
+//
+// (C) Copyright UniComal A/S 1989-1991.
+// berarbeitet 19.11.89 / DoNo
+//
+
+   0      "Fehler in der Umgebungsvariablen"
+   1      "Wert fr Zeitangabe unzul„ssig"
+   2      "DOS-Fehler: Speicherzuordnung zerst”rt"
+   3      "DOS-Fehler: Nicht gengend Puffer-Speicher"
+   4      "DOS-Fehler: Ungltiger Speicher-Block"
+   5      "Zeichen nicht gefunden"
+   6      "Nicht gengend Platz im MAP-Bereich"
+   7      "Baud-Rate unzul„ssig"
+   8      "Parit„t unzul„ssig"
+   9      "Wortl„nge unzul„ssig"
+   10     "Stop-Bit unzul„ssig"
+   11     "Nicht genug Platz im Sende-Puffer"
+   12     "Wert fr maximale Zeichenzahl unzul„ssig"
+   13     "Empfangszeit berschritten (timeout)"
+   14     "Keine Puffer reserviert"
+   15     "Wert fr Empfangspuffer-Bereich unzul„ssig"
+   16     "Wert fr Sendepuffer-Bereich unzul„ssig"
+   17     "Wert fr MAP-Bereich unzul„ssig"
+   18     "Wert fr Gesamtspeicherbereich unzul„ssig"
+
+   20     "Zustand unzul„ssig"
+   21     "Richtungsangabe unzul„ssig"
+   22     "Empfangsfehler"
+   23     "Ungltige Maske"
+
+   25     "Ungltige Empfangskontrolle"
+   26     "Ungltige Sendekontrolle"
+   27     "Zeichenkettenl„nge unzul„ssig
+   28     "MAP-Zeichenkette zu lang"
+   29     "Ungltiges Attribut"
+   30     "untere Puffergrenze unzul„ssig"
+   31     "obere Puffergrenze unzul„ssig"
+   32     "Zeichenanzahl unzul„ssig"
+   33     "Testmuster unzul„ssig"
+   34     "Zeichenkette zu kurz"
+   35     "Spannungspegel unzul„ssig"
+   36     "Zeichenposition unzul„ssig"
+   37     "Schnittstelle nicht auffindbar"
+   38     "keine Schnittstelle zugeordnet"
+   39     "Wert fr Schnittstellen-Nummer unzul„ssig"
+
+

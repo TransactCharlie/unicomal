@@ -1,0 +1,225 @@
+THE MANDELBROT SET CALCULATING PROGRAM
+
+The MANDEL.CML program calculates and displays subsets of the
+Mandelbrot set. Here is a program that allows you to explore the
+beauty of this purely mathematical set, showing an enormous
+complexity created out from a very simple mathematical formula.
+It is easy to become fascinated during the exploration of the
+set. A lot of magazine articles and books that have been
+published about this subject proves it.
+
+This program requires a PC with at least 512 KB of RAM memory and
+a CGA, EGA, or VGA graphic adapter. Optionally, the PC can be
+equipped with a math coprocessor to enhance speed of
+calculations.
+
+To run the program, simply type from DOS:
+
+     comal mandel        -- Run MANDEL.CML using software math
+or
+     comal87 mandel      -- Run MANDEL.CML using math coprocessor
+
+You can also run it from the interactive UniComal system.
+
+The program controls a file, MANxx.MAN, with information about
+each picture you create while using the program. If you leave the
+program with Quit, all information is saved to disk in the
+current directory. When you start the program again, it continues
+where you left, remembering all the pictures created.
+
+Note: because of the lenghty calculation times, you have the
+possibility to save to disk the picture you have drawn by typing
+S. This picture will be read from disk when you want to see it in
+stead of being recalculated. It is a lot faster to load a picture
+than to regenerate it. Be aware that pictures saved to disk take
+up a lot of room. The picture files are named MANxxx.PIC.
+
+HOW TO USE THE MANDELBROT PROGRAM
+
+When the program starts, it shows a screen with a column in the
+side describing what you can do and the status of program. Most
+of the screen is set aside to the picture of a part of the
+mandelbrot set.
+
+The left side of the screen is divided in the fields described
+below.
+
+X^2+P     This is the mathematical formula used for the calcu-
+          lations. It is expressed in complex arithmetic. It is a
+          short form of  X(i+1) = X(i)^2+P, i.e. the next X is
+          calculated from current X squared and then added P. P
+          is the point on the screen we want to find a colour
+          for. The colour is determined from how many times it is
+          necessary to iterate the above mentioned formula before
+          X exceeds a certain value. Each iteration is assigned a
+          particular colour from a set as shown in the Colour
+          Model (see point C below).
+
+
+          This program is able to produce pictures based on other
+          formulas than X^2+P. By pressing the X-key, you can
+          select the next formula. Five formulas are available:
+
+            X^2+P        The most famous mandelbrot set.
+            X^3+P        A variation.
+            X^4+P        One more variation.
+            P*X*(1-X)    Interesting.
+            1/(X^2+P)    The last variation.
+
+          You can as mentioned choose a formula by typing X.
+
+Quality:  This text labels that the three text below (Rough,
+          Medium, and High) relates to the quality of the
+          calculation granularity. Because of the enormous amount
+          of calculations required to generate a picture, three
+          levels of detail are available, giving you the chance
+          to select interesting parts in rough detail before you
+          choose what to calculate with all details.
+
+          Type R, M, or H to draw the picture. To stop the
+          drawing process, type S for Stop.
+
+Rough     This is the standard chosen resolution. It calculates
+          one hundreths of the points in the plane. Each coloured
+          square on the screen represents 100 points in the
+          highest resolution. It takes 100 times as long time to
+          calculate the highest resolution where a calculation
+          has to be done for each pixel on the screen. This
+          resolution gives you a rough overview of the chosen
+          part of the set.
+
+          Type R to redraw the subset in rough resolution.
+
+Medium    This resolution gives 10 times more detail than the
+          Rough resolution. It is still 10 times faster than the
+          High resolution. Sometimes, Rough is too rough, so use
+          Medium resolution.
+
+          Type M to draw the subset in medium resolution.
+
+High      In High resolution a calculation is done for every
+          pixel on the screen, giving the finest detail. It takes
+          100 times as long time to calculate the picture as the
+          Rough resolution. If you want to store picture, type S
+          for Store. Then you don't have to wait for it being
+          redrawn if you will see it again.
+
+00h00m15s This field shows how long time has been spent drawing
+          the picture. Note: it can take from seconds to hours.
+
+Quit      When you want to leave the program, type Q for Quit.
+          Nothing is lost because it is saved in a file on disk
+          and the next time you start this program, you will
+          enter where you left.
+
+          Type Q to Quit.
+
+>Larger   The foursquare shown in the generated picture shows
+          what is going to be the next picture subset to draw
+          when you type Z for Zoom. You can make the foursquare
+          larger by typing > or smaller by type <.
+
+          Type > to enlarge the foursquare.
+
+<Smaller  Make the foursqare smaller.
+
+          Type < to shrink the foursquare.
+
+       You can move the foursquare around using the cursor
+          keys.
+
+Store     The picture you are seeing right now is stored in a
+          file on disk if you type S. After having zoomed down on
+          interesting details, you can go back typing D or U or a
+          digit to see that picture again, reading it from disk
+          without the time consuming process of recalculating it.
+
+          Type S to store the picture.
+
+Init      If you want to forget all you have done and all the
+          pictures you have stored, type I for Init. The program
+          is in the state it was the first time it was run. You
+          can do the same thing by deleting the files MAN*.MAN
+          and MAN*.PIC from your disk.
+
+          Type I to start all over.
+
+Picture:  This text labels the four fields below (Zoom, Down, Up,
+          1 of 1). It has to do with showing pictures.
+
+Zoom      Remember current settings for this picture and create a
+          new picture which is the magnification of the picture
+          shown in the foursquare. To see the previous picture,
+          type U for Up.
+
+          Type Z to zoom in.
+
+Down      Show the next picture, i.e. go down to the zoomed area.
+
+          Type D for the next picture.
+
+Up        Show the previous picture, i.e. the picture where the
+          of which the current one is part.
+
+          Type U for the previously generated picture.
+
+1 of 1    This field shows the number of the picture we are
+          looking at, and it shows its number among the available
+          number of pictures. You can type a digit, i.e. 1, 2, 3,
+          etc. to see the picture with that number. If you have
+          stored that picture with S for Store when it was
+          generated, it loaded quickly from disk. Otherwise it
+          will be recreated slowly again.
+
+          Type 1, 2, 3, 4, 5, 6, 7, 8, or 9 to see that picture.
+
+Lim:40    As described elsewhere, a formula is iterated for the
+          calculation of the colour of each pixel on the screen.
+          The number of iterations is used to determin the colour
+          of a pixel. For some areas of the picture, it might be
+          necessary to iterate a large number of times before the
+          formula reaches that certain value, perhaps infinitely
+          many iterations. Therefore, a maximum limit on the
+          number of iterations calculated is needed. Areas of the
+          screen which exceed the maximum number of iterations is
+          shown with the background colour. The limit has an
+          initial value of 40. When you zoom in on small details
+          you will have to increase this value, typing * or +.
+
+          In order to help determining the Limit, you can type L
+          to see the actual number of iterations needed for
+          different areas of the picture. Areas, where the limit
+          is exceeded, are shown as e.g. >40, meaning a larger
+          number of iterations than 40. Hit any key to take the
+          numbers away again.
+
+          Type L to see actual number of iterations used for
+          different parts of the screen, and hit any key to
+          remove the numbers again.
+
+*1.2 +1   Type * to increase the maximum number of iterations by
+          20% and type + to increase it by one.
+
+/1.2 -1   Type / to decrease the maximum number of iterations by
+          20% and type - to decrease it by one.
+
+Resol:    This field shows the size of a calculated pixel. It
+          gives an idea of the magnification of the picture.
+0.058
+
+P         Shows which colours are used for this picture. Type P
+          for Palette to select among the 4 other palettes.
+
+C         Is the colour model used. Each iteration number is
+          assigned a particular colour from the model. The
+          colours for the first 63 iterations are shown on the
+          colour bar.
+
+          Type C for Colour model to choose another model among
+          the 4 available models.
+
+          Note: if the selected colouring model shall be
+          effective, the picture must be redrawn.
+
+The people at UniComal A/S wish you many happy and joyful hours.
+

@@ -1,0 +1,29 @@
+//
+// Grafik-Fehlermeldungen fr Ver. 3.10.
+//
+// (C) Copyright UniComal A/S 1989-1991.
+// berarbeitet 19.11.89 / DoNo
+//
+
+   0      "Farbnummer unzul„ssig"
+   1      "window so nicht erlaubt"
+   2      "Bildschirm-Modus falsch"
+   3      "Bildschirm-Modus durch Hardware nicht untersttzt"
+   4      "viewport so nicht erlaubt"
+   5      "Farbpalette falsch"
+   6      "Farbdefinition falsch"
+   7      "Hintergrund nicht m”glich"
+   8      "Hintergrundfarbe unzul„ssig"
+   9      "Randfarbe unzul„ssig"
+   10     "inq-Funktion unzul„ssig"
+   11     "Text-Typ (style) unzul„ssig"
+   12     "Zeichensatznummer unzul„ssig"
+   13     "POLYGON erfordert mindestens 3 Punkte"
+   14     "Tabellen fr POLYGON zu klein"
+   15     "Bildschirmnummer unzul„ssig"
+   16     "Koordinaten fr SHAPE unzul„ssig"
+   17     "Zeichenkette fr SHAPE unzul„ssig"
+   18     "Bildschirm-Modi passen nicht zueinander"
+   19     "falscher put-Typ (style)"
+   20     "Dateiformat als Bildschirmdatei unzul„ssig"
+

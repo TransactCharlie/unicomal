@@ -1,0 +1,11 @@
+0010 USE internet
+0020 // (C) P&D Software 2000
+0030 PRINT "<HTML>"
+0040 PRINT "<H1> COMAL SCRIPT </H1><P>"
+0050 PRINT "Some information about the client:<BR>"
+0060 PRINT remote_host$,"<BR>"
+0070 PRINT remote_addr$,"<BR>"
+0080 PRINT remote_user$,"<BR>"
+0090 PRINT server_name$,"<BR>"
+0100 PRINT server_port#,"<BR>"
+0110 PRINT "</HTML>"

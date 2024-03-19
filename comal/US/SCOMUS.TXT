@@ -1,0 +1,48 @@
+//      US message file for:
+//
+//      Serial communication package. Version 3.02
+//
+//      (C) Copyright UniComal A/S 1989-1991.
+//      (C) Copyright Dansk System Elektronik A/S 1989-1991.
+
+        0         "Error in environment string"
+        1         "Time out of range"
+        2         "DOS error: External memory area trashed"
+        3         "DOS error: Not enough buffer memory"
+        4         "DOS error: Invalid memory block"
+        5         "Character not found"
+        6         "Not enough room in map area"
+        7         "Illegal baud rate"
+        8         "Illegal parity"
+        9         "Illegal word length"
+        10        "Illegal stop bit"
+        11        "Not enough room in send buffer"
+        12        "Max character out of range"
+        13        "Receive timeout"
+        14        "No buffers allocated"
+        15        "Receive buffer out of range"
+        16        "Send buffer out of range"
+        17        "Map area out of range"
+        18        "Total area out of range"
+//19    "Out of dynamic memory"
+        20        "Illegal state"
+        21        "Illegal direction"
+        22        "Receive error"
+        23        "Mask out of range"
+//24    "Offset out of range"
+        25        "Receive control out of range"
+        26        "Send control out of range"
+        27        "Illegal string size"
+        28        "Map string too long"
+        29        "Attribute out of range"
+        30        "Low level out of range"
+        31        "High level out of range"
+        32        "Character count out of range"
+        33        "Check mode out of range"
+        34        "String too short"
+        35        "Levels out of range"
+        36        "Position out of range"
+        37        "Communication unit not available"
+        38        "Communication unit not attached"
+        39        "COM no out of range"
+

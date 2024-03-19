@@ -1,0 +1,150 @@
+//----- Svenska meddelanden, som anv„ndes av kompilerade COMAL-program.
+//      Version 3.11
+//
+//      (C) Copyright UniComal A/S 1989-1992.
+//      RAN-data Lysekil, Rustan Ligander, svensk version.
+//      Immestad 3201, 454 00  BRASTAD, 0523-482 21.
+//
+//----- Runtime meddelanden:
+//
+
+   0      "REPORT fel"
+   1      "Argument fel"
+   2      "Spill (Overflow)"
+   3      "Division med noll"
+   4      "Deltext-fel"
+   5      "Utanf”r v„rdeomr†det"
+   6      "STEP = 0"
+   7      "Otill†tna gr„nser"
+   8      "Fel i formatstr„ng"
+   9      "Uttrycket f”r komplicerat"
+   10     "Otill†tet indexv„rde"
+   11     "Otill†tet filnamn"
+   12     "DATA-konstant av felaktig typ"
+   13     "Not-A-Number (NaN), inget tal"
+   14     "Programmet f”r stort"
+   15     "Inget minne kvar f”r swapping"
+   16     "Inte sparat med SAVE"
+   17     "Programmet f”r annan COMAL-version"
+   18     "Inget utrymme f”r externa enheter"
+   19     "Tabellen „r felaktigt dimensionerad"
+   20     "Inget minne kvar f”r dynamiska variabler"
+   21     "VOID-pekare kan inte peka p† en variabel"
+   22     "Attribut inte dimensionerat"
+   23     "Passande WHEN-v„rde saknas"
+   24     "RETURN har inte returnerat ett funktionsv„rde"
+   25     "Variabeln „r redan dimensionerad"
+   26     "Meddelandenumret finns inte lokalt i MODULE/STRUC"
+   27     "F”r m†nga STRUC-variabler inne i varandra"
+   28     "Ingen meddelandefil till MODULE/STRUC"
+   29     "Variabeln kan inte dimensioneras h„r"
+   30     "Inget minne kvar f”r tabeller eller str„ngar"
+
+//
+//----- SCAN meddelanden.
+//
+
+// 47     "Saknas i entry-versionen"
+   48     "MODULE/STRUC '"
+
+   50     "MODULE/STRUC inneh†ller inte vad som f”rv„ntas"
+   51     "Systemfel"
+   52     "Ingen plats p† stacken"
+   57     "Finns inte inbyggt i systemet"
+   65     "Variabeln „r inte dimensionerad"
+   66     "F”r m†nga PROC/FUNC inne i varandra"
+   67     "Parameterlistorna „r olika, eller s† saknas CLOSED"
+   68     "Ingen passende CLOSED PROC/FUNC i filen"
+   77     "Ingen MODULE/STRUC fil"
+
+//   "Fel" gives, n„r meddelandet „r ok„nt f”r COMAL.
+
+   99     "Fel"
+
+//
+//----- Runtime I/O Meddelanden.
+//
+
+  200     "Inga fler DATA-satser"
+  201     "Slut p† filen"
+  202     "Filen redan ”ppnad"
+  203     "Filen inte ”ppnad"
+  204     "Ingen input-fil"
+  205     "Ingen output-fil"
+  206     "Numerisk konstant f”rv„ntad"
+  207     "Ingen direktfil"
+  208     "Posten f”r l†ng"
+  209     "F”r m†nga filer ”ppnade"
+  210     "L„sfel"
+  211     "Skrivfel"
+
+  213     "Skivenheten ej klar"
+  214     "Papperet slut eller skrivaren ej klar"
+
+  216     "Hittar inte filen"
+  217     "Ok„nd enhet"
+  218     "Otill†ten operation"
+  219     "I/O-avbrott"
+  220     "Hittar inte s”kv„gen"
+  221     "F”rs”k att skriva p† en skrivskyddad skiva"
+  222     "F”rs”k att ta bort den aktuella katalogen"
+  223     "Inte samma enhet"
+  224     "Skivan full"
+  225     "Filen finns redan"
+  226     "DOS klarar inte detta"
+  227     "N„tverksfel"
+  228     "Upptaget"
+  229     "Tillg†ng medges inte"
+  230     "Fel filformat"
+
+//
+//----- ™vriga texter.
+//
+
+//   Exempel: "Stopp p† rad 0110"
+//   - gives vid en STOP-sats.
+
+  231     ""13""10"Stopp p† rad "
+
+//   Anv„ndes som DOS-meddelande under PASS:
+
+  232     "Skriv 'EXIT' f”r att †terg† till programmet"
+
+//   Om moduler h„nvisar till otilldelade meddelanden "Felmeddelande saknas".
+
+  233     "Felmeddelande saknas"
+
+//   Exempel: "Avbrott"
+//   - ges, n„r Ctrl-Break avbryter programmet.
+
+  234     ""13""10"Avbrott"13""10""
+
+//   Exempel: "Division med noll i PROG.CML, rad 0110"
+
+  241     ", rad "
+  242     " i "
+
+//   Exempel: "Division by zero in WIN.MOD, line #1150"
+//            "Index out of range in MYPROG.CML, offset 1150"
+
+  266     ", rad #"
+  267     ", offset "
+
+//           "MODULE/STRUC '"+namn+" ej hittad"
+
+  273     "' ej hittad"
+
+//   Hj†lp-textfraser.
+
+  274     " Esc: G† ut  Enter: V„lj"
+  275     "  PgDn"
+  276     "  PgUp  PgDn"
+  277     "  PgUp"
+  278     "   V„nd tillbaka"
+  279     "  F1: huvudmeny"
+  280     "Hj„lpmeny"
+  281     " Esc: G† ut hj„lp   Enter: ™ppna hj„lp   V„lj ut „mne  "
+
+//----- Inga fler meddelanden.
+
+

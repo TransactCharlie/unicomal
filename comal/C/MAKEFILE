@@ -1,0 +1,149 @@
+
+#------ C modules --------------------------------------------------------------
+#
+#	Module sample:
+#
+#	SAMPLE.C       Source of sample module written in C.
+#	SAMPLE.OBJ     Compiled sample.C
+#	SAMPLED.MOD    Comal module of sample.
+#	SAMPLED.ASM    Created by GENML.EXE from sampleD.MOD
+#	SAMPLED.OBJ    Assembled sampleD.ASM
+#	SAMPLED.INC    Created by GENML.EXE from sampleD.MOD
+#	SAMPLEI.ASM    Interface to C-code.
+#	SAMPLEI.OBJ    Compiled sampleI.ASM for DOS
+#	SAMPLEH.OBJ    Compiled sampleI.ASM for OS/2
+#	SAMPLE.EXE     Final module, ready to use with DOS Comal
+#	SAMPLE.DLL     Final module, ready to use with OS/2 Comal
+#	SAMPLE.CML     Comal program testing the sample module.
+#
+#	Module stack:
+#
+#	STACK.C        Source of STACK module written in C.
+#	STACK.OBJ      Compiled STACK.C
+#	STACKD.MOD     Comal module of STACK.
+#	STACKD.ASM     Created by GENML.EXE from STACKD.MOD
+#	STACKD.OBJ     Assembled STACKD.ASM
+#	STACKD.INC     Created by GENML.EXE from STACKD.MOD
+#	STACKI.ASM     Interface to C-code.
+#	STACKI.OBJ     Compiled STACKI.ASM for DOS
+#	STACKH.OBJ     Compiled STACKI.ASM for OS/2
+#	STACK.EXE      Final module, ready to use with DOS Comal.
+#	STACK.DLL      Final module, ready to use with OS/2 Comal.
+#	STACK.CML      Comal program testing the STACK module.
+#
+#
+
+!IF "$(COMSPEC)"=="C:\OS2\CMD.EXE"
+GENML	=GENMLP 	# OS/2 version
+!ELSE
+GENML	=GENML		# DOS version
+!ENDIF
+DLL	=\		# change here to your .dll subdirectory
+
+MODULE =mymod		# change here to add a module of your own
+
+dos: sample stack	# DOS only
+
+os2: $(DLL)sample.dll $(DLL)stack.dll # OS/2 only
+
+modc: modc.obj modcp.obj
+
+sample: sample.exe
+
+sampled.inc: sampled.mod
+	$(GENML) sampled;
+
+sampled.asm: sampled.mod
+	$(GENML) sampled;
+
+sample.obj: sample.c comal.h makefile
+	cl -c -AS -Ox sample.c
+
+samplei.obj: samplei.asm sampled.inc modc.inc
+	masm /Mx samplei;
+
+sampled.obj: sampled.asm
+	masm /Mx sampled;
+
+sample.exe: sample.obj samplei.obj sampled.obj modc.obj makefile
+	link /MAP /NOE /NOI /DOSSEG sample+samplei+sampled+modc,sample;
+
+#---- OS/2 C-module sample ------------------------------------------------
+
+samplep.obj: sample.c comal.h
+	cl -Dprotect -c -AS -Ox -G2 -Zp -Fo$@ sample.c
+
+sampleh.obj: samplei.asm sampled.inc modc.inc
+	masm /Mx /Dprotect samplei,$@;
+
+$(DLL)sample.dll: samplep.obj sampleh.obj sampled.obj modcp.obj modc.def \
+makefile
+	link /NOE /NOI /DOSSEG sampleh+samplep+sampled+modcp,$@,,doscalls,modc.def;
+
+#---- C module STACK -----------------------------------------------------
+
+stack: stack.exe
+
+stackd.inc: stackd.mod
+	$(GENML) stackd;
+
+stackd.asm: stackd.mod
+	$(GENML) stackd;
+
+stack.obj: stack.c comal.h makefile
+	cl -c -AS -Ox stack.c
+
+stacki.obj: stackI.asm stackd.inc modc.inc
+	masm /Mx stacki;
+
+stackd.obj: stackd.asm
+	masm /Mx stackd;
+
+stack.exe: stack.obj stacki.obj stackd.obj modc.obj makefile
+	link /NOE /NOI /DOSSEG stack+stacki+stackd+modc,stack;
+
+#---- OS/2 C-module sample ------------------------------------------------
+
+stackp.obj: stack.c comal.h
+	cl -Dprotect -c -AS -Ox -G2 -Zp -Fo$@ stack.c
+
+stackh.obj: stacki.asm stackd.inc modc.inc
+	masm /Mx /Dprotect stacki,$@;
+
+$(DLL)stack.dll: stackp.obj stackh.obj stackd.obj modcp.obj modc.def \
+makefile
+	link /NOE /NOI /DOSSEG stackh+stackp+stackd+modcp,$@,,doscalls,modc.def;
+
+#---- Other files --------------------------------------------------------
+
+modc.obj: modc.asm
+	masm /Mx modc;
+
+modcp.obj: modc.asm
+	masm /Mx /Dprotect modc,$@;
+
+modc.inc: mscrtdos.inc mscrtos2.inc
+
+#---- User module --------------------------------------------------------
+
+$(MODULE): $(MODULE).exe
+
+$(MODULE)d.inc: $(MODULE)d.mod
+	$(GENML) $(MODULE)d;
+
+$(MODULE)d.asm: $(MODULE)d.mod
+	$(GENML) $(MODULE)d;
+
+$(MODULE).obj: $(MODULE).c comal.h makefile
+	cl -c -AS -Ox $(MODULE).c
+
+$(MODULE)i.obj: $(MODULE)I.asm $(MODULE)d.inc modc.inc
+	masm /Mx $(MODULE)i;
+
+$(MODULE)d.obj: $(MODULE)d.asm
+	masm /Mx $(MODULE)d;
+
+$(MODULE).exe: $(MODULE).obj $(MODULE)i.obj $(MODULE)d.obj modc.obj makefile
+	link /NOE /NOI /DOSSEG $(MODULE)+$(MODULE)i+$(MODULE)d+modc,$(MODULE);
+
+
