@@ -1,0 +1,4 @@
+0    "Modul FMSG - version 1.0 til Comal 3.02"
+1    "Dette er den f›rste meddelelse ..."
+2    "... og dette er den anden"
+

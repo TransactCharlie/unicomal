@@ -1,0 +1,9 @@
+Project
+ Load := 11
+ Save := 12
+ Quit := 13
+Left
+ One character := 21
+ Beginning of line := 22
+Middle
+Right

@@ -1,0 +1,8 @@
+0100 MODULE uservars
+0110   EXPORT num_buttons#, right_mouse_speed#, text_length#
+0120   
+0130   num_buttons#:=372                // max number of buttons available
+0135   right_mouse_speed#:=1            // multiplier for using rmb in sliders
+0136   text_length#:=30                 // length of button labels
+0140   
+0250 ENDMODULE uservars

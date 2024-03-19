@@ -1,0 +1,118 @@
+0001 //
+0020 // This program tests the procedures and functions of the
+0021 // test module.
+0022 //
+0040 USE test
+0050 
+0060 PRINT """Hi, there ! = """,
+0070 hi
+0080 
+0090 PRINT "4*""Mult"" = """,
+0100 out("Mult",4)
+0110 PRINT """"
+0120 
+0130 ch(add#(2,6),8); ch(add#(-3,-100000),-100003)
+0140 
+0150 chs(string$("#",12),12*"#"); chs(string$(""12"",0),"")
+0160 
+0170 TRAP
+0180   zap
+0190 HANDLER
+0200   ch(ERR,57)
+0210 ENDTRAP
+0220 
+0230 IF FALSE THEN
+0240   DIM screen$ OF $2000
+0250   getscreen(screen$)
+0260   PRINT AT 5,5: "Changes"
+0270   TIMER 0
+0280   WHILE TIMER<0.5 DO NULL
+0290   setscreen(screen$)
+0300 ENDIF
+0310 
+0320 testsum
+0330 PROC testsum CLOSED
+0340   IMPORT sum, ch
+0350   DIM a#(6)
+0360   DATA 2,6,-12,678888,-678930,300
+0370   READ a#()
+0380   sum(a#(),s1#)
+0390   FOR i#:=1 TO 6 DO s2#:+a#(i#)
+0400   ch(s1#,s2#)
+0410 ENDPROC testsum
+0420 
+0430 ch(freal,3.14)
+0440 
+0450 ch(fint#,23)
+0460 
+0470 chs(fstr$,"IBM PC")
+0480 
+0490 FOR i#:=1 TO 4 DO testmon(i#)
+0500 PROC testmon(op#) CLOSED
+0510   IMPORT monadic, ch
+0520   DIM x(6), y(6)
+0530   DATA 2.3,PI,4.56677,1,4.5,6
+0540   READ x()
+0550   FOR i#:=1 TO 6 DO
+0560     CASE op# OF
+0570     WHEN 1
+0580       y(i#):=ROUND(x(i#))
+0590     WHEN 2
+0600       y(i#):=SIN(x(i#))
+0610     WHEN 3
+0620       y(i#):=COS(x(i#))
+0630     WHEN 4
+0640       y(i#):=SQR(x(i#))
+0650     ENDCASE
+0660   ENDFOR i#
+0670   monadic(x(),op#)
+0680   FOR i#:=1 TO 6 DO ch(x(i#),y(i#))
+0690 ENDPROC testmon
+0700 
+0710 FOR i#:=1 TO 4 DO testdya(i#)
+0720 PROC testdya(op#) CLOSED
+0730   IMPORT dyadic, ch
+0740   DIM x(6), y(6), z(6)
+0750   DATA 2.3,PI,4.56677,0,4.5,6
+0760   DATA -3.2,PI,23.2,1,2,3
+0770   READ x(), y()
+0780   FOR i#:=1 TO 6 DO
+0790     CASE op# OF
+0800     WHEN 1
+0810       z(i#):=x(i#)+y(i#)
+0820     WHEN 2
+0830       z(i#):=x(i#)-y(i#)
+0840     WHEN 3
+0850       z(i#):=x(i#)*y(i#)
+0860     WHEN 4
+0870       z(i#):=x(i#)/y(i#)
+0880     ENDCASE
+0890   ENDFOR i#
+0900   dyadic(x(),y(),op#)
+0910   FOR i#:=1 TO 6 DO ch(x(i#),z(i#))
+0920 ENDPROC testdya
+0930 
+0940 ch(solve1(1,4,-21),3)
+0950 
+0960 END ""
+0970 
+0980 PROC ch(a,b) CLOSED
+0990   IF a=b THEN
+1000     PRINT "ok ",
+1010   ELSE
+1020     PRINT
+1030     PRINT "Error: ",a," <> ",b," !!!"
+1040     err#:+1
+1050   ENDIF
+1060 ENDPROC ch
+1070 
+1080 PROC chs(a$,b$) CLOSED
+1090   IF a$=b$ THEN
+1100     PRINT "ok ",
+1110   ELSE
+1120     PRINT
+1130     PRINT "Error: ",a$," <> ",b$," !!!"
+1140     err#:+1
+1150   ENDIF
+1160 ENDPROC chs
+1170 

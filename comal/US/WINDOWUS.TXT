@@ -1,0 +1,4 @@
+1    "Illegal window id"
+2    "Illegal window name"
+3    "Row coordinate will exceed screen limits"
+4    "Column coordinate will exceed screen limits"

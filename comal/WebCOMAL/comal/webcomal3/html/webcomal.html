@@ -1,0 +1,175 @@
+<html>
+<head>
+<title>COMAL on the Web - UniCOMAL Internet scripting</title>
+</head>
+<body background="../pics/back.jpg"
+text="#000000" bgcolor="#f0f0f0" link="#3030f0" vlink="#0030a0">
+<center>
+<hr width=33%>
+<h1><img src="../pics/unilogo.gif"></h1>
+<hr width=33%>
+</center>
+<center>
+<h2>WebCOMAL - UniCOMAL on the Web</h2>
+
+<table>
+<tr align=center>
+<td width=100><a href="#servlet">the COMAL<br>Servlet</a></td>
+<td width=100><a href="#components">Software<br>components</a></td>
+<td width=100><a href="#getting">How to get<br>the software</a></td>
+<td width=100><a href="#started">Getting<br>started</a></td>
+<td width=100><a href="#sample">the Sample<br>Programs</a></td>
+<td width=100><a href="#student">Students'<br>COMAL</a></td>
+</tr>
+</table>
+</center>
+
+<P align=justify>This is one of the most exciting COMAL projects we have seen, and we are delighted to be able to offer it free to all UniCOMAL users, thanks to the generosity of the authors, P&D Software of Rotterdam. This project will be updated from time to time as new facilities are developed and added.
+ 
+<P align=justify>Want to write programs to run in a Web Browser, but don't want the slavery of learning Perl or CGI or Java? Well, thanks to Pim and Dick Klingens (P&D Software) in Rotterdam, you can now write your scripts in UniCOMAL and have them executed by your browser!</p>
+
+<a name="servlet">
+<hr>
+<h3>The COMAL Servlet</h3>
+<p align=justify>Pim and Dick have developed a Java "Servlet" which accepts the output from a COMAL program and presents it as a Web page. Along with the servlet comes an UniCOMAL module, called "internet.mod", which provides facilities to allow the COMAL program to exchange data with the browser via the servlet. So you can export HTML commands, tags and so on from COMAL to a browser, and have the browser treat them as if they were HTML documents - in other words, you can run a COMAL program on the Web! Furthermore, you can set up a Web page to call a COMAL program and supply it with parameters so as to control what it does, from a FORM tag on the webpage. Best of all, the software needed is all in the public domain, so if you are already an UniCOMAL user, you can set themselves up to do it at minimal cost.
+<a name="platforms">
+<hr>
+<h3>Suitable hardware platforms</h3>
+<p align=justify>So far, we have tested the WebCOMAL package on two 64 Mbyte PCs with 300MHz Cyrix and 330MHz Celeron processors, and on a 32 Mbyte Intel P166MMX machine. On both the 64 Mbyte machines, the package runs very smoothly and responds very quickly. On the P166 there is a longish delay between clicking on the HTML link and the results from the COMAL program appearing, although the system works just as effectively as on the faster platforms. We don't yet know why the performance suffers so much on the P166, and we haven't yet tested the system on any slower machines.</p>
+
+<a name="components">
+<hr>
+<h3>What software components do you need?</h3>
+<p align=justify>If you are running UniCOMAL V3.11 from inside MS-Windows 95 or 98, it is likely that you have most of the software components already available on your system. Here is a complete list: 
+<ul>
+<li>UniCOMAL V3.xx, Students' or Developers' Editions
+<li>WebCOMAL03, the Servlet package developed by P&D Software
+<li>JDK 1.2.2, the Java Development Kit, available from Sun Microsystems
+<li>a Java-aware Browser, MSIE 4 or higher, or Netscape Communicator
+<li>the TCP/IP networking protocol supplied with MS-Windows 95 or 98
+</ul>
+
+<a name="getting">
+<hr>
+<h3>How do you get hold of the components?</H3>
+<ul>
+<li>UniCOMAL is available from MacharSoft, see the <a href="../unicomal/prices.html">Prices page</a>.
+<li>The WebCOMAL03 pack can be downloaded from the <a href="../downloads/download1.html#webcomal">Downloads</a> page.
+<li>JDK 1.2.2 is available for free download from <a href="http://www.java.sun.com">Sun Microsystems Inc.</a> It is a large package (nearly 20 Mbyte), and takes a long time to download. We are in touch with Sun Microsystems Inc., to seek permission to distribute the package on CD for a small handling charge.
+<li>MS Internet Explorer is widely available. It can be downloaded from the <a href="http://www.microsoft.com">MicroSoft website</a>. A copy is included on our "UniCOMAL from the Start" CD, and we will include a copy on the JDK CD when we get permission to distribute.
+<li>Netscape Communicator can be downloaded from the <a href="http://www.netscape.com">Netscape Website</a>, and has appeared on many computing magazine CDs.
+<li>the TCP/IP network protocol can be installed from the MS-Windows 95 or 98 distribution CDs
+</ul>  
+
+<a name="started">
+<hr>
+<h3>How to get started</h3>
+<p align=justify>First, you need to install the Java Development Kit JDK 1.2.2. The rest of this project assumes a default Java Installation, that is, the Java Runtime Environment (JRE) is installed to the folder <b>C:\Program Files\Javasoft\jre\1.2\</b>. We strongly recommend that you install JDK in this way, because, if your JAVA installation is different, you will have to change all the paths in the WebCOMAL package to point to where the JAVA components are, and this is tricky to do and prone to error.
+
+<p align=justify>Next, you need to unzip the WebCOMAL files to a WebCOMAL folder inside your C:\COMAL or C:\STCOMAL folder on your hard drive. Once again, the setup assumes a default UniCOMAL Developers' installation, so if you are using UniCOMAL Students', you will need to change some details in the startup file. More about that later. Full details on which files need to be copied to which folders on your system, are contained in the README.TXT file in the WebCOMAL03 distribution.
+
+<p align=justify>Third, you need to make sure that the MS-Windows Network components are installed on your PC, and that the TCP/IP network protocol is available. This is done by clicking Start > Settings > Control Panel > Network > Add > Protocol > Microsoft > TCP/IP. You will be asked to insert your MS-Windows distribution media. 
+
+<p align=justify>Next, you need to run the file <b>startcs.bat</b> (from the WebCOMAL folder) so as to activate the Java Servlet which sets up the link between your browser and the UniCOMAL interpreter. After running this file, you should have a DOS window with the Servlet messages displayed in it, like this:
+<center>
+<table border>
+<tr>
+<td>
+<pre>
+
+C>SET JRE=C:\Progra~1\javasoft\jre\1.2
+
+C>SET LIB=C:\Progra~1\javasoft\jre\1.2\lib
+
+C>
+C>SET CLASSPATH=.\java\classes;.\java\lib\jsdk.jar;C:\Progra~1\javasoft\jre\1.2\
+lib\rt.jar;C:\Progra~1\javasoft\jre\1.2\lib\jaws.jar;C:\Progra~1\javasoft\jre\1.
+2\lib\i18n.jar
+
+C>
+C>
+C>C:\Progra~1\javasoft\jre\1.2\bin\java.exe -cp .\java\classes;.\java\lib\jsdk.j
+ar;C:\Progra~1\javasoft\jre\1.2\lib\rt.jar;C:\Progra~1\javasoft\jre\1.2\lib\jaws
+.jar;C:\Progra~1\javasoft\jre\1.2\lib\i18n.jar comal.ServletServer -d .\java\cla
+sses -p 8080
+servletrunner starting with settings:
+  port = 8080
+  backlog = 50
+  max handlers = 100
+  timeout = 5000
+  servlet dir = .\java\classes
+  document dir = .\examples
+  servlet propfile = .\java\classes\servlet.properties
+</pre>
+</td>
+</tr>
+</table>
+</center>
+
+<p align=justify>This Servlet runs, in the background, during the interaction of the Browser with COMAL. Messages relating to the running program, including any error messages, are displayed in this Servlet window.
+
+<p align=justify>Now you are ready to launch your browser by double-clicking on one of the example HTML files supplied with the system, such as WebCOMAL.HTML for example. When launched, each example HTML file contains a link which launches a UniCOMAL program from the browser.</p>
+
+<a name="sample">
+<hr>
+<h3>The sample programs</h3>
+
+<p align=justify>WebCOMAL03 comes with a small collection of sample programs illustrating some of the possibilities of the new system. Each COMAL program is called from an HTML script allowing the program to be launched from the browser. This table shows what they each do:</p>
+<center>
+<table border>
+<tr align=center>
+<td><b>HTML launcher</b></td>
+<td><b>COMAL program</b></td>
+<td><b>Comments</b></td>
+</tr>
+<tr align=center>
+<td>test.html</td>
+<td>samplet.cml</td>
+<td>Displays Servlet Host Details</td>
+</tr>
+<tr align=center>
+<td>webchain.html</td>
+<td>sample.cml
+<br>sample2.cml
+<br>sample3.cml
+<br>sample4.cml
+</td>
+<td>Displays Servlet details
+<br>Demonstrates CHAINing of COMAL programs
+<br>Shows loading of GIF images from COMAL
+<br>Text colour triangle from COMAL
+</td>
+</tr>
+<tr align=center>
+<td>webinput.html</td>
+<td>sample5.cml</td>
+<td>Multiplication Tables Program</td>
+</tr>
+</table>
+</center>
+<a name="student">
+<hr>
+<H3>Path names and Students' COMAL</h3>
+<p>The 'startcs.bat' file starts up the COMAL servlet. To do this it first assigns values for the path names to locate the Java Runtime Environment. Here is an example, for a standard JAVA system:
+<pre>
+  SET JRE=C:\Progra~1\javasoft\jre\1.2
+  SET LIB=%JRE%\lib
+
+  SET CLASSPATH
+  =.\java\classes;.\java\lib\jsdk.jar;%LIB%\rt.jar;%LIB%\jaws.jar;
+  %LIB%\i18n.jar
+
+  rem # Run the Servlet
+  %JRE%\bin\java.exe -cp %CLASSPATH% comal.ServletServer -d   .\java\classes -p 8080
+</pre>
+<p>Once the proper paths to the JAVA side of the system are set up, the HTML files which call the COMAL programs must also point to the correct locations for the COMAL environment. For Students' COMAL, this will normally be <b>C:\STCOMAL\</b>. So, for example, in the <b>test.html</b> file, the proper code for use on a Students' COMAL system should be:
+<b><pre>
+a HREF =http://localhost:8080/servlet/comal.ComalServlet?COMAL_EXE=
+c:\stcomal\comal.exe&COMAL_PRG=c:\stcomal\samplet.cml
+</pre></b>
+
+<br><br><br><br><br>
+<hr>
+<br>Updated 27 March 2000
+</body>
+</html>

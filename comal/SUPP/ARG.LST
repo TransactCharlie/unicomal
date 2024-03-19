@@ -1,0 +1,173 @@
+0010 // LIST "arg"
+0020 //
+0030 //  (C) Copyright UniComal A/S 1989
+0040 //  Version 3.00
+0050 //
+0060 //  Functions for handling command line arguments
+0070 //  and file names.
+0080 //
+0090 //
+0100 //  FUNC arg$(REF line$)
+0110 //     Return the next argument contained in LINE$, and
+0120 //     remove this argument from LINE$. Arguments are
+0130 //     separated by either spaces or kommas. When LINE$
+0140 //     is the empty string, there are no more arguments.
+0150 //
+0160 //     Example:
+0170 //       DIM line$ OF 128
+0180 //       USE system
+0190 //       line$:=startpar$ // Command line argument
+0200 //       WHILE line$<>"" DO PRINT arg$(line$)
+0210 //
+0220 FUNC arg$(REF line$) CLOSED
+0230   DIM argument$ OF LEN(line$)
+0240   p#:=1; l#:=LEN(line$)
+0250   WHILE p#<=l# AND THEN NOT line$(:p#:) IN " ," DO p#:+1
+0260   argument$:=line$(:p#-1)
+0270   WHILE p#<=l# AND THEN line$(:p#:)=" " DO p#:+1
+0280   IF p#<=l# AND THEN line$(:p#:)="," THEN p#:+1
+0290   WHILE p#<=l# AND THEN line$(:p#:)=" " DO p#:+1
+0300   line$:=line$(p#:)
+0310   RETURN argument$
+0320 ENDFUNC arg$
+0330 //
+0340 //  The following functions handle file names of the form:
+0350 //
+0360 //      [d:][path][name][.ext]
+0370 //
+0380 //
+0390 //  FUNC butext$(f$)
+0400 //     F$ is a file name. This function returns everything but the
+0410 //     file name extension. Examples:
+0420 //        butext$("a:\1986\report.doc") = "a:\1986\report"
+0430 //        butext$("a:myfile.")          = "a:myfile"
+0440 //        butext$("..\wp")              = "..\wp"
+0450 //
+0460 FUNC butext$(f$) CLOSED
+0470   FOR i#:=LEN(f$) TO 1 STEP -1 DO 
+0480     IF f$(:i#:) IN "/\:" THEN RETURN f$
+0490     IF f$(:i#:)="." THEN RETURN f$(:i#-1)
+0500   ENDFOR i#
+0510   RETURN f$
+0520 ENDFUNC butext$
+0530 //
+0540 //  FUNC ext$(f$)
+0550 //     This function returns only the extension of the file name.
+0560 //     Examples:
+0570 //        ext$("withext.dat") = ".dat"
+0580 //        ext$("noext.")      = "."
+0590 //        ext$("missext")     = ""
+0600 //
+0610 FUNC ext$(f$) CLOSED
+0620   FOR i#:=LEN(f$) TO 1 STEP -1 DO 
+0630     IF f$(:i#:)="." THEN RETURN f$(i#:)
+0640     IF f$(:i#:) IN "/\:" THEN RETURN ""
+0650   ENDFOR i#
+0660   RETURN ""
+0670 ENDFUNC ext$
+0680 //
+0690 //  FUNC path$(f$)
+0700 //     This function returns the drive and path of the file name.
+0710 //     Examples:
+0720 //        path$("a:\1986\report.dat") = "a:\1986\"
+0730 //        path$("c:myfile")           = "c:"
+0740 //        path$("report.dat")         = ""
+0750 //
+0760 FUNC path$(f$) CLOSED
+0770   FOR i#:=LEN(f$) TO 1 STEP -1 DO 
+0780     IF f$(:i#:) IN "/\:" THEN RETURN f$(:i#)
+0790   ENDFOR i#
+0800   RETURN ""
+0810 ENDFUNC path$
+0820 //
+0830 //  FUNC name$(f$)
+0840 //     This function returns the name part of a file name.
+0850 //     Examples:
+0860 //        name$("a:\1986\report.dat") = "report"
+0870 //        name$("myfile")             = "myfile"
+0880 //        name$("a:\1986\")           = ""
+0890 //
+0900 FUNC name$(f$) CLOSED
+0910   FOR i#:=LEN(f$) TO 1 STEP -1 DO 
+0920     IF f$(:i#:)="." THEN RETURN name$(f$(:i#-1))
+0930     IF f$(:i#:) IN "/\:" THEN RETURN f$(i#+1:)
+0940   ENDFOR i#
+0950   RETURN f$
+0960 ENDFUNC name$
+0970 //
+0980 //  FUNC drive$(f$)
+0990 //     This function returns the drive part of a file name.
+1000 //     Examples:
+1010 //        drive$("a:\1986\report.dat") = "a:"
+1020 //        drive$("\myfile")            = ""
+1030 //
+1040 FUNC drive$(f$) CLOSED
+1050   IF LEN(f$)>=2 AND THEN f$(:2:)=":" THEN RETURN f$(:2)
+1060   RETURN ""
+1070 ENDFUNC drive$
+1080 //
+1090 //  FUNC strip$(x$)
+1100 //     This function returns the string x$, stripped for spaces.
+1110 //     Example:
+1120 //        strip$("  myfile   .dat  ")  = "myfile.dat"
+1130 //
+1140 FUNC strip$(x$) CLOSED
+1150   DIM y$ OF LEN(x$)
+1160   FOR i#:=1 TO LEN(x$) DO 
+1170     IF x$(:i#:)<>" " THEN y$:+x$(:i#:)
+1180   ENDFOR i#
+1190   RETURN y$
+1200 ENDFUNC strip$
+1210 //
+1220 //  FUNC expand$(path$)
+1230 //     This function returns a path with no "." or ".."
+1240 //     Examples:
+1250 //        expand$("a:\.\lars\..\src") = "a:\src"
+1260 //        expand$("file.doc") = "C:\WP\file.doc"
+1270 //
+1280 FUNC expand$(path$) CLOSED
+1290   DIM s$ OF 80, old$ OF 2
+1300   IF LEN(path$)>=2 AND THEN path$(:2:)=":" THEN 
+1310     s$:=path$(:2); beg#:=2
+1320   ELSE
+1330     s$:=UNIT$; beg#:=0
+1340   ENDIF
+1350   IF LEN(path$)>0 AND THEN NOT path$(:beg#+1:) IN "/\" THEN 
+1360     IF beg#=0 THEN 
+1370       s$:+DIR$
+1380     ELSE
+1390       TRAP
+1400         old$:=UNIT$
+1410         UNIT s$
+1420         s$:+DIR$
+1430         UNIT old$
+1440       HANDLER
+1450         UNIT old$
+1460       ENDTRAP
+1470     ENDIF
+1480     IF LEN(s$)<>3 THEN s$:+"\"
+1490   ENDIF
+1500   FOR i#:=beg#+1 TO LEN(path$) DO 
+1510     IF path$(:i#:) IN "/\" THEN 
+1520       IF path$(beg#+1:i#-1)="." THEN 
+1530         s$:=s$(:LEN(s$)-1)
+1540       ELIF path$(beg#+1:i#-1)=".." THEN 
+1550         s$:=s$(:LEN(s$)-3)
+1560         IF LEN(s$)=2 THEN s$:+"\"
+1570         FOR i#:=LEN(s$) TO 3 STEP -1 DO 
+1580           IF s$(:i#:)="\" OR ELSE i#=3 THEN 
+1590             s$:=s$(:i#)
+1600             EXIT
+1610           ENDIF
+1620         ENDFOR i#
+1630       ELSE
+1640         s$:+"\"
+1650       ENDIF
+1660       beg#:=i#
+1670     ELSE
+1680       s$:+path$(:i#:)
+1690     ENDIF
+1700   ENDFOR i#
+1710   RETURN s$
+1720 ENDFUNC expand$
+1730 

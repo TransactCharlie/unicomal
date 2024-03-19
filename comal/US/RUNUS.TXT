@@ -1,0 +1,151 @@
+//
+//----- English messages used by compiled COMAL program. Version 3.11
+//      The out-commented lines are NOT included.
+//
+//      (C) Copyright UniComal A/S 1989-1992.
+//
+
+//
+//----- Runtime messages:
+//
+
+  0        "REPORT error"
+  1        "Argument error"
+  2        "Overflow"
+  3        "Division by zero"
+  4        "Substring error"
+  5        "Value out of range"
+  6        "Step = 0"
+  7        "Illegal bound"
+  8        "Invalid format string"
+  9        "Expression too complex"
+  10       "Index out of range"
+  11       "Invalid file name"
+  12       "Wrong type of DATA constant"
+  13       "Not-a-Number"
+  14       "Program too big"
+  15       "Insufficient memory for swapping"
+  16       "Not COMAL program file"
+  17       "Program made for other COMAL version"
+  18       "Out of space for externals"
+  19       "Nonconformant arrays"
+  20       "Out of heap space"
+  21       "VOID pointer used for reference"
+  22       "Attribute not dimensioned"
+  23       "No matching WHEN"
+  24       "Function value not RETURNed"
+  25       "Variable already dimensioned"
+  26       "No such message number local to this MODULE/STRUC"
+  27       "Too deep nesting of STRUCtured variables"
+  28       "No message file for this MODULE/STRUC"
+  29       "The variable can not be dimensioned here"
+  30       "Out of space for arrays and strings"
+
+//
+//----- SCAN messages.
+//
+
+//47       "Facility not available in entry version"
+  48       "MODULE/STRUC '"
+  50       "The MODULE/STRUC does not contain the expected items"
+  51       "System error"
+  52       "Out of stack space"
+  57       "Facility not implemented"
+  65       "Variable not dimensioned"
+  66       "Too deep nesting of PROCs/FUNCs"
+  67       "Parameter lists differ"
+  68       "No appropriate CLOSED PROC/FUNC in file"
+  77       "Not a MODULE/STRUC file"
+
+//           "Error" is given when message is unknown by COMAL.
+
+  99       "Error"
+
+//
+//----- Runtime I/O messages.
+//
+
+  200      "End of DATA"
+  201      "End of file"
+  202      "File already open"
+  203      "File not open"
+  204      "Not input file"
+  205      "Not output file"
+  206      "Numeric constant expected"
+  207      "Not random access file"
+  208      "Record too long"
+  209      "Too many files open"
+  210      "Read error"
+  211      "Write error"
+
+  213      "Drive not ready"
+  214      "Printer out of paper or not ready"
+
+  216      "File not found"
+  217      "Unknown device"
+  218      "Illegal operation"
+  219      "I/O break"
+  220      "Path not found"
+  221      "Attempt to write on write-protected diskette"
+  222      "Attempted to remove current directory"
+  223      "Not same device"
+  224      "Disk full"
+  225      "File already exists"
+  226      "Out of ressources"
+  227      "Network error"
+  228      "Busy"
+  229      "Access denied"
+  230      "Bad file format"
+
+//
+//----- Various other texts.
+//
+
+// Example: "Stop at 0110"
+// Is given when a STOP statement is met.
+
+   231      ""13""10"Stop at "
+
+// Used as DOS prompt during PASS:
+
+   232      "Enter 'EXIT' to return to the COMAL system"
+
+// When a module refers to unassigned message: "No message"
+
+   233      "No message"
+
+// Example "Breaked"
+// Is given when Ctrl-Break stops the program.
+
+   234      ""13""10"Breaked"13""10""
+
+// Example: "Out of memory in MYPROG.CML, line 1150"
+
+   241      ", line "
+   242      " in "
+
+// Example: "Division by zero in WIN.MOD, line #1150"
+//          "Index out of range in MYPROG.CML, offset 1150"
+// (See also #241)
+
+   266      ", line #"
+   267      ", offset "
+
+// Message "MODULE/STRUC name not found", 48 & 273
+
+   273              "' not found"
+
+// Help text phrases.
+
+   274        " Esc: Exit  Enter: Select"
+   275        "  PgDn"
+   276        "  PgUp  PgDn"
+   277        "  PgUp"
+   278        "   Back"
+   279        "  F1: Index"
+   280        " Help Menu "
+   281        " Esc: Exit help   Enter: Open help   Use  to select item "
+
+//----- End of messages.
+
+

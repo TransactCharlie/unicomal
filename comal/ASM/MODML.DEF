@@ -1,0 +1,16 @@
+;****** Module Definition File for Dynamic Link Library Sample Program *******
+
+LIBRARY INITGLOBAL                      ;Specifies that file being created is
+                                        ;a dynamic link module
+
+PROTMODE                                ;It will run only in protect mode
+
+CODE    PRELOAD EXECUTEREAD
+DATA    MULTIPLE NONSHARED READWRITE PRELOAD
+
+EXPORTS                                 ;Exports from this library - these
+        INIT                            ;are the entry points for the
+                                        ;routines
+
+;******************************************************************************
+

@@ -1,0 +1,13 @@
+0010 //
+0020 // Print the messages belonging to the module fmsg.
+0030 // The messages are either taken from the module's
+0040 // standard messages or from the file
+0050 //   FMSGDK.MSG    -- Danish messages
+0060 //
+0070 // Note: the nationality of the message file is determined
+0080 // by the COUNTRY line in the profile file.
+0090 //
+0100 USE fmsg
+0110 FOR i#:=0 TO 4 DO
+0120   PRINT ERRTEXT$(fmsg.ERR(i#))
+0130 ENDFOR i#

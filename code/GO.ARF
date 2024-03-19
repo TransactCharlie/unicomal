@@ -1,0 +1,12 @@
+/retrace /auto /soft /us /l2 /m go.cml
+unigo.exe
+&c:\comal\modules\graphics.exe+
+&c:\comal\modules\unimouse.exe+
+&c:\comal\modules\gadgets.mod+
+&c:uservars.cml
+c:\comal\runus.msg
+
+28000
+65535
+32000
+

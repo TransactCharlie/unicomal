@@ -1,0 +1,54 @@
+:GV^q§¯ÀÖí,Kcs–·Øú!:\xÅç L{¨ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕãã$EEEEEXXXXXXXXz ×úúúúúúúúú:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::_h|ªÄá,6CCX‚‚–¥¼ßò	F	Z	w	Œ	º	É	Ô	æ	ü	
+6
+C
+S
+S
+S
+S
+S
+S
+S
+[
+_
+_
+_
+_
+_
+_
+_
+_
+_
+_
+_
+_
+_
+_
+_
+_
+_
+_
+_
+_
+_
+_
+_
+_
+h
+q
+q
+q
+q
+q
+q
+
+¢
+¨
+´
+º
+Ä
+Ó
+Ü
+REPORT-FehlerArgument falschšberlaufDivision durch NullSubstring-FehlerWert auáerhalb des erlaubten BereichesSTEP = 0unerlaubte GrenzeFehler im StringformatAusdruck zu kompliziertIndexwert auáerhalb des erlaubten Bereichesungltiger Dateinamefalscher Typ als DATA-Konstantedas ist keine Zahl (NaN)Programm zu groázu wenig Speicherplatz fr swappingdas ist keine COMAL-ProgrammdateiProgramm fr andere COMAL-VersionZu wenig Speicherplatz fr ExterneTabellen sind verschieden dimensioniertdynamischer Speicher vollVOID-Pointer fr Zuweisung benutztAttribut nicht dimensioniertdie entsprechende WHEN-Anweisung fehltFunktionswert wurde nicht zurckgegebenVariable wurde schon dimensioniertFehlernummer in diesem MODULE/STRUC nicht lokal vorhandenstrukturierte Variable zu tief verschachteltkeine Fehlermeldungen fr diese(s) MODULE/STRUCVariable kann hier nicht dimensioniert werdenZu wenig Speicherplatz fr Tabellen & StringsMODULE/STRUC 'MODULE/STRUC beinhaltet nicht die erwarteten ObjekteSystem-FehlerZu wenig Speicherplatz fr Stapelnicht implementiertVariable wurde nicht dimensioniertzu tiefe Verschachtelung von PROC/FUNCParameterlisten sind verschieden - oder es fehlt CLOSEDkeine CLOSED PROC/FUNC in der Dateidas ist keine MODULE/STRUC-Dateinicht n„her definierbarer Fehlerkeine DATA-Anweisungen mehr vorhandenDateiendeDatei schon er”ffnetDatei nicht er”ffnetdas ist keine Eingabedateidas ist keine Ausgabedateinumerische Konstante erwartetdas ist keine DirektzugriffsdateiDatensatz zu langzu viele Dateien er”ffnetLesefehlerSchreibfehlerLaufwerk nicht bereitkein Papier mehr oder Drucker nicht bereitDatei nicht gefundenGer„t unbekanntOperation nicht erlaubtUnterbrechung bei Ein- oder AusgabePfad nicht gefundenDie Diskette ist schreibgeschtztdas aktuelle Verzeichnis kann nicht entfernt werdennicht dasselbe Ger„tDiskette oder Platte ist vollDatei schon vorhandenGrenzen in der DOS-Konfiguration berschrittenNetzwerk-Fehlerbesch„ftigtZugriff verweigertschlechtes Dateiformat
+STOP in Zeile zur Rckkehr von dem shell 'EXIT' eingebenkeine Meldung
+Unterbrochen
+, Zeile  in , Zeile #, Offset ' nicht gefunden Esc: Verlassen  Enter: Ausw„hlen  PgDn  PgUp  PgDn  PgUp   zurck  F1: HauptmenHilfemen Esc: Hilfe verlassen   Enter: Hilfe ”ffnen    zum ausw„hlen  verlassen   Enter: Hilfe ”ffnen    zum ausw„hlen n 

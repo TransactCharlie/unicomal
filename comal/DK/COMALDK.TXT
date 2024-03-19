@@ -1,0 +1,373 @@
+//
+// Danske meddelelser, som benyttes af COMAL-systemet. Version 3.11
+//
+// (C) Copyright UniComal A/S 1989-1992.
+//
+
+//
+//----- Runtime meddelelser:
+//
+
+  0       "REPORT-fejl"
+  1       "Argumentfejl"
+  2       "Overlõb"
+  3       "Division med nul"
+  4       "Deltekst-fejl"
+  5       "Uden for vërdiomrÜde"
+  6       "Step =0"
+  7       "Ulovlige grënser"
+  8       "Fejl i formatstreng"
+  9       "Udtryk for kompliceret"
+  10      "Ugyldig indeksvërdi"
+  11      "Ugyldigt filnavn"
+  12      "DATA-konstant har forkert type"
+  13      "Not-A-Number (NaN)"
+  14      "Program for stort"
+  15      "Utilstrëkkeligt med hukommelse til swapping"
+  16      "Filen er ikke en COMAL-fil"
+  17      "Programmet er til en anden COMAL-version"
+  18      "Utilstrëkkeligt med lager til eksterne"
+  19      "Tabellerne er forskelligt dimensioneret"
+  20      "Ikke mere lagerplads til dynamisk oprettede variable"
+  21      "En VOID-pointer kan ikke pege pÜ en variabel"
+  22      "Attribut ikke dimensioneret"
+  23      "En passende WHEN-vërdi er ikke fundet"
+  24      "RETURN har ikke returneret en funktionsvërdi"
+  25      "Variablen er allerede dimensioneret"
+  26      "Meddelelsesnummeret er ikke lokalt i MODULE/STRUC"
+  27      "For mange STRUC-variabler inden i hinanden"
+  28      "Ingen meddelelsesfil til MODULE/STRUC"
+  29      "Variablen kan ikke dimensioneres her"
+  30      "Ikke mere plads til tabeller og strenge"
+
+//
+//----- SCAN meddelelser.
+//
+
+  44      "Navnekonflikt skal lõses med dot-notation"
+  45      "Linien er ikke i ovenstemmelse med COMAL's syntaks"
+  46      "Variablen har ikke fÜet nogen vërdi"
+//----- 45 reserveret til GOTO/GOSUB
+//----- 46 reserveret til GOTO/GOSUB
+//47      "Facilitet ikke tilstede i entry version"
+  48      "MODULE/STRUC '"
+  49      "Ugyldig brug af PROC-parameter"
+  50      "MODULE/STRUC indeholder ikke det forventede"
+  51      "Systemfejl"
+  52      "Ikke plads til stakken"
+  53      "Forkert dimension i parameteren"
+  54      "Parameteren skal vëre en tabel"
+  55      "For fÜ indices"
+  56      "Kan ikke tildele funktionskald eller lõkketëller"
+  57      "Facilitet ikke indbygget"
+  58      "CON/TRACE er ikke mulig"
+  59      "Programmet er ikke SCANnet"
+  60      "For mange indices"
+  61      "Denne program tekst kan hverken ëndres eller SAVEs"
+  62      "Ikke en procedure"
+  63      "Udefineret procedure eller sëtning"
+  64      "Ulovlig GOTO"
+  65      "Variablen er ikke dimensioneret"
+  66      "For mange PROC/FUNC inden i hinanden"
+  67      "Parameterlisterne er forskellige"
+  68      "Ingen passende CLOSED PROC/FUNC i filen"
+  69      "For fÜ parametre"
+  70      "Forkert indekstype"
+  71      "Parameteren skal vëre en variabel"
+  72      "Forkert parametertype"
+  73      "Parameteren kan ikke vëre en tabel"
+  74      "Hverken en tabel eller en funktion"
+  75      "Ikke en simpel variabel"
+  76      "Udefineret tabel eller funktion"
+  77      "Ikke en MODULE/STRUC-fil"
+  78      "Navnet kan ikke IMPORTeres"
+  79      "For mange parametre"
+  80      "Ingen DATA-sëtninger ved etikette"
+  81      "Hverken en struktureret variabel eller et MODULE"
+  82      "Attribut ikke EXPORTeret"
+  83      "Ikke en STRUC"
+  84      "Ikke en struktureret variabel"
+  85      "Ikke en tabel"
+  86      "Forkert antal indices"
+  87      "Kun tilladt i lukkede strukturer"
+  88      "EXPORT er kun tilladt i MODULE/STRUC"
+  89      "Variablen er af en forkert STRUC-type"
+  90      "Navnet er allerede erklëret"
+  91      "MODULE er ikke tilladt inden i STRUC"
+  92      "Variablen er ikke en kommatalsvariabel"
+  93      "Etikette, MODULE og STRUC kan ikke EXPORTeres"
+  94      "Filen er ikke SCANnet"
+  95      "Ikke en etikette"
+  96      "Ikke et modul, eller ikke fundet"
+  97      "Forkert dimension"
+  98      "Udefineret etikette"
+
+//   "Fejl" gives, nÜr meddelelsen ikke kendes af COMAL.
+
+  99      "Fejl"
+
+//
+//----- Meddelelser, som gives under indtastning af linier.
+//
+
+  101     "Syntaksfejl"
+  102     "Forkert type"
+  103     "Sëtningen er for lang eller for kompliceret"
+  104     "Kun som sëtning, ikke som kommando"
+  105     "Navn allerede defineret"
+  106     "Linienumre er fra 1 til 65534"
+  107     "Linienumre vil overlappe"
+  108     "Afsnit findes ikke"
+  109     "Struktureret sëtning ikke tilladt her"
+  110     "Ikke en sëtning"
+  111     "Linienumre bliver stõrre end 65534"
+  112     "Kildetekst beskyttet!!!"
+  113     "Ugyldigt tegn"
+  114     "Fejl i konstant"
+  115     "Fejl i eksponent"
+  116     "Navnet er for langt"
+  117     "Navnet er ikke tilgëngeligt her"
+
+//----- 190-199 reserveret til Comal system initialiseringsfejl.
+
+//
+//----- Runtime I/O meddelelser.
+//
+
+  200     "Ikke flere DATA-linier"
+  201     "Slut pÜ filen"
+  202     "Fil allerede Übnet"
+  203     "Fil ikke Übnet"
+  204     "Ikke input-fil"
+  205     "Ikke output-fil"
+  206     "Numerisk konstant forventet"
+  207     "Ikke en fil med direkte tilgang"
+  208     "Post for lang"
+  209     "For mange filer Übne"
+  210     "Lësefejl"
+  211     "Skrivefejl"
+
+  213     "Diskettedrevet er ikke klar"
+  214     "Ikke mere papir eller printer ikke klar"
+  216     "Filen blev ikke fundet"
+  217     "Ukendt enhed"
+  218     "Ulovlig operation"
+  219     "I/O-afbrydelse"
+  220     "Stinavn ikke fundet"
+  221     "Forsõg pÜ at skrive pÜ en skrivebeskyttet diskette"
+  222     "Forsõg pÜ at fjerne det aktuelle katalog"
+  223     "Ikke samme enhed"
+  224     "Disken er fuld"
+  225     "Filen eksisterer allerede"
+  226     "En DOS-ressource er udtõmt"
+  227     "Netvërks-fejl"
+  228     "Optaget"
+  229     "Adgang nëgtet"
+  230     "Forkert fil-format"
+
+//
+//----- Forskellig anden tekst.
+//
+
+//   Eksempel: "Stop i linie 0110"
+//   - gives ved en STOP-sëtning.
+
+  231     ""13""10"Stop i linie "
+
+//   Benyttes som DOS-signal under PASS:
+
+  232     "Indtast 'EXIT' for at returnere til COMAL-systemet"
+
+//   Hvis moduler henviser til en ikke-tildelt meddelelse: "Ingen meddelelse"
+
+  233     "Ingen meddelelse"
+
+//   Eksempel: "Afbrudt i linie"
+//   - gives, nÜr Ctrl-Break afbryder programmet.
+
+  234     ""13""10"Afbrudt i linie"13""10""
+
+//   Eksempel: "ENDFOR mangler efter sidste linie er mõdt"
+//   - gives, nÜr der er Übne strukturer ved programmets sidste linie.
+
+  236     " efter sidste linie er mõdt"
+
+//   Eksempel: "For fÜ parametre i"
+//           " min_proc(1,2)"
+//           - gives, hvis fejl SCANnes i en direkte kommando.
+
+  237     " i"
+
+//   SAVE- filnavnet efter NEW. Vises i õverste statuslinie.
+
+  238     "UDENNAVN"
+
+//   NÜr programmet slutter:
+
+  239     ""13""10"Program afsluttet"13""10""13""10""
+
+//   Eksempel: "For mange parametre i linie"
+//             "0110   min_proc(1,2)"
+//           - gives, nÜr fejl SCANnes i en programlinie.
+
+  242     " i linie"
+
+//   Vises i õverste statuslinie: "ProgFri: 32455"
+
+  243     "ProgFri:"
+
+//   TRACE meddelelser:
+
+  244     "  Programmet standsede i"
+  245     "  som blev kaldt i"
+  246     "  inden i"
+  247     "  som blev fremkaldt af en begivenhed i"
+
+//   SIZE meddelelser:
+
+  250     "                  Brugt        Fri"
+  251     "Program    :"
+  252     "Stak       :"
+  253     "Tabel/Str  :"
+  254     "Dyn. var.  :"
+  255     "DOS hukom. :"
+  256     "EMS hukom. :"
+  257     "Swap hukom.:"
+  258     "Swap fil   :"
+
+//   Meddelelser ved SCOPE/INTERFACE.
+
+  265     "  (Programmet er ikke SCANnet)"13""10""13""10""
+
+//   Meddelelser der gives af SCAN og RUN.
+
+  266     "Advarsel: Variabel har ikke fÜet vërdi i"13""10""
+  267     "... og der er flere variable, der ikke har vërdier."13""10""
+  268     "ùnsker du trods alt at RUNne"
+
+//   Meddelelser for advarsel ved BYE etc.
+//
+//     "Overskrive %file% [J/N] ? J"
+//     "Programmet er ëndret. Gem %file% [J/N] ? J"
+
+  269     "Erstatte "
+  270     "Programmet er ëndret. Gem "
+  271     " [J/N] ? J"0""117""0""75""
+  272     "JN"
+
+//   "MODULE/STRUC '"+name+"' ikke fundet"   48 & 273
+
+  273     "' ikke fundet"
+
+//   Hjëlpetekstfraser.
+
+  274     " Esc: Ud  Enter: Vëlg"
+  275     "  PgDn"
+  276     "  PgUp  PgDn"
+  277     "  PgUp"
+  278     "   Tilbage"
+  279     "  F1: Hovedmenu"
+  280     "UniComal hjëlpesystem"
+  281     " Esc: Afslut hjëlp   Enter: èben hjëlp   Udvëlg emne med  "
+
+//----- Tastlinien, der vises under listninger (80 tegn bred):
+
+  290     "Esc: Afslut  Space: Ny side  Enter: Ny linie  Shift: Langsom  Ctrl+Shift: Hurtig"
+
+//
+//----- Udtryk, brugt ved syntaksanalyse og SCAN.
+//           - benyttes ved sammensëtning af meddelelser.
+//
+//      Eksempler:
+//           udtryk forventet, ikke PRINT
+//           ":=" eller "(" mangler
+/            Forkert slags RETURN
+//
+
+  300     "udtryk"
+  301     "variabel"
+  302     "operand"
+  303     "variabelnavn"
+  304     "num. variabelnavn"
+  305     "numerisk udtryk"
+  306     "tekstudtryk"
+  307     "pointer-udtryk"
+  308     """:="" eller ""("""
+  309     ""","" eller "";"""
+  310     """:="" eller "":+"""
+  311     "adgangsmÜde"
+  312     "konstant"
+  313     "linienummer"
+  314     "binër konstant"
+  315     "etikette"
+
+  316     "ELIF/ELSE/ENDIF"
+  317     "ENDIF"
+  318     "ENDPROC"
+  319     "ENDFUNC"
+  320     "ENDFOR"
+  321     "UNTIL"
+  322     "ENDWHILE"
+
+//   Eksempel: "WHEN forventet"
+
+  323     " forventet"
+
+  324     "WHEN/OTHERWISE/ENDCASE"
+  325     "ENDCASE"
+
+//   Eksempel: "," ikke forventet
+
+  326     " ikke forventet"
+
+//   Example: "UNTIL mangler"
+
+  327     " mangler"
+
+//   Eksempel: "," eller ";" forventet, ikke CLOSE
+
+  328     " forventet, ikke "
+
+  329     "reel konstant"
+  330     "heltalskonstant"
+  331     "tekstkonstant"
+  332     "navn"
+  333     "heltalsnavn"
+  334     "tekstnavn"
+  335     "pointer-navn"
+
+//   Eksempel: "ENDLOOP uden LOOP"
+
+  336     " uden "
+
+  337     "ENDLOOP"
+  338     "WHEN"
+  339     "struktur-udtryk"
+
+//   Eksempel: "Forkert slags RETURN"
+
+  340     "Forkert slags "
+
+//   Eksempel: "IMPORT ikke tilladt i styrestrukturer"
+
+  341     " ikke tilladt i styrestrukturer"
+
+//   Eksempel: "CLOSED eller EXTERNAL forventet, ikke tekstkonstant"
+
+  342     "CLOSED eller EXTERNAL"
+  343     "hexadecimal konstant"
+
+  345     "HANDLER"
+  346     "ENDTRAP"
+
+//   Eksempel: "," eller ")" mangler
+
+  349     ""","" eller "")"""
+
+  351     "tabel"
+
+  354     "dele-mÜde"
+
+//----- Ikke flere meddelelser.
+
+

@@ -1,0 +1,13 @@
+//
+// Unimouse system messages for UniComal Version 3.10.
+//
+// (C) Copyright UniComal A/S 1989-1991.
+//
+   0  "MOUSE driver not installed"
+   1  "No mouse installed"
+   2  "Function not supported by driver"
+   3  "String too short"
+   4  "Illegal shape string"
+   5  "Incompatible screen modes"
+   6  "Unknown error"
+

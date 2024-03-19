@@ -1,0 +1,220 @@
+           THIS FILE CONTAINS A LIST OF DOCUMENTATION ADDITIONS TO
+
+          T H E   U N I C O M A L   R E F E R E N C E   M A N U A L
+
+      ****************************************************************
+
+                             The Timers Module,
+                     Event Handling with multiple timers
+
+      ****************************************************************
+
+The module Timers, located in the file: TIMERS.EXE on the distribution
+diskette, is an enhancement of the UniTimer module. It is able to control any
+number of simultaneously active timers, each able to generate an event with
+some interval. Practical programming has shown that a program often need to
+have more than one timer running at the same time. This module was developed
+to meet this need.
+
+Events are incidents external to the UniComal system which influence the
+execution of the Comal program. In the Timers module, the timer clock in the
+computer is used to generate events.
+
+In order to use this module, copy the TIMERS.EXE file into the directory
+with your other UniComal modules, and include the following statement in your
+program:
+
+  USE timers
+
+
+The module contains 11 procedures, described in the following:
+
+  FUNC opentimer#(PROC action,priority#,interval,queue#)
+  PROC timeraction(timer#,PROC action)
+  PROC timerpriority(timer#,priority#)
+  PROC timerinterval(timer#,interval)
+  PROC timerqueue(timer#,queue#)
+  PROC starttimer(timer#)
+  PROC stoptimer(timer#)
+  PROC closetimer(timer#)
+  PROC closetimers
+  PROC disabletimers(priority#)
+  PROC enabletimers(priority#)
+
+See the programs TIMER2.CML and TIMER3.CML for examples of using the
+procedures and functions above.
+
+
+FUNC opentimer#(PROC action,priority#,interval,queue#)
+
+  This function opens a timer, specifying an event handler procedure to call
+  with an interval. The procedure is given a priority, signifying that only
+  event handlers with a higher priority can interrupt this event handler
+  procedure during its execution. A queue of waiting events of for this
+  handler can be specified, so that you don't lose events in case an already
+  initiated event has not yet been handled.
+
+  As a result of the function, a number signifying a handle, is returned. This
+  handle is used by the other procedures when referring to a specific opened
+  timer. The opened timer can be closed again by the procedures Closetimer and
+  Closetimers.
+
+  The parameters has the following meaning:
+
+  action         is a the procedure to be called when after each interval as
+                 specified by the interval parameter has expired. The
+                 procedure must be closed and have no parameters. It must be
+                 placed at the outermost level of the program text or at the
+                 same level as exported procedures in a module.
+
+                 The event handling procedure can be changed dynamically by
+                 calling the procedure timeraction.
+
+  priority#      is an integer in the range 1 to 15. Only events with a
+                 priority higher than priority# will be able to interrupt the
+                 handling of the timer interrupt. If other events with the
+                 same priority happens, they will be executed in a first-in
+                 first-handled fashion. This case will for example happen with
+                 the timer interrupt when a timer event handling has not been
+                 finished before a new timer event happens.
+
+                 The priority can be changed dynamically with the procedure
+                 timerpriority.
+
+  interval       the interval between timer events to <interval> seconds.
+                 Note, the resolution of the interval is defined by the clock
+                 rate, 18.2 Hz. Setting <interval> to zero stops the
+                 generation of events.
+
+                 In order to get an event rate of 18.2 Hz, a timer interval
+                 less than 0.0274 seconds must be specified.
+
+                 If an interval <= 0 is chosen, the timer will sleep until it
+                 is awaked the Timerinterval procedure.
+
+  queue          A timer can control a queue of waiting timer events. In some
+                 cases it is practical to be able to ignore events while
+                 processing time consuming events. The queue parameter tells
+                 how long the queue of events can be. It is a number from 0
+                 to 255. If you don't want to have a queue of waiting timer
+                 events, set the timer queue length to 1.
+
+                 If queue is set to 0, the timer will be unable to generate
+                 events until the procedure Timerqueue has been called with
+                 a non-zero queue length.
+
+                 If you want to another queue length later on, it can be
+                 changed by the timerqueue procedure.
+
+EXAMPLES:
+
+  fast_timer#:=opentimer#(every_tenth,8,0.1,1)
+  clock#:=opentimer#(update_clock,1,1,1)
+  info#:=opentimer#(collect_information,15,0.5,10)
+
+
+
+The program example shows a procedure printing the time each second.
+
+  USE timers
+  clock#:=opentimer(update_clock,1,1,1)
+  PRINT "Hit any key to stop..."
+  PAUSE
+  closetimer(clock#)
+  PROC update_clock CLOSED
+    PRINT AT 1,70: TIME$,
+  ENDPROC update_clock
+
+
+PROC timeraction(timer#,PROC action)
+
+  This procedure defines a new event handling procedure for an already opened
+  timer. This procedure will be called next time an event is generated by the
+  timer.
+
+Example:
+
+  USE timers
+  a#:=opentimer#(first,8,1,1)
+  PRINT "Hit any key to stop..."
+  PAUSE
+  closetimer(a#)
+  PROC first CLOSED
+    IMPORT a#, timeraction, second
+    PRINT "Called for the very first time..."
+    timeraction(second) // Use second for the following events
+  ENDPROC first
+  PROC second CLOSED
+    PRINT "This is the second or later time the timer has issued an event"
+  ENDPROC second
+    
+
+PROC timerpriority(timer#,priority#)
+
+  If the priority of a timer needs to be changed after it has been opened,
+  this can be done by the timerpriority procedure. The priority parameter is
+  as described for opentimer#. It can be useful in cases where more than one
+  timer are active at the same time. In some cases one might want to increase
+  the priority of a timer so that is takes precedence over other timers, or
+  to lower it because other things are more important than this one.
+
+
+PROC timerinterval(timer#,interval)
+
+  The interval between events can be changed dynamically after a timer has
+  been opened. The interval parameter is defined as described under
+  opentimer#. Setting the interval to zero stops the generation of events.
+
+
+PROC timerqueue(timer#,queue#)
+
+  The timer queue length can be changed to some other value than the one
+  specified when the timer was opened. In some cases it is practical to be
+  able to ignore events while processing time consuming events. Length tells
+  how long the queue of events can be. It is a number from 0 to 255. If you
+  don't want to have a queue of waiting timer events, set the timer queue
+  length to 1.
+
+
+PROC starttimer(timer#)
+
+  Start a timer that was stopped by the stoptimer procedure.
+
+
+PROC stoptimer(timer#)
+
+  Stop a timer which was created by opentimer#. In some cases it is desirable
+  to be able to stop a timer for a while and then starting it again. It can
+  be started again with the starttimer procedure. Unhandled events issued by
+  the timer are NOT stopped.
+
+
+PROC closetimer(timer#)
+
+  Close the timer opened with opentimer#. With this procedure a specific timer
+  can be closed after it has served its purpose. After this time the handle
+  is invalid.
+
+  Note: when a queue length greater than one 1 was specified, it can happen
+  that there are unhandled events waiting to be executed. They are not removed
+  from the event handling queue. You will have to handle them yourself.
+
+
+PROC closetimers
+
+  All open timer can be closed at once by this procedure. Unhandled events in
+  event handling queue will still have to be handled.
+
+
+PROC disabletimers(priority#)
+
+  Disable all timers with priority lower then or equal to priority#.
+
+
+PROC enabletimers(priority#)
+
+  Enable all timers with priority lower then or equal to priority#. 
+
+
+      ****************************************************************
+      End of UniComal Ver. 3.10 TIMERS.EXE doc. file            910404

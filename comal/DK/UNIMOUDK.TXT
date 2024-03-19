@@ -1,0 +1,13 @@
+//
+// Danish Unimouse system messages for UniComal Version 3.10.
+//
+// (C) Copyright UniComal A/S 1989-1991.
+//
+   0  "Muse driver ikke installeret"
+   1  "Ingen mus installeret"
+   2  "Funktionen underst›ttes ikke af Muse driver"
+   3  "Streng for kort"
+   4  "Forkert figurstreng"
+   5  "Forkert sk‘rmtilstand"
+   6  "Ukendt fejl"
+

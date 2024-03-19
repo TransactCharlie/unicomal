@@ -1,0 +1,32 @@
+<html>
+
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
+<title> WebChain HTML </title>
+</head>
+
+<body>
+
+<h2><small>WebCOMAL: HTML demo of COMAL's CHAIN command</small></h2>
+
+<form action="http://localhost:8080/servlet/comal.ComalServlet" method="POST">
+  <input type="hidden" name="COMAL_EXE" value="c:\comal\comal.exe"><input type="hidden"
+  name="COMAL_PRG" value="c:\comal\sample2.cml"><pre>
+Give a COMAL program name: 
+
+  <input
+name="name" size="25"> (full path; eg. c:\comal\sample2.cml)
+<strong>
+Do not</strong> execute c:\comal\sample2.cml!!</pre>
+  <p>Press the Submit button to launch the ComalServlet:<br>
+  <br>
+  <input type="submit" value="Submit"> <input type="reset" value="Reset"> </p>
+</form>
+
+<p>OR</p>
+
+<p>Try the GET method by clicking <strong><a
+HREF="http://localhost:8080/servlet/comal.ComalServlet?COMAL_EXE=c:\comal\comal.exe&amp;COMAL_PRG=c:\comal\sample.cml">here</a></strong>
+(executes: c:\comal\sample.cml)</p>
+</body>
+</html>

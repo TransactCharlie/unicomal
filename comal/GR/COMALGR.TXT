@@ -1,0 +1,371 @@
+//
+// German messages used by interactive COMAL system. Version 3.11
+//
+// (C) Copyright UniComal A/S 1989-1992.
+//
+
+//
+//----- Runtime messages:
+//
+
+   0      "REPORT-Fehler"
+   1      "Argument falsch"
+   2      "öberlauf"
+   3      "Division durch Null"
+   4      "Substring-Fehler"
+   5      "Wert au·erhalb des erlaubten Bereiches"
+   6      "STEP =0"
+   7      "unerlaubte Grenze"
+   8      "Fehler im Stringformat"
+   9      "Ausdruck zu kompliziert"
+   10     "Indexwert au·erhalb des erlaubten Bereiches"
+   11     "ungÅltiger Dateiname"
+   12     "falscher Typ als DATA-Konstante"
+   13     "das ist keine Zahl (NaN)"
+   14     "Programm zu gro·"
+   15     "zu wenig Speicherplatz fÅr swapping"
+   16     "das ist keine COMAL-Programmdatei"
+   17     "Programm fÅr andere COMAL-Version"
+   18     "zu wenig Speicherplatz fÅr Externe"
+   19     "Tabellen sind verschieden dimensioniert"
+   20     "dynamischer Speicher voll"
+   21     "VOID-Pointer fÅr Zuweisung benutzt"
+   22     "Attribut nicht dimensioniert"
+   23     "die entsprechende WHEN-Anweisung fehlt"
+   24     "Funktionswert wurde nicht zurÅckgegeben"
+   25     "Variable wurde schon dimensioniert"
+   26     "Fehlernummer in diesem MODULE/STRUC nicht lokal vorhanden"
+   27     "strukturierte Variable zu tief verschachtelt"
+   28     "keine Fehlermeldungen fÅr diese(s) MODULE/STRUC"
+   29     "Variable kann hier nicht dimensioniert werden"
+   30     "zu wenig Speicherplatz fÅr Tabellen & Strings"
+
+//
+//----- SCAN-Meldungen.
+//
+
+   44     "Namenskonflikt. Kann durch Namengebung mit punkten gelîst werden"
+   45     "UnverstÑndliche Zeile"
+   46     "Die Variable hat keinen Wert"
+//----- 45 reserviert fÅr GOTO/GOSUB
+//----- 46 reserviert fÅr GOTO/GOSUB
+// 47     "Diese Mîglichkeit gibt es nicht in der Entry-Version"
+   48     "MODULE/STRUC '"
+   49     "Prozedur-Parameter dÅrfen so nicht benutzt werden"
+   50     "MODULE/STRUC beinhaltet nicht die erwarteten Objekte"
+   51     "System-Fehler"
+   52     "zu wenig Speicherplatz fÅr Stapel"
+   53     "falsche Dimension beim Parameter"
+   54     "Parameter mu· eine Tabelle (array) sein"
+   55     "zu wenige Indizes"
+   56     "kann Funktionsaufruf oder SchleifenzÑhler nicht zuweisen"
+   57     "nicht implementiert"
+   58     "CON/TRACE ist nicht mîglich"
+   59     "Programm wurde geÑndert oder ist noch nicht geSCANnt
+   60     "zu viele Indizes"
+   61     "Dieser Programmtext kann weder modifiziert noch geSAVEd werden"
+   62     "keine Prozedur"
+   63     "unbekannter Befehl oder Prozedur"
+   64     "nicht erlaubtes GOTO"
+   65     "Variable wurde nicht dimensioniert"
+   66     "zu tiefe Verschachtelung von PROC/FUNC"
+   67     "Parameterlisten sind verschieden - oder es fehlt CLOSED"
+   68     "keine CLOSED PROC/FUNC in der Datei"
+   69     "zu wenige Parameter"
+   70     "Index ist von falschem Typ"
+   71     "Parameter mu· eine Variable sein"
+   72     "Parameter ist von falschem Typ"
+   73     "Parameter darf keine Tabelle sein"
+   74     "weder Tabelle noch Funktion"
+   75     "keine einfache Variable"
+   76     "unbekannte Tabelle oder Funktion"
+   77     "keine MODULE/STRUC-Datei"
+   78     "Name kann nicht IMPORTiert werden"
+   79     "zu viele Parameter"
+   80     "keine DATA-Anweisungen bei der Marke"
+   81     "weder strukturierte Variable noch ein Modul"
+   82     "Attribut wurde nicht exportiert"
+   83     "das ist keine STRUCtur"
+   84     "das ist keine strukturierte Variable"
+   85     "das ist keine Tabelle"
+   86     "falsche Anzahl Indizes"
+   87     "nur in geschlossenen Strukturen erlaubt"
+   88     "EXPORT nur in MODULE/STRUC erlaubt"
+   89     "Variable ist von falschen STRUC-Typ"
+   90     "Name wurde bereits deklariert"
+   91     "MODULE innerhalb von STRUC nicht erlaubt"
+   92     "Variable ist nicht vom Typ REAL"
+   93     "Marken, MODULE oder STRUCs kînnen nicht EXPORTiert werden"
+   94     "Programm-Datei wurde nicht geSCANt"
+   95     "das ist keine Marke"
+   96     "kein Modul, oder nicht gefunden"
+   97     "falsche Dimension"
+   98     "unbekannte Marke"
+
+// "Error" is given when message is unknown by COMAL.
+
+   99     "nicht nÑher definierbarer Fehler"
+
+//
+//----- Fehler bei Zeileneingabe.
+//
+
+   101    "Syntaxfehler"
+   102    "falscher Typ"
+   103    "Anweisung zu lang oder zu kompliziert"
+   104    "als Kommando nicht erlaubt - nur als Anweisung"
+   105    "Name bereits definiert"
+   106    "nur Zeilennummern 1...65534 erlaubt"
+   107    "im Zielbereich befinden sich Programmzeilen"
+   108    "Block nicht gefunden"
+   109    "strukturierte Anweisung hier nicht erlaubt"
+   110    "das ist keine Anweisung"
+   111    "Zeilennummern wÅrden grî·er als 65534 werden"
+   112    "das Programm ist geschÅtzt !"
+   113    "Zeichen nicht erlaubt"
+   114    "Konstante fehlerhaft"
+   115    "Exponent fehlerhaft"
+   116    "der Name ist zu lang"
+   117    "der Name ist hier nicht verfÅgbar"
+
+//----- 190-199 reserved for Comal system initialisation errors.
+
+//
+//----- Ein - Ausgabefehler.
+//
+
+   200    "keine DATA-Anweisungen mehr vorhanden"
+   201    "Dateiende"
+   202    "Datei schon erîffnet"
+   203    "Datei nicht erîffnet"
+   204    "das ist keine Eingabedatei"
+   205    "das ist keine Ausgabedatei"
+   206    "numerische Konstante erwartet"
+   207    "das ist keine Direktzugriffsdatei"
+   208    "Datensatz zu lang"
+   209    "zu viele Dateien erîffnet"
+   210    "Lesefehler"
+   211    "Schreibfehler"
+//----- 212 reserviert ---------//
+   213    "Laufwerk nicht bereit"
+   214    "kein Papier mehr oder Drucker nicht bereit"
+//----- no message 215 ---------//
+   216    "Datei nicht gefunden"
+   217    "GerÑt unbekannt"
+   218    "Operation nicht erlaubt"
+   219    "Unterbrechung bei Ein- oder Ausgabe"
+   220    "Pfad nicht gefunden"
+   221    "Die Diskette ist schreibgeschÅtzt"
+   222    "das aktuelle Verzeichnis kann nicht entfernt werden"
+   223    "nicht dasselbe GerÑt"
+   224    "Diskette oder Platte ist voll"
+   225    "Datei schon vorhanden"
+   226    "Grenzen in der DOS-Konfiguration Åberschritten"
+   227    "Netzwerk-Fehler"
+   228    "beschÑftigt"
+   229    "Zugriff verweigert"
+   230    "schlechtes Dateiformat"
+
+//
+//----- Various other texts.
+//
+
+// Example: "Stop at 0110"
+// Is given when a STOP statement is met.
+
+   231    ""13""10"STOP in Zeile "
+
+// Used as DOS prompt during PASS:
+
+   232    "zur RÅckkehr in das COMAL-System 'EXIT' eingeben"
+
+// When a module refers to unassigned message: "No message"
+
+   233    "keine Meldung"
+
+// Example "Break at 0010"
+// Is given when Ctrl-Break stops the program.
+
+   234    ""13""10"Unterbrochen in Zeile"13""10""
+
+// Example: "ENDFOR missing after last line was reached"
+// Is given when there are open structures at program end.
+
+   236    " nachdem die letzte Zeile erreicht wurde"
+
+// Example: "Too few parameters in"
+//        "  my_proc(1,2)"
+// Is given when SCANning error in direct command.
+
+   237    " in"
+
+// The name of the file to SAVE to after NEW. Shown in top line.
+
+   238    "KEINNAME"
+
+// When the program ENDs:
+
+   239    ""13""10"Fertig"13""10""
+
+// Example: "Too many parameters in line"
+//        "0110   my_proc(1,2)"
+// Is given when SCANning error in program line.
+
+   242    " in Zeile"
+
+// Shown in top line: "ProgFree: 32455"
+
+   243    "ProgFrei:"
+
+//----- TRACE Meldungen:
+
+   244    "  das Programm stoppte in"
+   245    "  was aufgerufen wurde in"
+   246    "  innerhalb von"
+   247    "  wurde aufgerufen durch ein Ereignis in"
+
+//----- SIZE texts:
+
+   250    "                       benutzt       frei"
+   251    "Programm          :"
+   252    "Stapel            :"
+   253    "Tabellen & Strings:"
+   254    "Dynam. Variable   :"
+   255    "DOS Speicher      :"
+   256    "EMS Speicher      :"
+   257    "Swap Speicher     :"
+   258    "Swap Datei        :"
+
+//----- Message given by SCOPE/INTERFACE.
+
+   265    "  (Das Programm wurde nicht geSCANnt)"13""10""
+
+   266    "Warnung: Die Variable hat keinen Wert in"13""10""
+   267    "... und es gibt mehr Variablen ohne Werte."13""10""
+   268    "WÅnschen Sie immer noch RUN"
+
+//----- Messages given for SAVE warning.
+//
+//      "Ersetzen: %file% [J/N] ? J"
+//      "Program wurde geÑndert. Save %file% [J/N] ? J"
+//
+   269       "Ersetzen: "
+   270       "Programm wurde geÑndert. Save "
+   271       " [J/N] ? J"0""117""0""75""
+   272       "JN"
+
+//      Message "MODULE/STRUC name not found", 48 & 273
+
+   273       "' nicht gefunden"
+
+//----- Phrasen fÅr Hilfesystem.
+
+   274       " Esc: Verlassen  Enter: AuswÑhlen"
+   275       "  PgDn"
+   276       "  PgUp  PgDn"
+   277       "  PgUp"
+   278       "   zurÅck"
+   279       "  F1: HauptmenÅ"
+   280       "UniComal Hilfesystem"
+   281       " Esc: Hilfe verlassen   Enter: Hilfe îffnen    zum auswÑhlen "
+
+//----- Key line shown during listings (80 characters wide):
+
+   290       " Esc: Abbrechen  Space: Seite  Enter: Zeile  Shift: Langsam  Ctrl+Shift: Scnell "
+
+//
+//----- Phrasen fÅr SyntaxÅberprÅfung und SCAN.
+// Werden bei der Erstellung von Mitteilungen benutzt.
+//
+// Beispiel:
+// Ausdruck erwartet, nicht PRINT
+// ":=" or "(" fehlend
+// falscher Typ von RETURN
+//
+
+   300    "Ausdruck"
+   301    "Variable"
+   302    "Operand"
+   303    "Variablenname"
+   304    "num. Variablenname"
+   305    "numerischer Ausdruck"
+   306    "Stringausdruck"
+   307    "Pointerausdruck"
+   308    """:="" oder ""("""
+   309    ""","" oder "";"""
+   310    """:="" oder "":+"""
+   311    "Modus"
+   312    "Konstante"
+   313    "Zeilennummer"
+   314    "duale Konstante"
+   315    "Marke"
+
+   316    "ELIF/ELSE/ENDIF"
+   317    "ENDIF"
+   318    "ENDPROC"
+   319    "ENDFUNC"
+   320    "ENDFOR"
+   321    "UNTIL"
+   322    "ENDWHILE"
+
+// Example: "WHEN expected"
+
+   323    " erwartet"
+
+   324    "WHEN/OTHERWISE/ENDCASE"
+   325    "ENDCASE"
+
+// Example: "," not expected
+
+   326    " nicht erwartet"
+
+// Example:  "UNTIL missing"
+
+   327    " fehlt"
+
+// Example: "," or ";" expected, not CLOSE
+
+   328    " erwartet, nicht "
+
+   329    "Gleitkomma-Konstante"
+   330    "Ganzzahl-Konstante"
+   331    "String-Konstante"
+   332    "Name"
+   333    "Ganzzahl-Name"
+   334    "String-Name"
+   335    "Pointer-Name"
+
+// Example: "ENDLOOP without LOOP"
+
+   336    " ohne "
+
+   337    "ENDLOOP"
+   338    "WHEN"
+   339    "Struktur-Ausdruck"
+
+// Example: "Wrong type of RETURN"
+
+   340    "Falscher Typ von "
+
+// Example: "IMPORT not allowed in control structures"
+
+   341    " in Kontrollstrukturen nicht erlaubt"
+
+// Example: "CLOSED or EXTERNAL expected, not string constant"
+
+   342    "CLOSED oder EXTERNAL"
+   343    "Hexidezimal-Konstante"
+
+   345    "HANDLER"
+   346    "ENDTRAP"
+
+// Example: "," or ")" missing
+
+   349    ""","" oder "")"""
+
+   351    "Tabelle"
+
+   354    "Mehrbenutzer-Modus"
+
+//----- End of messages.
+

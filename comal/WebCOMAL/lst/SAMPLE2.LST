@@ -1,0 +1,32 @@
+0010 USE internet
+0020 // (C) P&D Software 2000
+0030 DIM u$ OF 255, p$ OF 255
+0040 
+0050 // first get some Client information
+0060 //
+0070 u$:=get_header$("user-agent")
+0080 
+0090 // get INPUT parameter from WebPage
+0100 //
+0110 p$:=get_parameter$("name")
+0120 
+0130 PRINT "<HTML>"
+0140 PRINT "<H2>Example of COMAL's CHAIN command</H2>"
+0150 
+0160 PRINT "Used browser: ",u$,"<BR>"
+0170 
+0180 IF p$="" THEN
+0190   PRINT "No such parameter <BR>"
+0200 ELSE
+0210   PRINT "The parameter in the INPUT field on the webpage was: ",p$,"<BR>"
+0220   PRINT "The program now CHAINs to ",p$,"<BR>"
+0230   PRINT "Output of that program follows after the next line... <BR>"
+0240   
+0250   TRAP
+0260     CHAIN p$
+0270   HANDLER
+0280     PRINT "File ",p$," not found <BR>"
+0290   ENDTRAP
+0300 ENDIF
+0310 
+0320 PRINT "</HTML>"

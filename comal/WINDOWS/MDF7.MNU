@@ -1,0 +1,15 @@
+White/Black                                               
+ [0,0,4]                                                  
+ Black/Red                                                
+ [7,0,4]                                                  
+ White/Read                                               
+ [7,1,4]                                                  
+ Blinking                                                 
+Window                                                    
+[15,0,1]                                                  
+ ( Window colours )                                       
+ (   are changed)                                         
+ B'White/Blue                                             
+[7,0,0]                                                   
+Panel                                                     
+

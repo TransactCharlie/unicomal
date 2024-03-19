@@ -1,0 +1,1173 @@
+00010 // LIST "MENUS"
+00020 //---------------------------------------------------------------------//
+00030 //                                                                     //
+00040 // U    U             CCCC                          l   (C) Copyright  //
+00050 // U    U            C                              l    UniComal A/S  //
+00060 // U    U  nnnn   i  C       ooo   mmmmmm    aaaa   l        1990      //
+00070 // U    U  n   n  i  C      o   o  m  m  m  a   a   l                  //
+00080 // U    U  n   n  i  C      o   o  m  m  m  a   a   l    UniComal 3.0  //
+00090 //  UUUU   n   n  i   CCCC   ooo   m  m  m   aaaaa   ll  ============  //
+00100 //                                                                     //
+00110 //---------------------------------------------------------------------//
+00120 //
+00130 //  File         : menus.mod
+00140 //  Main         :
+00150 //  Version      : 1.00
+00160 //  programmer   : fddk
+00170 //  date         : 16/4-1990
+00180 //  last changed :[                      ]
+00190 //  requirements : UniComal Version 3.02 or higher
+00200 //               : WINDOWS module
+00210 //
+00220 //  description  : Menus module to work with menus
+00230 //
+00240 //  revisions    :
+00250 //
+00260 //---------------------------------------------------------------------//
+00270 
+00280 MODULE menus
+00290   
+00300   EXPORT read_menu_file#, read_menu_array#
+00310   EXPORT read_menu#, read_menu_window#
+00320   EXPORT discard_menu
+00330   EXPORT menu_item_select, menu_item_color
+00340   EXPORT menu_item_text, menu_item_mark
+00350   EXPORT menu_window_color, menu_window_pos
+00360   EXPORT menu_window_size, menu_window_frame
+00370   
+00380   USE system
+00390   USE windows
+00400   
+00410   DIM first@ OF menu      // Pointer to first created menu structure
+00420   
+00430   DIM unselect$(0:7) OF 3 // Static array of attributes when item
+00440   DIM attrconv$ OF 256   // Attribute conversion table
+00450   DIM col$ OF 16
+00460   
+00470   READ unselect$()
+00480   col$:=""0""0""7""7""0""0""0""7""0""0""15""15""0""0""0""15""
+00490   
+00500   IF equipment# BITAND %110000=%110000 THEN
+00510     READ unselect$()
+00520     FOR bl#:=0 TO 128 STEP 128 DO
+00530       FOR bc#:=1 TO 8 DO
+00540         b#:=ORD(col$(:bc#:))
+00550         FOR fc#:=1 TO 16 DO
+00560           f#:=ORD(col$(:fc#:))
+00570           attrconv$:+CHR$(bl#+f#+b#)
+00580         ENDFOR fc#
+00590       ENDFOR bc#
+00600     ENDFOR bl#
+00610   ELSE
+00620     FOR i#:=0 TO 255 DO attrconv$:+CHR$(i#)
+00630   ENDIF
+00640   
+00650   // Attribute array
+00660   DATA ""8""8""8"",""24""24""24"","###"
+00670   DATA "222","EEE","VVV","eee","sss"
+00680   DATA ""7""7""7"",""7""7""7"","ppp","ppp"
+00690   DATA ""7""7""7"",""7""7""7"",""7""7""7"","ppp"
+00700   
+00710   STRUC menu
+00720     DIM prev@ OF menu     // Previous created menu
+00730     DIM next@ OF menu     // Next menu
+00740     DIM id#               // Id for this menu
+00750     DIM panel@ OF window  // Panel window pointer
+00760     DIM win@ OF window    // Active window pointer
+00770   ENDSTRUC menu
+00780   
+00790   STRUC window
+00800     DIM id#               // Window handle (id#)
+00810     DIM row#, col#        // Position of menu window
+00820     DIM height#, width#   // Size of menu window
+00830     DIM frame#            // Frame type (from windows module)
+00840     DIM fc#, bc#          // Foreground and background color
+00850     DIM active@ OF item   // Pointer to active item
+00860   ENDSTRUC window
+00870   
+00880   STRUC item
+00890     DIM prev@ OF item     // Previous item in menu
+00900     DIM next@ OF item     // Next item
+00910     DIM row#, col#        // Position of menu item (within window)
+00920     DIM attr$ OF 1        // Colour
+00930     DIM mark$ OF 1        // Check-mark character
+00940     DIM text$ OF 40       // Item text
+00950     DIM select#           // Selectable
+00960     DIM retval#           // Return value
+00970     DIM father@ OF window // Pointer to window who owns this item
+00980     DIM son@ OF window    // Pointer to window for another submenu
+00990   ENDSTRUC item
+01000   
+01010   //
+01020   // Read file containing menu description
+01030   //
+01040   //   filename$     Name of menu file
+01050   //   row#          Panel row
+01060   //   col#          Panel coloumn
+01070   //   fc#           Foreground color
+01080   //   bc#           Background color
+01090   //
+01100   // The looks of a menu file is described in the manual
+01110   //
+01120   FUNC read_menu_file#(filename$,row#,col#,fc#,bc#) CLOSED
+01130     
+01140     IMPORT read_menu_array#       // Read menu description from array
+01150     
+01160     file#:=FREEFILE
+01170     OPEN FILE file#,filename$,READ // Open menu file
+01180     lines#:=0
+01190     WHILE NOT EOF(file#) DO       // Find the number of lines in the file
+01200       lines#:+1
+01210       INPUT FILE file#: x$
+01220     ENDWHILE
+01230     CLOSE FILE file#              // Close menu file
+01240     DIM m$(lines#) OF 80          // Dimensionate an array for menu descr
+01250     OPEN FILE file#,filename$,READ // Open menu file again
+01260     FOR i#:=1 TO lines# DO        // Read menu description into array
+01270       INPUT FILE file#: m$(i#)
+01280     ENDFOR i#
+01290     CLOSE FILE file#              // Close menu file
+01300     // Convert array to menu structure
+01310     RETURN read_menu_array#(m$(),row#,col#,fc#,bc#)
+01320   ENDFUNC read_menu_file#
+01330   
+01340   //
+01350   // Read file containing menu description
+01360   //
+01370   //   s$()          Text array containing menu definition
+01380   //   row#          Panel row
+01390   //   col#          Panel coloumn
+01400   //   fc#           Foreground color
+01410   //   bc#           Background color
+01420   //
+01430   // The looks of a menu file is described in the manual
+01440   //
+01450   FUNC read_menu_array#(REF s$(),row#,col#,fc#,bc#) CLOSED
+01460     
+01470     IMPORT menu                   // Menu structure
+01480     IMPORT window, item           // Structures window and item
+01490     IMPORT first@                 // First menu created
+01500     
+01510     DIM m@ OF menu                // Menu structure
+01520     DIM tm@ OF menu               // Temporary menu structure
+01530     DIM item@ OF item             // Item pointer
+01540     DIM titem@ OF item            // Temporary item pointer
+01550     DIM twin@ OF window           // Temporary window pointer
+01560     DIM col@ OF color             // Colour pointer
+01570     DIM tcol@ OF color            // Temporary color pointer
+01580     DIM erasedfather@ OF window   // Pointer to father (if it was erased)
+01590     
+01600     m@.CREATE                     // Create new menu structure
+01610     IF first@.VOID THEN
+01620       // Setup first menu, and setup id#
+01630       first@:=m@
+01640       m@.id#:=1
+01650     ELSE
+01660       // Find last menu in chain
+01670       tm@:=first@
+01680       WHILE NOT tm@.next@.VOID DO tm@:=tm@.next@
+01690       // Link chains together, and setup id#
+01700       tm@.next@:=m@
+01710       m@.prev@:=tm@
+01720       m@.id#:=tm@.id#+1
+01730     ENDIF
+01740     
+01750     lines#:=MAXINDEX(s$())        // Number of lines in array
+01760     defret#:=1                    // Default return value for first item
+01770     spc#:=0                       // Current indentation of menu
+01780     m@.win@.CREATE                // Create a window for the panel
+01790     m@.panel@:=m@.win@
+01800     m@.win@.row#:=row#            // Window position
+01810     m@.win@.col#:=col#
+01820     m@.win@.height#:=1            // Height and width
+01830     m@.win@.width#:=1
+01840     m@.win@.frame#:=0             // No frame on panel window
+01850     m@.win@.fc#:=fc#              // Default color
+01860     m@.win@.bc#:=bc#
+01870     col@.CREATE                   // Create color structure
+01880     col@.attr$:=CHR$(fc#+16*bc#)     // Set attributes for current window
+01890     
+01900     // Enter the loop adding each menu item to the menu structure link
+01910     FOR i#:=1 TO lines# DO
+01920       p#:="//" IN s$(i#)
+01930       IF p# THEN s$(i#):=s$(i#)(:p#-1)
+01940       s$(i#):+SPC$(80)
+01950       IF s$(i#)<>SPC$(LEN(s$(i#))) THEN
+01960         // No empty line, proceed
+01970         IF s$(i#)(:spc#)<>SPC$(spc#) THEN
+01980           // Go back to father
+01990           p#:=1
+02000           WHILE s$(i#)(:p#:)=" " DO p#:+1
+02010           LOOP spc#-p#+1 TIMES
+02020             m@.win@:=item@.father@  // win@ points to the father
+02030             item@:=m@.win@.active@  // item@ points to the active item
+02040             tcol@:=col@
+02050             col@:=col@.next@        // erase old color structure
+02060             tcol@.DISPOSE
+02070           ENDLOOP
+02080           titem@.CREATE           // Create new item
+02090           item@.next@:=titem@     // Old items next item is the new
+02100           titem@.father@:=item@.father@  // Same father
+02110           titem@.prev@:=item@     // New items previous item is the old
+02120           m@.win@.active@:=titem@ // Fathers active item is the new item
+02130           
+02140           // Read menu text (comments, unselectable, colors, etc.)
+02150           menu_text(s$(i#),titem@,m@.win@,col@)
+02160           
+02170           item@:=titem@           // Set current item to new item
+02180           p#:=1                   // Count the number of indents
+02190           WHILE s$(i#)(:p#:)=" " DO p#:+1
+02200           spc#:=p#-1              // Set the indentation size
+02210         ELIF s$(i#)(:spc#+1:)=" " THEN
+02220           // Create a new son
+02230           tcol@.CREATE            // Create temporary colors
+02240           tcol@.next@:=col@       // Link together
+02250           tcol@.attr$:=col@.attr$ // Default is old colors
+02260           col@:=tcol@
+02270           
+02280           twin@.CREATE            // Create a new window
+02290           titem@.CREATE           // and a new item
+02300           twin@.active@:=titem@   // The new windows active item
+02310           titem@.father@:=m@.win@ // The new items father
+02320           item@.son@:=twin@       // The old items son
+02330           IF m@.win@=m@.panel@ THEN
+02340             // Window position in relation to panel window
+02350             twin@.row#:=m@.win@.row#+1
+02360             twin@.col#:=m@.win@.col#+item@.col#
+02370           ELSE
+02380             // Window position in relation to other window
+02390             twin@.row#:=m@.win@.row#+item@.row#+1
+02400             twin@.col#:=m@.win@.col#+item@.col#+1
+02410           ENDIF
+02420           twin@.height#:=0        // Height of new window
+02430           twin@.width#:=1         // Width of new window
+02440           twin@.frame#:=1         // Frame on new window (single line)
+02450           // Set colors of new window
+02460           twin@.fc#:=ORD(col@.attr$) MOD 16
+02470           twin@.bc#:=(ORD(col@.attr$) DIV 16) MOD 8
+02480           item@.VOID              // Item points to nothing
+02490           
+02500           // Read menu text (comments, unselectable, colors, etc.)
+02510           menu_text(s$(i#),titem@,twin@,col@)
+02520           
+02530           m@.win@:=twin@          // win@ points to new window
+02540           item@:=titem@           // item@ points to new item
+02550           p#:=1                   // Count the number of indents
+02560           WHILE s$(i#)(:p#:)=" " DO p#:+1
+02570           spc#:=p#-1              // Set the indentation size
+02580         ELSE
+02590           // Add another item
+02600           titem@.CREATE           // Create new item
+02610           IF NOT item@.VOID THEN
+02620             // If it wasn't the first item in the window
+02630             item@.next@:=titem@
+02640             titem@.father@:=item@.father@
+02650           ELSE
+02660             // The first item in the window
+02670             titem@.father@:=erasedfather@
+02680           ENDIF
+02690           titem@.prev@:=item@     // Previous item is current item
+02700           m@.win@.active@:=titem@ // New item is active in this window
+02710           
+02720           // Read menu text (comments, unselectable, colors, etc.)
+02730           menu_text(s$(i#),titem@,m@.win@,col@)
+02740           
+02750           item@:=titem@           // Set current item to new item
+02760         ENDIF
+02770       ENDIF
+02780     ENDFOR i#
+02790     
+02800     // Dispose remaining color informations
+02810     WHILE NOT col@.VOID DO
+02820       tcol@:=col@                 // Set temp.
+02830       col@:=col@.next@            // Get next
+02840       tcol@.DISPOSE               // Dispose
+02850     ENDWHILE
+02860     
+02870     resetactive(m@.panel@)        // Set active items to the first in win
+02880     
+02890     RETURN (m@.id#)               // Return menu id#
+02900     
+02910     //
+02920     // Go through all menu-windows and make the first item
+02930     // active in each window
+02940     //
+02950     PROC resetactive(win@ OF window) CLOSED
+02960       
+02970       IMPORT window               // Window structure
+02980       IMPORT item                 // Item structure
+02990       
+03000       DIM item@ OF item
+03010       item@:=win@.active@
+03020       // Find the first item in the window
+03030       WHILE NOT item@.VOID AND NOT item@.prev@.VOID DO item@:=item@.prev@
+03040       win@.active@:=item@
+03050       // Go through each item in the window and check for a son
+03060       WHILE NOT item@.VOID DO
+03070         // If a son is present, reset the active item in this window
+03080         IF NOT item@.son@.VOID THEN resetactive(item@.son@)
+03090         // Next item
+03100         item@:=item@.next@
+03110       ENDWHILE
+03120     ENDPROC resetactive
+03130     
+03140     PROC menu_text(src$,REF itm@ OF item,win@ OF window,col@ OF color) CLOSED
+03150       
+03160       IMPORT erasedfather@        // Pointer to maybe erased father
+03170       IMPORT defret#              // Default return value
+03180       IMPORT item@                // Pointer to current item
+03190       IMPORT m@                   // Menu structure
+03200       IMPORT read_attr            // Procedure to read attributes
+03210       
+03220       // Delete leading spaces
+03230       p#:=1
+03240       WHILE src$(:p#:)=" " DO p#:+1
+03250       src$:=src$(p#:)
+03260       // Does the line contain a color definition
+03270       IF src$(:1:)="[" THEN
+03280         // There has to be an '[' as well as an ']'
+03290         p#:="]" IN src$
+03300         IF p# THEN
+03310           // Read attribute string from color definition
+03320           read_attr(col@.attr$,src$(2:p#-1))
+03330           // Remove from string
+03340           src$:=src$(p#+1:)
+03350         ENDIF
+03360       ENDIF
+03370       // If line is empty (is contained a color def. and nothing else
+03380       IF src$=SPC$(LEN(src$)) THEN
+03390         // Set erasedfather to point to last father
+03400         erasedfather@:=itm@.father@
+03410         IF itm@.prev@.VOID THEN
+03420           // We have erased the only item in this window
+03430           win@.active@.VOID
+03440           // Dispose the item
+03450           itm@.DISPOSE
+03460         ELSE
+03470           // Set pointers back to previous item
+03480           win@.active@:=itm@.prev@
+03490           itm@:=itm@.prev@
+03500           // And dispose the new item
+03510           itm@.next@.DISPOSE
+03520         ENDIF
+03530       ELSE
+03540         // Not empty line (set selectable)
+03550         itm@.select#:=1
+03560         // Is the menu item not selectable
+03570         IF src$(:1:)="{" THEN
+03580           // There has to be an '{' as well as an '}'
+03590           p#:="}" IN src$
+03600           IF p# THEN
+03610             // Remove brackets
+03620             src$:=src$(2:p#-1)+src$(p#+1:)
+03630             // Signal: Not selectable
+03640             itm@.select#:=0
+03650           ENDIF
+03660         ENDIF
+03670         // Is the menu item only a comment
+03680         IF src$(:1:)="(" AND win@<>m@.panel@ THEN
+03690           // There has to be an '(' as well as an ')'
+03700           p#:=")" IN src$
+03710           IF p# THEN
+03720             // Remove brackets
+03730             src$:=src$(2:p#-1)
+03740             // Signal: comment
+03750             itm@.select#:=-1
+03760           ENDIF
+03770         ELSE
+03780           // No comment check for return value
+03790           p#:=":=" IN src$
+03800           IF p# THEN
+03810             // Set self defined return value
+03820             itm@.retval#:=value#(src$(p#+2:))
+03830             src$:=src$(:p#-1)+SPC$(80)
+03840           ELSE
+03850             // Set default return value
+03860             itm@.retval#:=defret#
+03870             defret#:+1
+03880           ENDIF
+03890         ENDIF
+03900         IF win@=m@.panel@ THEN
+03910           // If panel item
+03920           IF item@.VOID THEN
+03930             // Row for first panel item is 1
+03940             itm@.row#:=1
+03950           ELSE
+03960             // The other panel items are placed in the same row
+03970             itm@.row#:=item@.row#
+03980           ENDIF
+03990           // Coloumn set the the current width
+04000           itm@.col#:=win@.width#
+04010           // Attribute the current color definition
+04020           itm@.attr$:=col@.attr$
+04030         ELSE
+04040           IF itm@.select#=-1 THEN
+04050             // A comment is placed to the left on a line
+04060             itm@.col#:=1
+04070           ELSE
+04080             // A normal text is placed with one empty character
+04090             itm@.col#:=2
+04100           ENDIF
+04110           // The sub-menu is being one line higher
+04120           win@.height#:+1
+04130           // Item row is set to the last line in the window
+04140           itm@.row#:=win@.height#
+04150           // Set current color definition
+04160           itm@.attr$:=col@.attr$
+04170         ENDIF
+04180         // Remove trailing spaces
+04190         p#:=LEN(src$)
+04200         IF p# THEN
+04210           WHILE src$(:p#:)=" " DO p#:-1
+04220         ENDIF
+04230         // Set menu item text
+04240         itm@.text$:=src$(:p#)
+04250         IF win@=m@.panel@ THEN
+04260           // If panel window then adjust panel width
+04270           win@.width#:+p#+2
+04280         ELSE
+04290           IF itm@.select#=-1 THEN
+04300             // If comment, adjust window width if necessary
+04310             IF p#>win@.width# THEN win@.width#:=p#
+04320           ELSE
+04330             // If normal menu item, adjust window width if necessary
+04340             IF p#+4>win@.width# THEN win@.width#:=p#+4
+04350           ENDIF
+04360         ENDIF
+04370       ENDIF
+04380       
+04390       //
+04400       // New form of VAL function
+04410       //
+04420       //   src$    String containing a number
+04430       //
+04440       FUNC value#(src$) CLOSED
+04450         // Erase all spaces
+04460         p#:=1
+04470         WHILE p#<=LEN(src$) AND src$(:p#:)=" " DO p#:+1
+04480         src$:=src$(p#:)
+04490         // Check the number of digits
+04500         p#:=1
+04510         WHILE p#<=LEN(src$) AND src$(:p#:) IN "0123456789" DO p#:+1
+04520         // If any digits present, return value of string else return 0
+04530         IF p#<>1 THEN RETURN VAL(src$(:p#)) ELSE RETURN 0
+04540       ENDFUNC value#
+04550       
+04560     ENDPROC menu_text
+04570     
+04580     //
+04590     // Read attribute description
+04600     //
+04610     //   attr$     Where to place attribute value
+04620     //   src$      String containing 3 numbers seperated by a comma
+04630     //
+04640     PROC read_attr(REF attr$,src$) CLOSED
+04650       // Default attribute
+04660       attr#:=ORD(attr$)
+04670       // Check length of first argument
+04680       p#:=1
+04690       WHILE p#<=LEN(src$) AND src$(:p#:) IN "0123456789" DO p#:+1
+04700       // If any digits, change the foreground color in attr#
+04710       IF p#<>1 THEN attr#:=16*(attr# DIV 16)+VAL(src$(:p#-1)) MOD 16
+04720       // Read past comma (,)
+04730       IF src$(:p#:)="," THEN src$:=src$(p#+1:)
+04740       // Check length of second argument
+04750       p#:=1
+04760       WHILE p#<=LEN(src$) AND src$(:p#:) IN "0123456789" DO p#:+1
+04770       // If any digits, change the blink attribute
+04780       IF p#<>1 THEN attr#:=(attr# MOD 128)+128*(VAL(src$(:p#-1))<>0)
+04790       // Read past comma (,)
+04800       IF src$(:p#:)="," THEN src$:=src$(p#+1:)
+04810       // Check length of third argument
+04820       p#:=1
+04830       WHILE p#<=LEN(src$) AND src$(:p#:) IN "0123456789" DO p#:+1
+04840       // If any digits, change the background color
+04850       IF p#<>1 THEN attr#:=(attr# MOD 16)+128*(attr#>128)+16*(VAL(src$(:p#-1)) MOD 8)
+04860       // Set attribute
+04870       attr$:=CHR$(attr#)
+04880     ENDPROC read_attr
+04890     
+04900     //
+04910     // Colour structure
+04920     //
+04930     // A new color structure is created for each window opened,
+04940     // in this way we gets local colors for each window.
+04950     //
+04960     STRUC color
+04970       DIM next@ OF color          // Next color in link of colors
+04980       DIM attr$ OF 1              // Attributes
+04990     ENDSTRUC color
+05000     
+05010   ENDFUNC read_menu_array#
+05020   
+05030   //
+05040   // Actual ask menu function
+05050   //
+05060   // Returns the return value of the item selected
+05070   //
+05080   //   menu#       Menu id
+05090   //
+05100   FUNC read_menu#(menu#) CLOSED
+05110     
+05120     IMPORT menu                   // Menu structure
+05130     IMPORT find_menu              // Find menu procedure
+05140     IMPORT getitem#               // Actual get item procedure
+05150     
+05160     DIM m@ OF menu
+05170     find_menu(menu#,m@)
+05180     RETURN getitem#(m@,m@.panel@,1) // Open menu in panel window
+05190   ENDFUNC read_menu#
+05200   
+05210   //
+05220   // Actual ask menu function (start in selected window)
+05230   //
+05240   // Returns the return value of the item selected
+05250   //
+05260   //   menu#       Menu id
+05270   //   window#     Window to open as first menu window
+05280   //
+05290   FUNC read_menu_window#(menu#,window#) CLOSED
+05300     
+05310     IMPORT menu                   // Menu structure
+05320     IMPORT window                 // Window structure
+05330     IMPORT find_menu              // Find menu procedure
+05340     IMPORT find_menu_window       // Procedure to find menu window
+05350     IMPORT getitem#               // Actual get item procedure
+05360     
+05370     DIM m@ OF menu
+05380     DIM win@ OF window
+05390     
+05400     // Get menu structure pointer
+05410     find_menu(menu#,m@)
+05420     // Get window structure pointer
+05430     find_menu_window(menu#,window#,win@)
+05440     RETURN getitem#(m@,win@,0)    // Open menu as desired
+05450   ENDFUNC read_menu_window#
+05460   
+05470   //
+05480   // Removes menu structure and disposes all used heap for menu
+05490   //
+05500   //   menu#       Menu id
+05510   //
+05520   PROC discard_menu(menu#) CLOSED
+05530     
+05540     IMPORT menu                   // Menu structure
+05550     IMPORT clear_window           // Actual clear window procedure
+05560     IMPORT find_menu              // The find menu procedure
+05570     IMPORT first@                 // First menu allocated
+05580     
+05590     DIM m@ OF menu
+05600     find_menu(menu#,m@)           // Find desired menu
+05610     
+05620     clear_window(m@.panel@)       // Call the recursive procedure
+05630     
+05640     IF m@=first@ THEN
+05650       IF m@.next@.VOID THEN
+05660         first@.VOID
+05670       ELSE
+05680         first@:=m@.next@
+05690         first@.prev@.VOID
+05700       ENDIF
+05710     ELSE
+05720       m@.prev@.next@:=m@.next@
+05730       IF NOT m@.next@.VOID THEN m@.next@.prev@:=m@.prev@
+05740     ENDIF
+05750     m@.DISPOSE
+05760   ENDPROC discard_menu
+05770   
+05780   //
+05790   // Choose if a menu item is selectable
+05800   //
+05810   //   menu#       Menu id
+05820   //   retval#     Return value for the item you want to change
+05830   //   select#     1 or 0, if item is to be selectable or not
+05840   //
+05850   PROC menu_item_select(menu#,retval#,select#) CLOSED
+05860     
+05870     IMPORT item                   // Item structure
+05880     IMPORT find_menu_item         // Procedure to find menu item
+05890     
+05900     DIM item@ OF item
+05910     
+05920     // Find the menu item (which returns retval#)
+05930     find_menu_item(menu#,retval#,item@)
+05940     // Change select mode to a legal select mode
+05950     item@.select#:=(select# AND TRUE)
+05960   ENDPROC menu_item_select
+05970   
+05980   //
+05990   // Change colors of menu item
+06000   //
+06010   //   menu#       Menu id
+06020   //   retval#     Return value for the item you want to change
+06030   //   attr$       1 character containing the attribute for the item
+06040   //
+06050   PROC menu_item_color(menu#,retval#,attr$) CLOSED
+06060     
+06070     IMPORT item                   // Item structure
+06080     IMPORT find_menu_item         // Procedure to find menu item
+06090     
+06100     DIM item@ OF item
+06110     
+06120     // Find the menu item (which returns retval#)
+06130     find_menu_item(menu#,retval#,item@)
+06140     // If an item was found, set its attributes
+06150     IF LEN(attr$)<>1 THEN REPORT 1
+06160     item@.attr$:=attr$
+06170   ENDPROC menu_item_color
+06180   
+06190   //
+06200   // Change text of menu item
+06210   //
+06220   //   menu#       Menu id
+06230   //   retval#     Return value for the item you want to change
+06240   //   text$       The new text for this item
+06250   //               This routine does not check if the new text is
+06260   //               too big for the window
+06270   //
+06280   PROC menu_item_text(menu#,retval#,text$) CLOSED
+06290     
+06300     IMPORT item                   // Item structure
+06310     IMPORT find_menu_item         // Procedure to find menu item
+06320     
+06330     DIM item@ OF item
+06340     
+06350     // Find the menu item (which returns retval#)
+06360     find_menu_item(menu#,retval#,item@)
+06370     // Change the text
+06380     IF text$="" THEN REPORT 1
+06390     item@.text$:=text$
+06400   ENDPROC menu_item_text
+06410   
+06420   //
+06430   // Change checkmark on menu-item
+06440   //
+06450   //   menu#       Menu id
+06460   //   retval#     Return value for the item you want to change
+06470   //   mark$       The check mark you want to set
+06480   //
+06490   PROC menu_item_mark(menu#,retval#,mark$) CLOSED
+06500     
+06510     IMPORT item                   // Item structure
+06520     IMPORT find_menu_item         // Procedure to find menu item
+06530     
+06540     DIM item@ OF item
+06550     
+06560     // Find the menu item (which returns retval#)
+06570     find_menu_item(menu#,retval#,item@)
+06580     // Change the mark
+06590     item@.mark$:=mark$
+06600   ENDPROC menu_item_mark
+06610   
+06620   //
+06630   // Change color of window frame
+06640   //
+06650   //   menu#       Menu id
+06660   //   window#     Return value of the item whitch creates the window
+06670   //               0 means panel window
+06680   //   fc#         New foreground color
+06690   //   bc#         New background color
+06700   //
+06710   PROC menu_window_color(menu#,window#,fc#,bc#) CLOSED
+06720     
+06730     IMPORT window                 // Window structure
+06740     IMPORT find_menu_window       // Procedure to find menu window
+06750     
+06760     DIM win@ OF window
+06770     
+06780     // Find menu window (which is created by item, which returns retval#)
+06790     find_menu_window(menu#,window#,win@)
+06800     win@.fc#:=fc#               // Set foreground color
+06810     win@.bc#:=bc#               // Set background color
+06820   ENDPROC menu_window_color
+06830   
+06840   //
+06850   // Change position of window
+06860   //
+06870   //   menu#       Menu id
+06880   //   window#     Return value of the item whitch creates the window
+06890   //               0 means panel window
+06900   //   row#        New row for this window
+06910   //   col#        New coloumn for this window
+06920   //
+06930   PROC menu_window_pos(menu#,window#,row#,col#) CLOSED
+06940     
+06950     IMPORT window                 // Window structure
+06960     IMPORT find_menu_window       // Procedure to find menu window
+06970     
+06980     DIM win@ OF window
+06990     
+07000     // Find menu window (which is created by item, which returns retval#)
+07010     find_menu_window(menu#,window#,win@)
+07020     win@.row#:=row#             // Set window row
+07030     win@.col#:=col#             // Set window coloumn
+07040   ENDPROC menu_window_pos
+07050   
+07060   //
+07070   // Change size of window
+07080   //
+07090   //   menu#       Menu id
+07100   //   window#     Return value of the item whitch creates the window
+07110   //               0 means panel window
+07120   //   height#     New height of the window
+07130   //   width#      New width of the window
+07140   //
+07150   PROC menu_window_size(menu#,window#,height#,width#) CLOSED
+07160     
+07170     IMPORT window                 // Window structure
+07180     IMPORT find_menu_window       // Procedure to find menu window
+07190     
+07200     DIM win@ OF window
+07210     
+07220     // Find menu window (which is created by item, which returns retval#)
+07230     find_menu_window(menu#,window#,win@)
+07240     win@.height#:=height#       // Set new window height
+07250     win@.width#:=width#         // Set new window width
+07260   ENDPROC menu_window_size
+07270   
+07280   //
+07290   // Change window frame
+07300   //
+07310   //   menu#       Menu id
+07320   //   window#     Return value of the item whitch creates the window
+07330   //   frame#      New frame type of the window (from windows module)
+07340   //
+07350   PROC menu_window_frame(menu#,window#,frame#) CLOSED
+07360     
+07370     IMPORT window                 // Window structure
+07380     IMPORT find_menu_window       // Procedure to find menu window
+07390     
+07400     DIM win@ OF window
+07410     
+07420     // Find menu window (which is created by item, which returns retval#)
+07430     find_menu_window(menu#,window#,win@)
+07440     // Set the new frame
+07450     win@.frame#:=frame#
+07460   ENDPROC menu_window_frame
+07470   
+07480   //
+07490   // Find menu item which returns value : retval#
+07500   //
+07510   PROC find_menu_item(menu#,retval#,REF item@ OF item) CLOSED
+07520     
+07530     IMPORT menu                   // Menu structure
+07540     IMPORT item_find#             // Recursive procedure to do the search
+07550     IMPORT find_menu              // Find menu procedure
+07560     
+07570     DIM m@ OF menu
+07580     
+07590     // Find correct menu pointer
+07600     find_menu(menu#,m@)
+07610     // Search recursively
+07620     IF NOT item_find#(retval#,m@.panel@,item@) THEN REPORT 1
+07630     
+07640   ENDPROC find_menu_item
+07650   
+07660   //
+07670   // Recursive procedure to find and item returning a specific value
+07680   //
+07690   FUNC item_find#(retval#,win@ OF window,REF item@ OF item) CLOSED
+07700     
+07710     IMPORT item                   // Item structure
+07720     
+07730     DIM itm@ OF item
+07740     
+07750     // Active item within window
+07760     item@:=win@.active@
+07770     // Find the first item in window
+07780     WHILE NOT item@.prev@.VOID DO item@:=item@.prev@
+07790     // Search all items in window, trying to find the right item
+07800     WHILE NOT item@.VOID DO
+07810       IF item@.retval#=retval# THEN RETURN 1
+07820       // If the item was not correct, try looking in the son (if any !)
+07830       IF NOT item@.son@.VOID THEN
+07840         itm@:=item@               // Temporary store
+07850         // Call recursively
+07860         IF item_find#(retval#,item@.son@,item@) THEN RETURN 1
+07870         item@:=itm@               // Restore
+07880       ENDIF
+07890       item@:=item@.next@          // Try next item
+07900     ENDWHILE
+07910     RETURN 0                      // No item found return 0
+07920   ENDFUNC item_find#
+07930   
+07940   //
+07950   // Procedure to find menu window, which is created by the menu item
+07960   // that returns : window#
+07970   //
+07980   PROC find_menu_window(menu#,window#,REF win@ OF window) CLOSED
+07990     
+08000     IMPORT item                   // Item structure
+08010     IMPORT menu                   // Menu structure
+08020     IMPORT find_menu_item         // Procedure to find menu item
+08030     IMPORT find_menu              // Procedure to find menu
+08040     
+08050     DIM item@ OF item
+08060     DIM m@ OF menu
+08070     
+08080     IF window#=0 THEN
+08090       // We want to find the panel window
+08100       find_menu(menu#,m@)
+08110       win@:=m@.panel@
+08120     ELSE
+08130       // Find a menu item, which returns : window#
+08140       find_menu_item(menu#,window#,item@)
+08150       
+08160       // If a menu item was found return a pointer to it's son
+08170       win@:=item@.son@
+08180     ENDIF
+08190   ENDPROC find_menu_window
+08200   
+08210   //
+08220   // Find a pointer to the menu structure, given by menu#
+08230   //
+08240   PROC find_menu(menu#,REF m@ OF menu) CLOSED
+08250     
+08260     IMPORT first@                 // Pointer to first menu
+08270     
+08280     // Search all menus through, looking for menu#
+08290     m@:=first@
+08300     WHILE NOT m@.VOID DO
+08310       IF menu#=m@.id# THEN RETURN // Found ! return now
+08320       m@:=m@.next@
+08330     ENDWHILE
+08340     // Nothing found, giver error !
+08350     REPORT 1
+08360   ENDPROC find_menu
+08370   
+08380   //
+08390   // The actual get item function
+08400   //
+08410   //   m@          A pointer to the menu structure
+08420   //   win@        The menu window to open
+08430   //
+08440   FUNC getitem#(m@ OF menu,win@ OF window,sideways#) CLOSED
+08450     
+08460     IMPORT window                 // Window structure
+08470     IMPORT unselect$()            // Array of attributes by unselectable
+08480     IMPORT item                   // Item structure
+08490     IMPORT openwindow#            // open window from window module
+08500     IMPORT closewindow            // close window from window module
+08510     IMPORT setattrs               // set attributes from system module
+08520     IMPORT setattr                // set attribute for one character
+08530     IMPORT setchar                // set character on screen
+08540     IMPORT attrs$                 // actual attributes
+08550     IMPORT attrconv$              // attribute conversion table
+08560     
+08570     DIM item@ OF item
+08580     DIM titem@ OF item
+08590     IF NOT check_window#(win@) THEN RETURN -1
+08600     LOOP
+08610       // Open the desired window
+08620       win@.id#:=openwindow#(win@.row#,win@.col#,win@.height#,win@.width#,win@.frame#,win@.fc#,win@.bc#)
+08630       item@:=win@.active@
+08640       // Search to the first item in the window
+08650       WHILE NOT item@.VOID AND NOT item@.prev@.VOID DO item@:=item@.prev@
+08660       // Now go through a loop printing the menu items
+08670       WHILE NOT item@.VOID DO
+08680         IF item@.select#=0 THEN
+08690           // Not selectable, set attributes according to background
+08700           setattrs(unselect$((ORD(item@.attr$) DIV 16) MOD 8))
+08710         ELSE
+08720           // Selectable, set attributes
+08730           setattrs(3*attrconv$(:ORD(item@.attr$)+1:))
+08740         ENDIF
+08750         // If not panel window, Clear to end of line with the new color
+08760         IF win@<>m@.panel@ THEN PRINT AT item@.row#,1: ""0"u",
+08770         IF item@.select#=-1 THEN
+08780           // If comment, print direct
+08790           CURSOR item@.row#,item@.col#
+08800           pr_menu_text(item@.text$,item@.next@.VOID)
+08810         ELSE
+08820           // If normal menu item print text
+08830           CURSOR item@.row#,item@.col#-LEN(item@.mark$)
+08840           PRINT item@.mark$,
+08850           // If it is the active item, print it in inverse
+08860           IF item@=win@.active@ THEN PRINT CHR$(18),
+08870           pr_menu_text(" "+item@.text$+" ",item@.next@.VOID)
+08880           // Reset inverse mode if active
+08890           IF item@=win@.active@ THEN PRINT CHR$(19),
+08900         ENDIF
+08910         // Next item
+08920         item@:=item@.next@
+08930       ENDWHILE
+08940       item@:=win@.active@
+08950       // Now go through loop testing the keyboard codes
+08960       LOOP
+08970         k$:=KEY$(10)
+08980         CASE k$ OF
+08990         WHEN ""27""     // ESC
+09000           // Exit loop with return value -1
+09010           value#:=-1
+09020           EXIT
+09030         WHEN ""13""     // Enter
+09040           IF check_window#(item@.son@) THEN
+09050             // Remove inverse field
+09060             printold
+09070             // Call getitem recursively
+09080             value#:=getitem#(m@,item@.son@,sideways#)
+09090             // Exit if an return value is present
+09100             EXIT WHEN value#<>-1
+09110             // Go to active item
+09120             item@:=win@.active@
+09130             // Print item in inverse
+09140             printnew
+09150           ELSE
+09160             // Return desired value
+09170             value#:=item@.retval#
+09180             EXIT
+09190           ENDIF
+09200         WHEN ""0"K"     // Arrow left
+09210           // Arrow left only means something if we are in the panel
+09220           // or in a son of the panel
+09230           IF win@=m@.panel@ THEN
+09240             // We are in the panel, move item left
+09250             REPEAT
+09260               IF item@.prev@.VOID THEN
+09270                 // If we are at the first item, search on to the last
+09280                 WHILE NOT item@.next@.VOID DO item@:=item@.next@
+09290               ELSE
+09300                 // Go to previous item
+09310                 item@:=item@.prev@
+09320               ENDIF
+09330             UNTIL item@.select#=1
+09340             // Remove old items inverse field
+09350             printold
+09360             // Print new inverse field
+09370             printnew
+09380           ELIF item@.father@=m@.panel@ AND sideways# THEN
+09390             // Exit loop, telling that menu has to move left
+09400             value#:=-2
+09410             EXIT
+09420           ENDIF
+09430         WHEN ""0"H"     // Arrow up
+09440           // Arrow up can only be used in sub-menus
+09450           IF win@<>m@.panel@ THEN
+09460             REPEAT
+09470               IF item@.prev@.VOID THEN
+09480                 // If we can't go further up read forward to last item
+09490                 WHILE NOT item@.next@.VOID DO item@:=item@.next@
+09500               ELSE
+09510                 // Go to previous item
+09520                 item@:=item@.prev@
+09530               ENDIF
+09540             UNTIL item@.select#=1
+09550             // Remove old inverse field
+09560             printold
+09570             // Print new inverse field
+09580             printnew
+09590           ENDIF
+09600         WHEN ""0"P"     // Arrow down
+09610           // Arrow down can always be used
+09620           IF win@=m@.panel@ THEN
+09630             // If we are in the panel, open a sub-menu if possible
+09640             IF check_window#(item@.son@) THEN
+09650               // Remove old inverse field
+09660               printold
+09670               // Call getitem# recursively
+09680               value#:=getitem#(m@,item@.son@,sideways#)
+09690               // Exit if we have an return value
+09700               EXIT WHEN value#<>-1
+09710               // Go to active item
+09720               item@:=win@.active@
+09730               // Print new inverse field
+09740               printnew
+09750             ENDIF
+09760           ELSE
+09770             // Outside panel, move menu item down
+09780             REPEAT
+09790               IF item@.next@.VOID THEN
+09800                 // If we can't go further down, find the first item
+09810                 WHILE NOT item@.prev@.VOID DO item@:=item@.prev@
+09820               ELSE
+09830                 // Go to next item
+09840                 item@:=item@.next@
+09850               ENDIF
+09860             UNTIL item@.select#=1
+09870             // Remove old inverse field
+09880             printold
+09890             // Print new inverse field
+09900             printnew
+09910           ENDIF
+09920         WHEN ""0"M"     // Arrow right
+09930           // Arrow right only means something if we are in the panel
+09940           // or in a son of the panel
+09950           IF win@=m@.panel@ THEN
+09960             // We are in panel, move item right
+09970             REPEAT
+09980               IF item@.next@.VOID THEN
+09990                 // If we can't go further right read back to first item
+10000                 WHILE NOT item@.prev@.VOID DO item@:=item@.prev@
+10010               ELSE
+10020                 // Go to next item within panel
+10030                 item@:=item@.next@
+10040               ENDIF
+10050             UNTIL item@.select#=1
+10060             // Remove old inverse field
+10070             printold
+10080             // Print new inverse field
+10090             printnew
+10100           ELIF item@.father@=m@.panel@ AND sideways# THEN
+10110             // Exit loop, telling that menu has to move right
+10120             value#:=-3
+10130             EXIT
+10140           ENDIF
+10150         OTHERWISE
+10160           titem@:=item@
+10170           // Find menu text starting with this letter
+10180           LOOP
+10190             // Search through all menu items in this sub-menu
+10200             IF item@.next@.VOID THEN
+10210               WHILE NOT item@.prev@.VOID DO item@:=item@.prev@
+10220             ELSE
+10230               item@:=item@.next@
+10240             ENDIF
+10250             EXIT WHEN item@=titem@
+10260             IF LEN(item@.text$)>0 AND item@.select#=1 THEN
+10270               EXIT WHEN UPPER$(item@.text$(:1:))=UPPER$(k$)
+10280             ENDIF
+10290           ENDLOOP
+10300           // Remove old inverse field
+10310           printold
+10320           // Print new inverse field
+10330           printnew
+10340         ENDCASE
+10350       ENDLOOP
+10360       closewindow(win@.id#)
+10370       IF value#=-2 THEN
+10380         // Move menu left
+10390         win@:=m@.panel@
+10400         LOOP
+10410           // If we are standing on the first item in the panel
+10420           IF win@.active@.prev@.VOID THEN
+10430             // Search forward and find the last item in the panel
+10440             WHILE NOT win@.active@.next@.VOID DO
+10450               win@.active@:=win@.active@.next@
+10460             ENDWHILE
+10470           ELSE
+10480             // Goto previous item
+10490             win@.active@:=win@.active@.prev@
+10500           ENDIF
+10510           // Exit if item has a son
+10520           EXIT WHEN NOT win@.active@.son@.VOID
+10530         ENDLOOP
+10540         // Make son active
+10550         win@:=win@.active@.son@
+10560       ELIF value#=-3 THEN
+10570         // Move menu right
+10580         win@:=m@.panel@
+10590         LOOP
+10600           // If we are standing on the last item in the panel
+10610           IF win@.active@.next@.VOID THEN
+10620             // Search back and find the first item in panel
+10630             WHILE NOT win@.active@.prev@.VOID DO
+10640               win@.active@:=win@.active@.prev@
+10650             ENDWHILE
+10660           ELSE
+10670             // Goto next item
+10680             win@.active@:=win@.active@.next@
+10690           ENDIF
+10700           // Exit if item has a son
+10710           EXIT WHEN NOT win@.active@.son@.VOID
+10720         ENDLOOP
+10730         // Make son active
+10740         win@:=win@.active@.son@
+10750       ELSE
+10760         EXIT
+10770       ENDIF
+10780     ENDLOOP
+10790     RETURN value#
+10800     
+10810     //
+10820     // Check if window can be opened
+10830     //
+10840     FUNC check_window#(win@ OF window) CLOSED
+10850       
+10860       IMPORT item                 // Item structure
+10870       
+10880       DIM item@ OF item
+10890       // If no window return : NOT OK
+10900       IF win@.VOID THEN RETURN 0
+10910       item@:=win@.active@
+10920       // Check all menu items and find at least one which is selectable
+10930       REPEAT
+10940         IF item@.select#=1 THEN
+10950           // First selectable item found, set active item
+10960           win@.active@:=item@
+10970           RETURN 1
+10980         ENDIF
+10990         // Find next item
+11000         IF item@.next@.VOID THEN
+11010           // If last item, then find the first item
+11020           WHILE NOT item@.prev@.VOID DO item@:=item@.prev@
+11030         ELSE
+11040           item@:=item@.next@
+11050         ENDIF
+11060       UNTIL item@=win@.active@
+11070       // No selectable menu item found, return 0
+11080       RETURN 0
+11090     ENDFUNC check_window#
+11100     
+11110     //
+11120     // Print new active item
+11130     //
+11140     PROC printnew
+11150       // New active item
+11160       win@.active@:=item@
+11170       // Set attributes and print in inverse
+11180       setattrs(3*attrconv$(:ORD(item@.attr$)+1:))
+11190       CURSOR item@.row#,item@.col#-LEN(item@.mark$)
+11200       PRINT item@.mark$,""18" ",item@.text$," "19"",
+11210     ENDPROC printnew
+11220     
+11230     //
+11240     // Print old active item
+11250     //
+11260     PROC printold
+11270       // Set attributes and print
+11280       setattrs(3*attrconv$(:ORD(win@.active@.attr$)+1:))
+11290       CURSOR win@.active@.row#,win@.active@.col#-LEN(win@.active@.mark$)
+11300       PRINT win@.active@.mark$," ",win@.active@.text$," ",
+11310     ENDPROC printold
+11320     
+11330     //
+11340     // Print menu text (assure no scroll)
+11350     //
+11360     PROC pr_menu_text(text$,last#)
+11370       IF last# THEN
+11380         PRINT text$(:LEN(text$)-1),
+11390         setattr(ORD(attrs$(:1:)))
+11400         setchar(text$(:LEN(text$):))
+11410       ELSE
+11420         PRINT text$,
+11430       ENDIF
+11440     ENDPROC pr_menu_text
+11450     
+11460   ENDFUNC getitem#
+11470   
+11480   //
+11490   // Procedure to clear all sub-menus within a window
+11500   //
+11510   PROC clear_window(win@ OF window) CLOSED
+11520     
+11530     IMPORT item                   // Item structure
+11540     
+11550     DIM item@ OF item, itm@ OF item
+11560     // Go to first menu item in window
+11570     item@:=win@.active@
+11580     WHILE NOT item@.prev@.VOID DO item@:=item@.prev@
+11590     // Go through all menu items clearing all sons
+11600     WHILE NOT item@.VOID DO
+11610       IF NOT item@.son@.VOID THEN clear_window(item@.son@)
+11620       // Store item temporary
+11630       itm@:=item@
+11640       // Get next item
+11650       item@:=item@.next@
+11660       // Dispose old item
+11670       itm@.DISPOSE
+11680     ENDWHILE
+11690     // Dispose window structure
+11700     win@.DISPOSE
+11710   ENDPROC clear_window
+11720   
+11730 ENDMODULE menus

@@ -1,0 +1,28 @@
+//
+// Graphics system messages for UniComal Version 3.10.
+//
+// (C) Copyright UniComal A/S 1989-1991.
+//
+
+0    "Illegal color"
+1    "Illegal window"
+2    "Illegal screen mode"
+3    "Screen mode not supported by hardware"
+4    "Illegal viewport"
+5    "Illegal color palette"
+6    "Illegal color definition"
+7    "Background not allowed"
+8    "Illegal background color"
+9    "Illegal border color"
+10   "Illegal inq function"
+11   "Illegal text style"
+12   "Illegal font number"
+13   "POLYGON must have at least 3 points"
+14   "Arrays for POLYGON too small"
+15   "Illegal page number"
+16   "Illegal shape coordinates"
+17   "Illegal shape string"
+18   "Incompatible screen modes"
+19   "Illegal put style"
+20   "Bad screen file format"
+

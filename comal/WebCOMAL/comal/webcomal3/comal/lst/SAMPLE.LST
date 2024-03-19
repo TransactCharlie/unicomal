@@ -1,0 +1,20 @@
+0010 USE internet
+0020 
+0030 DIM u$ OF 255
+0040 
+0050 PRINT "<HTML>"
+0060 PRINT "<H1> WEB COMAL</H1>"
+0070 PRINT "Some information about the client:<BR>"
+0080 
+0090 // execute module procedures:
+0100 //
+0110 print_context
+0120 
+0130 u$:=get_parameter$("name")
+0140 
+0150 IF u$<>"" THEN
+0160   PRINT "<H2>The typed text was:</H2>"
+0170   PRINT u$
+0180   PRINT "<BR>(See also parameter 3, above)"
+0190 ENDIF
+0200 PRINT "</HTML>"

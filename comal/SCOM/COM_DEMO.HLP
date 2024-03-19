@@ -1,0 +1,50 @@
+
+
+                                 DESCRIPTION
+
+This SCOM demonstration program can be used to exchange data between two
+computers via the RS-232C ports. Data can be sent from a SOURCE FILE or data
+can be received to a DESTINATION FILE on this computer.
+
+The receiver will receive data until no characters have been received for 10
+seconds, then the destination file will be closed (the timeout is controlled
+by the variable MAX_WAIT in the procedure HANDLE_RECEIVE).
+@
+The normal procedure for initialization of transmission is:
+   1.  Start the receiver on the receiving computer.
+   2.  Start the sender on the sending computer.
+
+During receipt of data by this computer, data will cease to be received if
+any transmission errors are detected, and an error message will be displayed.
+
+Use the cursor keys and the function keys to select the different setup
+fields and functions.
+
+The procedures HANDLE_SEND and HANDLE_RECEIVE are doing the essential parts
+of the communication. All the rest of the program is user interface.
+@
+                       CHARACTER CONVERSION (MAPPING)
+
+By changing the mapping DATA in the procedure SETUP_SCOM_AND_MAPPING you can
+easily specify the desired character conversion in both the receive and
+transmit directions. A one-to-one conversion is the default.
+
+                           HANDSHAKE AND PROTOCOL
+
+This program does not use any form of physical handshake, but it is possible
+to use a normal XON/XOFF protocol by answering yes at the XON/XOFF switch.
+Note that the default value of the number of data bits is 8, the number of
+stop bits is 2 and no parity.
+@
+                                    CABLE
+
+Only a 3 line interface between the RS-232C connectors is required. The
+following 3 wires must be connected.
+
+   This PC RS-232C connector pins      Other RS-232C connector pins
+
+         TD      2 :-----------------------------: RD      3
+         RD      3 :-----------------------------: TD      2
+         Ground  7 :-----------------------------: Ground  7
+
+@

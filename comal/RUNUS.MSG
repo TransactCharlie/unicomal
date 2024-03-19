@@ -1,0 +1,26 @@
+Ó:FT\l{çï¢∑Õﬂ&F\ÄöÆøﬁ˜">oóº‰IUgggggó∂ÃÛÛÛÛÛÛÛÛÛ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%6CQ`yèû±ª∆∆’ˆˆ#,:fãö£∂«‘ÿÂÙ˛(2=======DHHHHHHHHHHHHHHHHHHHHHHHHPYYYYYYd}Éèïù®≥ÓREPORT errorArgument errorOverflowDivision by zeroSubstring errorValue out of rangeStep = 0Illegal boundInvalid format stringExpression too complexIndex out of rangeInvalid file nameWrong type of DATA constantNot-a-NumberProgram too bigInsufficient memory for swappingNot COMAL program fileProgram made for other COMAL versionOut of space for externalsNonconformant arraysOut of heap spaceVOID pointer used for referenceAttribute not dimensionedNo matching WHENFunction value not RETURNedVariable already dimensionedNo such message number local to this MODULE/STRUCToo deep nesting of STRUCtured variablesNo message file for this MODULE/STRUCThe variable can not be dimensioned hereOut of space for arrays and stringsMODULE/STRUC 'The MODULE/STRUC does not contain the expected itemsSystem errorOut of stack spaceFacility not implementedVariable not dimensionedToo deep nesting of PROCs/FUNCsParameter lists differNo appropriate CLOSED PROC/FUNC in fileNot a MODULE/STRUC fileErrorEnd of DATAEnd of fileFile already openFile not openNot input fileNot output fileNumeric constant expectedNot random access fileRecord too longToo many files openRead errorWrite errorDrive not readyPrinter out of paper or not readyFile not foundUnknown deviceIllegal operationI/O breakPath not foundAttempt to write on write-protected disketteAttempted to remove current directoryNot same deviceDisk fullFile already existsOut of ressourcesNetwork errorBusyAccess deniedBad file format
+Stop at Enter 'EXIT' to return to the COMAL systemNo message
+Breaked
+, line  in , line #, offset ' not found Esc: Exit  Enter: Select  PgDn  PgUp  PgDn  PgUp   Back  F1: Index Help Menu  Esc: Exit help   Enter: Open help   Use  to select item : Exit help   Enter: Open help   Use  to select item 

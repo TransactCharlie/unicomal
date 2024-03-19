@@ -1,0 +1,452 @@
+Help file for UniComal profile editor !
+
+Every page MUST be initiated and terminated by a line feed (12) character !
+Example:
+
+     12,65,66,67,13,10,12,...
+
+is one page consisting of the characters ABC.
+           PROFILE NAME
+
+The name of the profile, you want to edit
+or save (default extension is .PRO).
+              STACKSIZE
+
+STACKSIZE is the number of bytes reserved
+for scalar variables, calls, and expression
+evaluation.
+
+Important: The SCAN command needs memory
+in order to do SCAN. It uses this area.
+For a program taking 64Kbytes of program
+memory, SCAN needs approximately 40Kbytes
+of stack memory.
+
+Stacksize MUST be an integer between 2000
+and 65535.
+              PROGSIZE
+
+PROGSIZE is the number of bytes reserved
+for main program storage.
+
+Progsize MUST be an integer between 2000
+and 65535.
+
+Note: if you have set SWAPSIZE, be aware
+that the memory area defined by PROGSIZE
+is located in the swapping area.
+         ARRAYSIZE
+
+ARRAYSIZE is the number of bytes reserved
+for arrays and string passed by value to
+procedures and functions, and in expres-
+sion evaluations involving string values.
+This area is NOT used for DIMensioned
+variables (see HEAPSIZE about DIM).
+
+Arraysize MUST be an integer larger than
+2000 and less than total memory on the
+computer.
+             HEAPSIZE
+
+HEAPSIZE is the number of bytes reserved
+for dynamically created structures (used
+by CREATE and DISPOSE) and strings and
+arrays created by DIM.
+
+HEAPSIZE specifies the minimum amount of
+storage. Comal will increase this area
+automatically by taken storage from the
+DOS pool of memory.
+
+Heapsize must be up till total memory
+size.
+           KEYSIZE
+
+KEYSIZE is the number of bytes reserved
+for the definition of function keys.
+The procedures fkey and defkey in the
+system module uses this area.
+
+Keysize MUST be an integer between 1000
+and 65535.
+                    CURSOR
+
+CURSOR controls the appearance on the screen of the
+Comal cursor:
+
+always:   Always shown (implicates hardware cursor).
+soft  :   Software cursor (default).
+hard  :   Hardware cursor (a small blinking underline
+          at the lower part of the character field).
+                    SCREEN
+
+SCREEN defines the method, by which the Comal system
+addresses the screen (e.g. when issuing PRINT).
+
+It is a matter of choice between the fastest possible
+access to the screen and achieving the greatest possible
+compatibility between hardware and system software:
+
+bios   :  Via BIOS.
+quick  :  Directly to video RAM.
+retrace:  As quick, but waiting for horizontal retrace.
+auto   :  Automatic appropriate choice (default).
+                  KEYBOARD
+
+KEYBOARD controls the keyboard type:
+
+extended: The special codes are returned when using
+          the extended keyboard.
+standard: Interpret the keyboard as a standard
+          keyboard. Can also be used with
+          extended keyboard to suppress its
+          special scan codes.
+auto    : The Comal system automatically identifies
+          the current keyboard. Can give problems
+          with some kinds of software, which
+          redefines the keyboard handling. In that
+          case, use either standard or extended.
+                   SHOWKEY
+
+SHOWKEY defines the presence of the functionkey line:
+
+on :      Present during program editing.
+off:      Never present.
+                SHOWSTATUS
+
+SHOWSTATUS defines the presence of the top status line
+during editing:
+
+on :      Status line present (default).
+off:      Status line absent.
+                  BELLSOUND
+
+BELLSOUND is used to define the sound of the bell.
+The first parameter is the frequency of the sound,
+and the second parameter is the duration of the sound.
+(Only available in OS/2).
+                  BELLSOUND
+
+BELLSOUND is used to define the sound of the bell.
+The first parameter is the frequency of the sound,
+and the second parameter is the duration of the sound.
+(Only available in OS/2).
+                    BELL
+
+BELL controls, if every Comal error message will be
+concluded by the sound of a 'bell': CHR$(7)
+
+on :      Ring the bell by error messages (default).
+off:      Do not ring the bell.
+                  TEXTCOLOR
+
+TEXTCOLOR defines the appearance of ordinary text.
+<PageUp> and <PageDown> select's the foreground color.
+<Ctrl><PageUp> and <Ctrl><PageDown> select's the background.
+
+          Foreground:        Background:
+          black              b'black
+          blue               b'blue
+          green              b'green
+          cyan               b'cyan
+          red                b'red
+          magenta            b'magenta
+          brown              b'brown
+          white              b'white
+          gray               b'black+blink
+          l'blue             b'blue+blink
+          l'green            b'green+blink
+          l'cyan             b'cyan+blink
+          l'red              b'red+blink
+          l'magenta          b'magenta+blink
+          yellow             b'brown+blink
+          i'white            b'white+blink
+                      ARROWCOLOR
+
+ARROWCOLOR defines the color of the arrow, which indicates long lines.
+<PageUp> and <PageDown> select's the foreground color.
+<Ctrl><PageUp> and <Ctrl><PageDown> select's the background.
+
+              Foreground:        Background:
+              black              b'black
+              blue               b'blue
+              green              b'green
+              cyan               b'cyan
+              red                b'red
+              magenta            b'magenta
+              brown              b'brown
+              white              b'white
+              gray               b'black+blink
+              l'blue             b'blue+blink
+              l'green            b'green+blink
+              l'cyan             b'cyan+blink
+              l'red              b'red+blink
+              l'magenta          b'magenta+blink
+              yellow             b'brown+blink
+              i'white            b'white+blink
+
+                            KEYCOLOR
+
+KEYCOLOR defines the appearance of the top status line and bottom function-
+key line. The KEY-color defines the color of the digits 0-9 in the function-
+key line. The COLOR-color defines the color of the text at both lines.
+
+          Foreground:        Background:
+          black              b'black
+          blue               b'blue
+          green              b'green
+          cyan               b'cyan
+          red                b'red
+          magenta            b'magenta
+          brown              b'brown
+          white              b'white
+          gray               b'black+blink
+          l'blue             b'blue+blink
+          l'green            b'green+blink
+          l'cyan             b'cyan+blink
+          l'red              b'red+blink
+          l'magenta          b'magenta+blink
+          yellow             b'brown+blink
+          i'white            b'white+blink
+                            KEYCOLOR
+
+KEYCOLOR defines the appearance of the top status line and bottom function-
+key line. The KEY-color defines the color of the digits 0-9 in the function-
+key line. The COLOR-color defines the color of the text at both lines.
+
+          Foreground:        Background:
+          black              b'black
+          blue               b'blue
+          green              b'green
+          cyan               b'cyan
+          red                b'red
+          magenta            b'magenta
+          brown              b'brown
+          white              b'white
+          gray               b'black+blink
+          l'blue             b'blue+blink
+          l'green            b'green+blink
+          l'cyan             b'cyan+blink
+          l'red              b'red+blink
+          l'magenta          b'magenta+blink
+          yellow             b'brown+blink
+          i'white            b'white+blink
+                 ERRORCOLOR
+
+ERRORCOLOR defines the color of the error/help- messages.
+<PageUp> and <PageDown> select's the foreground color.
+<Ctrl><PageUp> and <Ctrl><PageDown> select's the background.
+
+          Foreground:        Background:
+          black              b'black
+          blue               b'blue
+          green              b'green
+          cyan               b'cyan
+          red                b'red
+          magenta            b'magenta
+          brown              b'brown
+          white              b'white
+          gray               b'black+blink
+          l'blue             b'blue+blink
+          l'green            b'green+blink
+          l'cyan             b'cyan+blink
+          l'red              b'red+blink
+          l'magenta          b'magenta+blink
+          yellow             b'brown+blink
+          i'white            b'white+blink
+            COUNTRY
+
+COUNTRY defines the 2 letter country-code, which must
+conclude the filename of a national message file.
+E.g.: TURTLEUS.MSG, TURTLEGR.MSG or TURTLEDK.MSG.
+
+If present in the EXTPATH directories, the national
+message files for modules etc. will automatically
+be retrieved by the system together with the modules.
+                EXTPATH
+
+Defines the path for external modules and structures.
+
+The Comal system looks for external modules etc. in the
+(sub)directories, specified in the EXTPATH line.
+EXTPATH = ".;*" (the parameters on the distribution disk)
+  . is the current directory.
+  * is the directory from where the Comal system was booted
+    (only when using DOS 3.30 or later).
+
+Each specified path must be separated by a semicolon, ';'.
+            MESSAGE
+
+Error/help messages to the standard Comal
+system will be retrieved from the file
+filename (default extension is .MSG).
+Remember drive and path.
+
+MESSAGE   "filename"
+              INIT
+
+Immediately after the Comal system is
+booted, the Comal program filename is
+loaded and run. This happens before the
+UniComal start-up picture is shown.
+Remember drive and path.
+
+INIT      "filename"
+***** never used *****
+            FKEY (display)
+
+This is the string constant, defining
+the text to appear in the functionkey
+line (max. 7 characters). Only the text
+of keys F1-F10 (or their shifted values)
+are shown on the screen.
+           FKEY (text to issue)
+
+This is the string constant, defining
+the text (including control characters),
+which are returned to the system, when
+the functionkey is pressed.
+
+To insert control characters, press
+<Esc> followed by the control character,
+(e.g. <Ctrl><End>).
+              SET
+
+This is the local environment settings.
+Any modules using environment settings
+will first look for a match in the local
+Comal environment settings, and then
+proceed on to the DOS environment set-
+tings if not found.
+
+SET "GMODES=01234567"
+SET "GDEFAULT=7"
+           SWAPSIZE
+
+This is the size of the swap-area. When
+using EMS or disk swapping this area must
+contain enough space for the main program
+(PROGSIZE) and the two largest modules.
+
+SWAPSIZE 196608
+           HELPSIZE
+
+This is the number of help-files, that can be
+included in the profile. The maximum number is
+22.
+
+HELPSIZE 22
+                  HELPCOLOR
+
+HELPCOLOR defines the appearance of the help window.
+<PageUp> and <PageDown> select's the foreground color.
+<Ctrl><PageUp> and <Ctrl><PageDown> select's the background.
+
+          Foreground:        Background:
+          black              b'black
+          blue               b'blue
+          green              b'green
+          cyan               b'cyan
+          red                b'red
+          magenta            b'magenta
+          brown              b'brown
+          white              b'white
+          gray               b'black+blink
+          l'blue             b'blue+blink
+          l'green            b'green+blink
+          l'cyan             b'cyan+blink
+          l'red              b'red+blink
+          l'magenta          b'magenta+blink
+          yellow             b'brown+blink
+          i'white            b'white+blink
+                HELPHIGHLIGHT
+
+HELPHIGHLIGHT defines the appearance of highlighted text in
+the help window. <PageUp> and <PageDown> select's the fore-
+ground color. <Ctrl><PageUp> and <Ctrl><PageDown> select's
+the background.
+
+          Foreground:        Background:
+          black              b'black
+          blue               b'blue
+          green              b'green
+          cyan               b'cyan
+          red                b'red
+          magenta            b'magenta
+          brown              b'brown
+          white              b'white
+          gray               b'black+blink
+          l'blue             b'blue+blink
+          l'green            b'green+blink
+          l'cyan             b'cyan+blink
+          l'red              b'red+blink
+          l'magenta          b'magenta+blink
+          yellow             b'brown+blink
+          i'white            b'white+blink
+                  HELPCURSOR
+
+HELPCURSOR defines the appearance of the cursor in the help
+window. <PageUp> and <PageDown> select's the foreground color.
+<Ctrl><PageUp> and <Ctrl><PageDown> select's the background.
+
+          Foreground:        Background:
+          black              b'black
+          blue               b'blue
+          green              b'green
+          cyan               b'cyan
+          red                b'red
+          magenta            b'magenta
+          brown              b'brown
+          white              b'white
+          gray               b'black+blink
+          l'blue             b'blue+blink
+          l'green            b'green+blink
+          l'cyan             b'cyan+blink
+          l'red              b'red+blink
+          l'magenta          b'magenta+blink
+          yellow             b'brown+blink
+          i'white            b'white+blink
+                  HELPLABEL
+
+HELPLABEL defines the appearance of a label in the help
+window. <PageUp> and <PageDown> select's the foreground color.
+<Ctrl><PageUp> and <Ctrl><PageDown> select's the background.
+
+          Foreground:        Background:
+          black              b'black
+          blue               b'blue
+          green              b'green
+          cyan               b'cyan
+          red                b'red
+          magenta            b'magenta
+          brown              b'brown
+          white              b'white
+          gray               b'black+blink
+          l'blue             b'blue+blink
+          l'green            b'green+blink
+          l'cyan             b'cyan+blink
+          l'red              b'red+blink
+          l'magenta          b'magenta+blink
+          yellow             b'brown+blink
+          i'white            b'white+blink
+                HELPFILE
+
+In this field you can type in which help-files you
+want to include in the UniComal help-system.
+There can be at maximum 22 help files included and
+this number is given by HELPSIZE.
+
+HELPFILE "graphics.hlp"
+               SWAPFILE
+
+When using disk-swapping of modules etc. the
+UniComal system has to have a file name in which
+the actual swapping has to take place.
+
+This file may not be touched by anyone as long
+as the program is running.
+
+SWAPFILE "c:\comal\comal.swp"
+
+

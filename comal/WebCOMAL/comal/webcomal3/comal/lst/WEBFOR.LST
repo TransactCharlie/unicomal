@@ -1,0 +1,10 @@
+0010 USE internet
+0020 
+0030 PRINT "<HTML>"
+0040 PRINT "<BODY>"
+0050 PRINT "<H1>webCOMAL Demo File - FOR-NEXT</H1>"
+0060 
+0070 FOR line#:=1 TO 5 DO PRINT "<br>This is line "+STR$(line#)
+0080 
+0090 PRINT "</BODY>"
+0100 PRINT "</HTML>"

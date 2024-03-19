@@ -1,0 +1,21 @@
+Project
+ Load := 11
+ Save
+  Ascii := 121
+  Binary := 122
+ Quit := 13
+Left
+ One character := 21
+ Beginning of line := 22
+Middle
+ Center
+  Line := 311
+  Screen
+   Top/Bottom := 3121
+   Left/Right := 3122
+ Left justify := 32
+ Right justify := 33
+Right
+ One character := 41
+ Beginning of line := 42
+

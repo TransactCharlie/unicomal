@@ -1,0 +1,415 @@
+             THIS FILE CONTAINS A LIST OF DOCUMENTATION CHANGES TO
+
+           T H E   U N I C O M A L   R E F E R E N C E   M A N U A L
+
+
+       ****************************************************************
+
+                CHANGES AND ADDITIONS TO UNICOMAL Version 3.10
+
+       ****************************************************************
+
+
+
+INSTALLATION
+============
+
+The UniComal system can be installed on a hard disk using the installation
+program on the Installation disk. It can be done as follows. First, insert your
+installation disk in drive A. Then type the following two lines in the DOS
+shell:
+
+  A:
+  install
+
+The directories to use for the files can be changed as you wish. As the
+installation goes on, you will have to answer a number of questions about what
+you want to able to use. You will have to exchange diskettes a number of times
+during the installation.
+
+
+THE COMAL START-UP LINE
+=======================
+
+From DOS, the syntax for the Comal boot line is:
+
+COMAL[P][87] [prg] [<stdin] [[>]>stdout] [,profile] [(par)]
+
+The optional parameters:
+
+P           if an OS/2 Comal is desired.
+87          if the x87 version is desired.
+prg         if a Comal program should be run immediately after start-up. 
+<stdin      standard input file (default: the keyboard).
+>stdout     standard output file (default: the screen).
+>>stdout    output will be appended to standard output file.
+,profile    name of Profile File (default: COMAL.PRO).
+(par)       information string to the Comal program. It can be inspected by the
+            function STARTPAR$ in the SYSTEM module.
+ 
+Normally the Comal system is booted, just issuing the command: 
+ 
+  COMAL          (or  COMAL87) 
+ 
+If you running under OS/2, issue the command 
+ 
+  COMALP    (or COMALP87)
+
+
+VERSION 3.01 CHANGES AND ADDITIONS 
+================================== 
+ 
+Version 3.01 was mainly an error corrected COMAL 3.00. A few additions and
+changes had been introduced, namely
+
+  *    Dynamic linking of external modules and strucs.
+  *    A DISPOSE statement, which frees all heap memory at once.
+  *    LOAD without filename, loading current module.
+  *    USE as direct command.
+  *    FOR as direct command.
+  *    Better handling of names in direct commands.
+
+ 
+VERSION 3.02 CHANGES AND ADDITIONS 
+================================== 
+ 
+A number of new facilities and improvements have been added in Comal version
+3.02. They are
+ 
+  *    Environment variables in profile  
+  *    Comal ask you to SAVE when erasing program that has been changed 
+  *    A new and more intuitive way of sharing modules 
+  *    Restricted module editing 
+  *    Listing of line by Ctrl-Break 
+  *    Improved interactivity 
+  *    Avoidance of reloading externals already loaded. 
+  *    USE is an active statement 
+  *    Changed behavior of cursor up and down during editing 
+  *    Cursor moved to indentation after enter 
+  *    A change in blocks in editing commands 
+  *    Formatting of long strings in PRINT USING 
+  *    New message printout in compiled programs 
+  *    Better VGA test in graphics modules 
+  *    Polygon filling using patterns 
+  *    New INQ values 
+  *    Change of Environment$ 
+  *    A Gettextwindow procedure has been added to the system module 
+ 
+  *    General use of '*' in EXTPATH line 
+  *    Increased number of files open 
+  *    Default message file for modules and strucs 
+  *    An opendirattr# function has been added to the system module 
+  *    Screen logging in compiled programs 
+  *    A method for using the unimouse module in combination with INPUT 
+  *    DISPOSE can free arrays of structures 
+  *    New terminating conditions with INPUT 
+  *    You can now control insert/overwrite mode in an INPUT statement 
+  *    Quicker BIOS screen output. 
+
+
+VERSION 3.10 CHANGES AND ADDITIONS 
+================================== 
+
+Refer to the release notes in the online help system.
+
+
+ 
+EXTPATH 
+ 
+The '*' character can now be used as a general path when specifying paths 
+in the directory list used for searching external modules, strucs, and 
+procedures. 
+ 
+The '*' character means the directory where Comal was loaded. It only 
+works for DOS 3.30 or later.  
+ 
+Example: 
+ 
+  EXTPATH ".;*;*\modules;*\proc" 
+ 
+The above line tells Comal to look for externals in the directories 
+ 
+  .              Current directory, 
+  *              The directory where COMAL.EXE was located, 
+  *\modules      In the directory modules located in the directory where 
+                 COMAL.EXE was located, 
+  *\proc         In the directory proc in the directory where COMAL.EXE was 
+                 located. 
+ 
+ 
+INCREASED NUMBER OF FILES OPEN 
+ 
+In earlier versions of Comal it was not possible to open more than 16 
+files using the Comal statement OPEN, although the manual states that 20 
+files can be opened in a Comal program at the same time. 
+ 
+Using DOS 3.30 or later, you can open 20 files with file numbers, and 41 
+file handles in all can be used by the Comal system including its .exe 
+modules. 
+ 
+ 
+DEFAULT MESSAGE FILE FOR MODULE OR STRUC 
+ 
+If an external module or struc does not have a message file for the 
+language specified in the COUNTRY line in the profile file, the message 
+file ending in 'US' is used, if present. 
+ 
+ 
+ 
+SCREEN LOGGING 
+ 
+In the interactive Comal it is possible to get screen output printed also 
+on the printer by pressing Ctrl-PrtSc during program run. This facility 
+was left out in compiled programs in order to avoid an unlucky press of 
+the Ctrl-PrtSc with subsequent printout which almost always was a nuisance 
+for the program user. 
+ 
+In this version of the compiler, users of compiled programs still do not 
+have the ability to press Ctrl-PrtSc, but the program itself can print the 
+Ctrl-PrtSc control sequence in order to activate screen printout also on 
+the printer. The screen logging facility can be enabled and disabled the 
+following way: 
+ 
+  PRINT CHR$(0)+CHR$(114)  // Ctrl-PrtSc: Start logging 
+  do_some_screen_output    // Is also printed to PRN: 
+  PRINT CHR$(0)+CHR$(114)  // Ctrl-PrtSc: Stop logging 
+ 
+ 
+UNIMOUSE AND INPUT 
+ 
+A procedure, mouseinput, has been introduced in the UniMouse module. See 
+the description in the file UNIMOUSE.RME. 
+ 
+ 
+DISPOSE 
+ 
+In earlier versions of UniComal 3.0x the DISPOSE procedure was not able to 
+free a structured variable containing an array of structured variables. It 
+can now. 
+ 
+ 
+THE SYSTEM MODULE 
+ 
+A new procedure has been added to the system module. 
+ 
+FUNC opendirattr#(path$,attr#) 
+ 
+SYNTAX: opendirattr#(path$,attr) 
+ 
+  is a function analoguous to opendir#. It opens the directory specified by 
+  the parameter path$, and the file entries included in the search is 
+  determined by the attr# parameter. The function returns a unique value, 
+  d#, which can be used as a directory handle for the system module 
+  procedures: 
+            closedir#(d#), eofdir#(d#), readdir$(d#) 
+ 
+  The attr# value is a combination of three bit values. When attr#=0, 
+  normal file entries are found. Entries for subdirectories, hidden, and 
+  system files will not be searched for. When one of the bit values below 
+  is added, also file entries of that kind are included in the search. 
+ 
+  attr#: 
+ 
+        2   Files entries marked hidden in the directory will be included 
+            in the search. 
+ 
+        4   Files entries marked with the attribute system are included. 
+ 
+       16   Files entries marked directory are included in the search. 
+ 
+  Set attr#=2+4+16 to look at all directory entries. The function 
+  opendir#(path$) is eqvivalent to the function opendirattr#(path$,16). 
+ 
+  EXAMPLES: 
+ 
+  d#:=opendirattr#("*.*",0)          Find all normal file entries in 
+                                     current directory. 
+ 
+  n#:=opendirattr#("\",2+4+16)       Look at all kinds of file entries in 
+                                     the root directory. 
+ 
+ 
+ 
+TERMCHARS 
+ 
+The description of the termchars procedure in the system module is 
+incomplete and parts of it are wrong. Below is the right description.   
+  
+PROC termchars(chars$)  
+  
+SYNTAX: termchars(chars$)  
+ 
+  is a procedure which is used to specify which keyboard actions will 
+  terminate an input statement. See the sample program under termchar$ for 
+  an illustation of the use of this procedure. The carriage return CHR$(13) 
+  and CHR$(3) are the default terminating characters. That is, <Enter>, 
+  <Ctrl-C>, and <Ctrl-Break> can terminate the input statement. If 
+  termchars is used to specify terminators, CHR$(13) will no longer 
+  terminate unless explicitly specified again. 
+ 
+  EXAMPLES: 
+ 
+  termchars("abc")    Only the character "a", "b", or "c" will terminate 
+                      subsequent INPUT statements. 
+ 
+  termchars(""27"")   Only the <Esc> key, and no other, will terminate an 
+                      INPUT. 
+ 
+  termchars(""3""13"") 
+                      These are the default terminating characters. When 
+                      TRAP ESC- is effective, the INPUT statement will 
+                      terminate on <Ctrl-C> and <Ctrl-Break>, but the 
+                      program will continue. 
+ 
+  There are a number of control characters that have been given special 
+  meaning when specified as terminating characters. Such a control 
+  character terminates the INPUT statement, and is returned as terminating 
+  character by the termchar$ function when a special condition arises. They 
+  are described below. 
+ 
+  CHR$(0)+CHR$(1)     Causes termination when a character is added in the 
+                      rightmost position of the input field. 
+ 
+  CHR$(0)+CHR$(2)     Terminates when the cursor is at the far left of the 
+                      input field and the cursor left key is pressed. 
+ 
+  CHR$(0)+CHR$(3)     When the cursor is at the far right of the input 
+                      field and the cursor right key terminates INPUT. 
+ 
+  CHR$(0)+CHR$(4)     Terminate if no character is available. If characters 
+                      are available, they are handled as normal characters 
+                      and control keys. It is useful when it is necessary 
+                      to control other matters while doing input. 
+ 
+  CHR$(0)+CHR$(5)     Terminate after first entered character. This 
+                      corresponds to the INKEY$ function, except that the 
+                      INPUT statement is used. 
+ 
+                      NOTE: when specified together with another condition 
+                      or terminating character, those conditions or 
+                      characters will take precedence over this one. 
+ 
+  CHR$(0)+CHR$(6)     Terminates when a character (also space) has been 
+                      inserted out of the rightmost position of the input 
+                      field. The insertion is performed. In this case 
+                      termchar$ returns a 3 character long string, because 
+                      it contains the terminating condition code, 
+                      CHR$(0)+CHR$(6), and the character which was pushed 
+                      out of the input field as the third character. 
+ 
+  CHR$(0)+CHR$(8)     When a mouse event has occured as specified with the 
+                      mouseinput procedure in the unimouse module, this 
+                      control code is received from the keyboard. It can be 
+                      used to integrate mouse control and the INPUT 
+                      statement, when it is specified as a terminating 
+                      character. 
+  
+ 
+CONTROLLING INSERT MODE IN INPUT 
+ 
+In earlier version of UniComal it was not possible to control whether an 
+INPUT statement should start in insert or overwrite mode. It was also a 
+problem that insert mode was turned off when a key had terminated the 
+INPUT statement (e.g. cursor left or right). You can now solve the problem 
+using a new procedure, inputins, and a new function, termins#. 
+ 
+PROC inputins(mode#) 
+ 
+SYNTAX: inputins(mode) 
+ 
+  is a procedure setting insert or overwrite mode for the next INPUT 
+  statement that is executed. If mode#=0, overwrite mode is used, i.e. 
+  character will be typed over. If mode#=1, insert mode will be active, 
+  i.e. characters following an entered character will be pushed in front of 
+  the it. The overwrite/insert-mode can be toggled by the <Ins>-key during 
+  input. If the inputins procedure is not called, overwrite mode will be 
+  used.
+ 
+EXAMPLE: 
+ 
+  inputins(1)    // Use insert mode 
+  INPUT "Your name: ": name$ 
+ 
+ 
+FUNC termins# 
+ 
+SYNTAX: termins# 
+ 
+  is a function returning which mode was active when the INPUT statement 
+  terminated. If zero is returned, overwrite mode was active, and if it was 
+  1, overwrite mode was active. 
+ 
+EXAMPLE: 
+ 
+  termchars(""3""13"".")   // Terminate on <Ctrl-Break>, 
+                           // <Ctrl-C>, <Enter>, and "." 
+  LOOP 
+    INPUT AT line#,pos#: "": answer$ 
+    EXIT WHEN termchar$<>"." THEN 
+    PRINT AT line#,pos#+termpos#-1: CHR$(18)+"."+CHR$(19), 
+    inputins(termins#) // Keep insert/overwrite mode INPUT 
+    inputpos(termpos#) // Keep cursor position in input field 
+  ENDLOOP 
+ 
+ 
+QUICKER BIOS SCREEN OUTPUT 
+ 
+In the Comal profile file you can specify how the screen shall be 
+accessed. It can be accessed in three modes: 
+ 
+  -    using BIOS (operating system) calls 
+  -    using direct memory access with horizontal retrace check 
+  -    using direct memory access 
+ 
+The BIOS screen access mode is useful when running on machines that are 
+not-so-compatible, or when running Comal under certain window systems. 
+ 
+BIOS mode has been optimized with respect to output of sequences of the 
+same character. In this case output can be up to 10 times faster than 
+before. Comal recognizes such sequences automatically during print to the 
+screen, so this optimization is transparent to the programmer. 
+ 
+ 
+THE EQUIPMENT FUNCTION 
+ 
+The equipment# function in the system module determines what optional 
+devices are attached to the system. Because there is no description of the 
+value returned by this function in the manual for the system module, it is 
+described here. 
+  
+FUNC equipment#  
+ 
+SYNTAX: equipment# 
+ 
+  is a function returning an integer with bits specifying what devices was 
+  detected during power on diagnostics. The bits are as described in IBM 
+  Technical Reference manual: 
+ 
+  Bits *15,14         Number of printers attached. 
+        13            Not used. 
+        12            Game I/O attached. 
+       *11,10,9       Number of RS232 cards attached. 
+        8             Unused. 
+       *7,6           Number of diskette drives: 
+                           00=1, 01=2, 10=3, 11=4 only if bit 0 = 1. 
+       *5,4           Initial video mode: 
+                           00 - Unused 
+                           01 - 40 x 25 Black & white using color card 
+                           10 - 80 x 25 Black & white using color card 
+                           11 - 80 x 25 Black & white using monochrome card 
+       *3,2           Planar RAM size: 
+                           00=16K, 01=32K, 10=48K, 11=64K 
+       *1             Math coprocessor attached. 
+       *0             Initial Program Load from diskette. This bit also 
+                      indicates that there are diskette drives on the 
+                      system. 
+  
+  Under OS/2, only those items marked by asterisks are returned, the rest 
+  is set to zero.  
+ 
+EXAMPLE: 
+ 
+  USE system 
+  mono#:=(equipment# BITAND $30)=$30 // Test monochrome mode
+
+      

@@ -1,0 +1,380 @@
+0010 // SAVE "xref"
+0020 //
+0030 // (C) Copyright UniComal A/S, 1989-1992
+0040 // Version 3.11
+0050 //
+0060 // An example of use of dynamic data structures.
+0070 //
+0080 // The program uses a sorted name table, where
+0090 // each name has a list of line numbers, marking
+0100 // which lines contain the name. From this
+0110 // name table a cross reference list is generated.
+0120 //
+0130 // The name table (STRUC names) has the operations
+0140 // record, tabulate, and clear. The name table
+0150 // is organised as a binary tree (STRUC name),
+0160 // where all lexically preceeding names are pointed
+0170 // out by prec@, and lexically succeeding names
+0180 // are pointed out by succ@. The pointer first@
+0190 // points at a list of line numbers (STRUC line_number).
+0200 //
+0210 // The different STRUCs share output procedures by
+0220 // using the module IO. Note that the dimensioned
+0230 // length of name$ is given by the variable io.name_length#
+0240 //
+0250 // The clear procedures in the STRUCs demonstrates how
+0260 // DISPOSE can be used to give the CREATEd storage free.
+0270 //
+0280 // SCAN the program and try:
+0290 //
+0300 //   SCOPE                 // All names in the program
+0310 //   INTERFACE             // All modules and strucs in the program
+0320 //   INTERFACE names       // An interface description of STRUC names
+0330 //   INTERFACE names.record  // An interface description of a procedure
+0340 //   INTERFACE name.record // Another record procedure
+0350 //   INTERFACE record      // same as names.record
+0360 //   LIST name.record      // List the procedure
+0370 //
+0380 // The above commands can print to a device or file by
+0390 // specifying the file name, e.g.
+0400 //
+0410 //   SCOPE TO "prn:"       // Output to printer
+0420 //
+0430 DIM inpfile$ OF 20, outfile$ OF 20
+0440 
+0450 PAGE
+0460 PRINT "ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿"
+0470 PRINT "³                       ³"
+0480 PRINT "³ Cross Reference Ver 3 ³"
+0490 PRINT "³                       ³"
+0500 PRINT "³ Of A COMAL LIST-file  ³"
+0510 PRINT "³ The program is printed³"
+0520 PRINT "³ with pagination.      ³"
+0530 PRINT "³                       ³"
+0540 PRINT "³   A cross reference   ³"
+0550 PRINT "³   table follows.      ³"
+0560 PRINT "³                       ³"
+0570 PRINT "ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´"
+0580 PRINT "³                       ³"
+0590 PRINT "³          By           ³"
+0600 PRINT "³     UniComal A/S.     ³"
+0610 PRINT "³                       ³"
+0620 PRINT "ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ"
+0630 PRINT
+0640 INPUT "LIST-file   [.LST]: ": inpfile$
+0650 INPUT "Output file [CON:]: ": outfile$
+0660 
+0670 IF ext$(inpfile$)="" THEN inpfile$:+".LST"
+0680 IF outfile$="" THEN outfile$:="CON:"
+0690 
+0700 xref(inpfile$,outfile$)
+0710 
+0720 END "End Of XREF"
+0730 
+0740 STRUC names
+0750   // Name table using a sorted binary tree //
+0760   EXPORT record, tabulate, clear
+0770   
+0780   USE io         // I/O procedures to use
+0790   
+0800   DIM tree@ OF name // Sorted tree of names
+0810   DIM cursor@ OF name // Points to found name
+0820   
+0830   PROC record(id$,lno#) // Record lno# for id$
+0840     IF tree@.VOID THEN
+0850       // The tree is empty //
+0860       tree@.CREATE; tree@.record(id$,lno#)
+0870     ELSE // Not empty //
+0880       cursor@:=tree@
+0890       LOOP // Search for id$ in tree //
+0900         IF id$=cursor@.name$ THEN
+0910           cursor@.record(id$,lno#)
+0920           EXIT // id$ found //
+0930         ELIF id$<cursor@.name$ THEN
+0940           // id$ preceedes name$ //
+0950           IF cursor@.prec@.VOID THEN
+0960             // No predecessor. Create it //
+0970             cursor@.prec@.CREATE
+0980             cursor@.prec@.record(id$,lno#)
+0990             EXIT
+1000           ELSE
+1010             cursor@:=cursor@.prec@
+1020           ENDIF
+1030         ELSE
+1040           // id$ succeeds name$ //
+1050           IF cursor@.succ@.VOID THEN
+1060             // No successor. Create it //
+1070             cursor@.succ@.CREATE
+1080             cursor@.succ@.record(id$,lno#)
+1090             EXIT
+1100           ELSE
+1110             cursor@:=cursor@.succ@
+1120           ENDIF
+1130         ENDIF
+1140       ENDLOOP
+1150     ENDIF
+1160   ENDPROC record
+1170   
+1180   PROC tabulate  // Print cross reference table
+1190     newline
+1200     newline
+1210     printnl("Cross Reference Table")
+1220     newline
+1230     IF tree@.VOID THEN
+1240       printnl("No names recorded.")
+1250     ELSE
+1260       tree@.traverse // Print table of names & line numbers
+1270     ENDIF
+1280   ENDPROC tabulate
+1290   
+1300   PROC clear     // Make name table empty
+1310     IF NOT tree@.VOID THEN tree@.clear; tree@.DISPOSE
+1320   ENDPROC clear
+1330   
+1340 ENDSTRUC names
+1350 
+1360 STRUC name
+1370   // Name in name tree //
+1380   USE io
+1390   
+1400   DIM name$ OF namelength#  // The name itself
+1410   DIM prec@ OF name         // Preceeding name sub tree
+1420   DIM succ@ OF name         // Succeeding name sub tree
+1430   DIM first@ OF line_number // List of line numbers, reversed
+1440   
+1450   PROC record(id$,lno#) CLOSED // Record id$ & lno#
+1460     IMPORT first@, name$
+1470     DIM old@ OF line_number
+1480     name$:=id$
+1490     old@:=first@; first@.CREATE; first@.record(lno#,old@)
+1500   ENDPROC record
+1510   
+1520   PROC traverse  // Print list of names & line numbers
+1530     IF NOT prec@.VOID THEN prec@.traverse // Print preceeding names
+1540     print_this
+1550     IF NOT succ@.VOID THEN succ@.traverse // Print succeeding names
+1560   ENDPROC traverse
+1570   
+1580   PROC print_this // Print name & line numbers
+1590     printon(name$+SPC$(namelength#+1-LEN(name$)))
+1600     first@.print_lines // Print line numbers
+1610     newline
+1620   ENDPROC print_this
+1630   
+1640   PROC clear     // Make empty subtree
+1650     IF NOT prec@.VOID THEN prec@.clear; prec@.DISPOSE
+1660     IF NOT succ@.VOID THEN succ@.clear; succ@.DISPOSE
+1670     first@.clear; first@.DISPOSE
+1680   ENDPROC clear
+1690   
+1700 ENDSTRUC name
+1710 
+1720 STRUC line_number
+1730   // Line number line_number //
+1740   EXPORT record, print_lines, clear
+1750   
+1760   USE io
+1770   
+1780   DIM num#       // Recorded line number
+1790   DIM prev@ OF line_number // Previous line number
+1800   
+1810   PROC record(lno#,p@ OF line_number) // Record line number
+1820     num#:=lno#; prev@:=p@
+1830     IF lno#>=10000 THEN lno_width#:=5
+1840   ENDPROC record
+1850   
+1860   PROC print_lines // Print list of line numbers
+1870     IF NOT prev@.VOID THEN prev@.print_lines // Print previous numbers
+1880     IF LEN(buffer$)>=74 THEN
+1890       // Begin a new line //
+1900       newline
+1910       printon(SPC$(namelength#+1))
+1920     ENDIF
+1930     printon(STR$("*0"+lno_width#*"#"+" ",num#)) // Print this number
+1940   ENDPROC print_lines
+1950   
+1960   PROC clear     // Make no line numbers
+1970     IF NOT prev@.VOID THEN prev@.clear; prev@.DISPOSE
+1980   ENDPROC clear
+1990   
+2000 ENDSTRUC line_number
+2010 
+2020 MODULE io
+2030   //--------I/O procedures--------//
+2040   
+2050   namelength#:=16    // Length of names
+2060   linecount#:=0      // Number of lines printed
+2070   pageno#:=1         // Current page number
+2080   pagelength#:=66    // Number of lines on a page
+2090   lno_width#:=4      // Current width of line numbers
+2100   
+2110   DIM buffer$ OF 256 // Output buffer
+2120   DIM line$ OF 256   // Input buffer
+2130   DIM ch$ OF 1       // Input character
+2140   DIM head$ OF 80    // Header
+2150   
+2160   PROC open_inp(file_name$) // Open input file
+2170     inp#:=FREEFILE
+2180     OPEN FILE inp#,file_name$,READ
+2190   ENDPROC open_inp
+2200   
+2210   PROC close_inp // Close input file
+2220     IF inp#<>0 THEN CLOSE FILE inp#
+2230   ENDPROC close_inp
+2240   
+2250   PROC open_out(file_name$) // Open output file
+2260     out#:=FREEFILE
+2270     OPEN FILE out#,file_name$,WRITE
+2280   ENDPROC open_out
+2290   
+2300   PROC close_out // Close output file
+2310     IF out#<>0 THEN CLOSE FILE out#
+2320   ENDPROC close_out
+2330   
+2340   PROC newpage   // Skip to next page, print header
+2350     IF linecount#>0 THEN eject
+2360     PRINT FILE out#: head$,TAB(70),STR$("*0####",pageno#)
+2370     PRINT FILE out#:
+2380     linecount#:=2
+2390   ENDPROC newpage
+2400   
+2410   PROC eject     // Eject page
+2420     PRINT FILE out#: CHR$(12),
+2430     pageno#:+1
+2440   ENDPROC eject
+2450   
+2460   PROC newline   // Print on a new line
+2470     IF linecount#>=pagelength# THEN newpage
+2480     PRINT FILE out#: buffer$
+2490     buffer$:=""
+2500     linecount#:+1
+2510   ENDPROC newline
+2520   
+2530   PROC printnl(text$) // Print text$ & nl
+2540     buffer$:+text$
+2550     newline
+2560   ENDPROC printnl
+2570   
+2580   PROC printon(text$) // Print text$ on line
+2590     buffer$:+text$
+2600   ENDPROC printon
+2610   
+2620   PROC inchar    // Get ch$ from line$
+2630     i#:+1; ch$:=line$(:i#:)
+2640   ENDPROC inchar
+2650   
+2660   PROC next_line // Newline, get next line
+2670     IF ch$=""13"" THEN newline
+2680     IF NOT EOF(inp#) THEN
+2690       INPUT FILE inp#: buffer$
+2700       i#:=0; line$:=buffer$+""13""
+2710       REPEAT inchar UNTIL ch$<"0" OR ch$>"9"
+2720       lno#:=VAL(line$(:i#-1))
+2730       WHILE ch$=" " DO inchar
+2740     ENDIF
+2750   ENDPROC next_line
+2760   
+2770 ENDMODULE io
+2780 
+2790 PROC xref(inpfile$,outfile$) CLOSED
+2800   //
+2810   // Print the LIST-file, inpfile$, and
+2820   // record all the positions where a
+2830   // name is used. Then print a table
+2840   // of where each name occurred in
+2850   // the LIST-file. All output is done
+2860   // to outfile$.
+2870   
+2880   USE io         // I/O-routines
+2890   
+2900   DIM name_table. OF names // Name table
+2910   
+2920   head$:="XREF "+inpfile$ // Page header
+2930   
+2940   TRAP
+2950     // Open inpfile$ and outfile$ //
+2960     open_inp(inpfile$)
+2970     open_out(outfile$)
+2980     
+2990     newpage      // Begin on a new page
+3000     WHILE NOT EOF(inp#) DO
+3010       // Scan through line for names //
+3020       next_line  // Get next line
+3030       LOOP // for each character //
+3040         IF "A"<=ch$ AND ch$<="Z" THEN
+3050           // KEYWORD //
+3060           REPEAT inchar UNTIL ch$<"A" OR ch$>"Z"
+3070           IF ch$ IN "#$@" THEN inchar
+3080         ELIF "a"<=ch$ AND ch$<="z" OR ch$>="€" THEN
+3090           // identifier //
+3100           start#:=i#
+3110           REPEAT
+3120             inchar
+3130           UNTIL NOT ("a"<=ch$ AND ch$<="z" OR ch$ IN "0123456789'_" OR ch$>="€")
+3140           IF ch$ IN "#$@" THEN inchar
+3150           // Record name & line number //
+3160           name_table.record(line$(start#:i#-1),lno#)
+3170         ELIF "0"<=ch$ AND ch$<="9" THEN
+3180           // numeric constant //
+3190           REPEAT inchar UNTIL NOT ch$ IN ".0123456789"
+3200           IF ch$="E" THEN
+3210             inchar
+3220             IF ch$ IN "+-" THEN inchar
+3230             REPEAT inchar UNTIL NOT ch$ IN "0123456789"
+3240           ENDIF
+3250         ELIF ch$="/" THEN
+3260           // "/" or "//"
+3270           inchar
+3280           EXIT WHEN ch$="/" // comment //
+3290         ELIF ch$="""" THEN
+3300           // string constant //
+3310           REPEAT inchar UNTIL ch$=""""
+3320           inchar
+3330         ELIF ch$=""13"" THEN
+3340           // end of line //
+3350           EXIT
+3360         ELIF ch$ IN "%$" THEN
+3370           // Hex constant //
+3380           REPEAT inchar UNTIL NOT ch$ IN "0123456789abcdef"
+3390         ELSE // any other character //
+3400           inchar
+3410         ENDIF
+3420       ENDLOOP
+3430       ch$:=""13""
+3440     ENDWHILE
+3450     newline
+3460     name_table.tabulate // Print cross reference table
+3470     //IF linecount#<pagelength# THEN eject
+3480     
+3490   HANDLER
+3500     IF ERRFILE=inp# THEN
+3510       PRINT "File";inpfile$;
+3520     ELIF ERRFILE=out# THEN
+3530       PRINT "File";outfile$;
+3540     ELSE
+3550       PRINT "Error";
+3560     ENDIF
+3570     PRINT "->";ERRTEXT$
+3580   ENDTRAP
+3590   
+3600   close_inp
+3610   close_out
+3620   
+3630   name_table.clear // Make empty name table
+3640   
+3650 ENDPROC xref
+3660 
+3670 //  FUNC ext$(f$)
+3680 //     This function returns only the extension of the file name.
+3690 //     Examples:
+3700 //        ext$("withext.dat") = ".dat"
+3710 //        ext$("noext.")      = "."
+3720 //        ext$("missext")     = ""
+3730 //
+3740 FUNC ext$(f$) CLOSED
+3750   FOR i#:=LEN(f$) TO 1 STEP -1 DO
+3760     IF f$(:i#:)="." THEN RETURN f$(i#:)
+3770     IF f$(:i#:) IN "/\:" THEN RETURN ""
+3780   ENDFOR i#
+3790   RETURN ""
+3800 ENDFUNC ext$

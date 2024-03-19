@@ -1,0 +1,257 @@
+0010 MODULE internet
+0020   //
+0030   //  Description of the INTERNET module for UniCOMAL Ver. 3.11
+0040   //
+0050   //  (C) Copyright 2000, PandD Software - Rotterdam (Netherlands)
+0060   //      All Rights Reserved.
+0070   //
+0080   //  Module version: 0.3 (21032000)
+0090   //
+0100   USE system
+0110   
+0120   EXPORT remote_addr$          // remote host ip address
+0130   EXPORT remote_host$          // remote host name
+0140   EXPORT remote_user$          // remote host user (if available)
+0150   EXPORT auth_type$            // author type
+0160   EXPORT character_encoding$   // char endcoding
+0170   EXPORT content_length#       // content length in bytes
+0180   EXPORT content_type$         // type of content (e.g. html/text)
+0190   EXPORT method$               // action method ("POST", "GET", etc)
+0200   EXPORT path_info$            //
+0210   EXPORT path_translated$      //
+0220   EXPORT protocol$             // protocol type (e.g. HTTP/1.1)
+0230   EXPORT query_string$         // query string for script
+0240   EXPORT scheme$               // scheme
+0250   EXPORT server_info$          // info about server
+0260   EXPORT server_name$          // server name
+0270   EXPORT server_port#          // server port
+0280   EXPORT servlet_path$         // path of servlet used for webCOMAL
+0290   EXPORT servlet_in$           // temporary input for COMAL
+0300   EXPORT servlet_out$          // temporary output for COMAL
+0310   
+0320   EXPORT parameter_count#      // # of parameter tags in page
+0330   EXPORT header_count#         // # of header tags in page
+0340   
+0350   EXPORT print_context         // prints the internet context
+0360   EXPORT get_parameter$()      // get a parameter tag with a certain name
+0370   EXPORT get_parameter_name$() // get a parameter tag name using an index
+0380   EXPORT get_header$()         // get a header tag with a certain name
+0390   EXPORT get_header_name$()    // get a header tag name using an index
+0400   
+0410   DIM parameter$(100) OF 255
+0420   DIM header$(100) OF 255
+0430   
+0440   DIM context_type$ OF 100
+0450   DIM path_info$ OF 100, path_translated$ OF 100
+0460   DIM query_string$ OF 100
+0470   DIM scheme$ OF 100
+0480   DIM server_info$ OF 100, server_name$ OF 100
+0490   DIM servlet_path$ OF 100
+0500   DIM servlet_in$ OF 100, servlet_out$ OF 100
+0510   //
+0520   // other strings has a default length of 40 chars
+0530   
+0540   initialized#:=FALSE
+0550   
+0560   //////////////////////////////////
+0570   // LOCAL methods
+0580   
+0590   FUNC get_env_var$(set_text$)
+0600     // returns environment string
+0610     //
+0620     env_var$:=environment$(set_text$)
+0630     IF env_var$="" THEN
+0640       REPORT 1,"INTERNET: unexpected environment value for "+set_text$
+0650     ENDIF
+0660     RETURN env_var$
+0670   ENDFUNC get_env_var$
+0680   
+0690   PROC init_internet
+0700     // select input device from environment
+0710     //
+0720     servlet_in$:=get_env_var$("SERVLET_IN")
+0730     servlet_out$:=get_env_var$("SERVLET_OUT")
+0740     PRINT "input read from     : ",servlet_in$
+0750     PRINT "output redirected to: ",servlet_out$
+0760     
+0770     SELECT INPUT servlet_in$
+0780     INPUT "auth type         : ": auth_type$
+0790     INPUT "character encoding: ": character_encoding$
+0800     INPUT "content length    : ": content_length#
+0810     INPUT "content type      : ": content_type$
+0820     INPUT "method            : ": method$
+0830     INPUT "path info         : ": path_info$
+0840     INPUT "path translated   : ": path_translated$
+0850     INPUT "protocol          : ": protocol$
+0860     INPUT "query string      : ": query_string$
+0870     INPUT "remote addr       : ": remote_addr$
+0880     INPUT "remote host       : ": remote_host$
+0890     INPUT "remote user       : ": remote_user$
+0900     INPUT "scheme            : ": scheme$
+0910     INPUT "server info       : ": server_info$
+0920     INPUT "server name       : ": server_name$
+0930     INPUT "server port       : ": server_port#
+0940     INPUT "servlet path      : ": servlet_path$
+0950     
+0960     INPUT "parameter count   : ": parameter_count#
+0970     FOR p#:=1 TO parameter_count# DO
+0980       INPUT "parameter ": parameter$(p#)
+0990     ENDFOR p#
+1000     INPUT "header count      : ": header_count#
+1010     FOR p#:=1 TO header_count# DO
+1020       INPUT "header    ": header$(p#)
+1030     ENDFOR p#
+1040     
+1050     // set output device
+1060     //
+1070     SELECT OUTPUT servlet_out$
+1080     
+1090     // module is initialized
+1100     //
+1110     initialized#:=TRUE
+1120   ENDPROC init_internet
+1130   
+1140   PROC init_non_internet
+1150     // set default values
+1160     //
+1170     auth_type$:=""
+1180     character_encoding$:=""
+1190     content_length#:=-1
+1200     content_type$:="text/html"
+1210     path_info$:=""
+1220     path_translated$:=""
+1230     protocol$:=""
+1240     query_string$:=""
+1250     method$:=""
+1260     remote_addr$:="127.0.0.1"
+1270     remote_host$:="localhost"
+1280     remote_user$:=""
+1290     scheme$:=""
+1300     server_info$:=""
+1310     server_name$:="localhost"
+1320     server_port#:=8080
+1330     servlet_path$:="."
+1340     
+1350     parameter_count#:=0
+1360     header_count#:=0
+1370   ENDPROC init_non_internet
+1380   
+1390   FUNC get_value_pos#(line$)
+1400     RETURN "=" IN line$
+1410   ENDFUNC get_value_pos#
+1420   
+1430   FUNC has_name#(name$,line$)
+1440     RETURN UPPER$(name$) IN UPPER$(line$(1:get_value_pos#(line$)))
+1450   ENDFUNC has_name#
+1460   
+1470   FUNC get_value$(name$,line$)
+1480     IF has_name#(name$,line$) THEN
+1490       RETURN line$(get_value_pos#(line$)+1:)
+1500     ELSE
+1510       RETURN ""
+1520     ENDIF
+1530   ENDFUNC get_value$
+1540   
+1550   FUNC get_name$(line$)
+1560     IF get_value_pos#(line$)>0 THEN
+1570       RETURN line$(1:get_value_pos#(line$)-1)
+1580     ELSE
+1590       RETURN ""
+1600     ENDIF
+1610   ENDFUNC get_name$
+1620   
+1630   //////////////////////////////////
+1640   // EXPORTed methods
+1650   
+1660   PROC print_context
+1670     // prints the internet-page context information
+1680     //
+1690     IF autostarted# THEN PRINT "<PRE>"
+1700     PRINT "auth type         : ",auth_type$
+1710     PRINT "character encoding: ",character_encoding$
+1720     PRINT "content length    : ",content_length#
+1730     PRINT "content type      : ",content_type$
+1740     PRINT "method            : ",method$
+1750     PRINT "path info         : ",path_info$
+1760     PRINT "path translated   : ",path_translated$
+1770     PRINT "protocol          : ",protocol$
+1780     PRINT "query string      : ",query_string$
+1790     PRINT "remote addr       : ",remote_addr$
+1800     PRINT "remote host       : ",remote_host$
+1810     PRINT "remote user       : ",remote_user$
+1820     PRINT "scheme            : ",scheme$
+1830     PRINT "server info       : ",server_info$
+1840     PRINT "server name       : ",server_name$
+1850     PRINT "server port       : ",server_port#
+1860     PRINT "servlet path      : ",servlet_path$
+1870     FOR i#:=1 TO parameter_count# DO
+1880       PRINT USING "parameter ###     : ": i#,
+1890       PRINT parameter$(i#)
+1900     ENDFOR i#
+1910     FOR i#:=1 TO header_count# DO
+1920       PRINT USING "header ###        : ": i#,
+1930       PRINT header$(i#)
+1940     ENDFOR i#
+1950     IF autostarted# THEN PRINT "</PRE>"
+1960   ENDPROC print_context
+1970   
+1980   FUNC get_header$(name$)
+1990     // gives the value of a <HEADER> tag with a given NAME
+2000     // an empty string is returned if name is not found
+2010     //
+2020     FOR i#:=1 TO header_count# DO
+2030       IF has_name#(name$,header$(i#)) THEN
+2040         RETURN get_value$(name$,header$(i#))
+2050       ENDIF
+2060     ENDFOR i#
+2070     RETURN ""
+2080   ENDFUNC get_header$
+2090   
+2100   FUNC get_header_name$(index#)
+2110     // gives the name of a <HEADER> tag of the header
+2120     // with a given index
+2130     // empty string is returned if index is out of bounds
+2140     //
+2150     IF index#>=header_count# AND get_value_pos#(header$(index#))>0 THEN
+2160       RETURN get_name$(header$(index#))
+2170     ELSE
+2180       RETURN ""
+2190     ENDIF
+2200   ENDFUNC get_header_name$
+2210   
+2220   FUNC get_parameter$(name$)
+2230     // gives the value of the parameter with the given NAME
+2240     // if name is not found an empty value is returned
+2250     //
+2260     FOR i#:=1 TO parameter_count# DO
+2270       IF has_name#(name$,parameter$(i#)) THEN
+2280         RETURN get_value$(name$,parameter$(i#))
+2290       ENDIF
+2300     ENDFOR i#
+2310     RETURN ""
+2320   ENDFUNC get_parameter$
+2330   
+2340   FUNC get_parameter_name$(index#)
+2350     // gives the name of a <PARAM> tag of the parameter
+2360     // with a given index.
+2370     // an empty string is returned if index# is out of bounds
+2380     //
+2390     IF index#>=parameter_count# AND get_value_pos#(parameter$(index#))>0 THEN
+2400       RETURN get_name$(parameter$(index#))
+2410     ELSE
+2420       RETURN ""
+2430     ENDIF
+2440   ENDFUNC get_parameter_name$
+2450   
+2460   ////////////////////////////////////////////
+2470   // initialization code
+2480   
+2490   IF NOT initialized# AND autostarted# THEN
+2500     init_internet
+2510   ELSE
+2520     init_non_internet
+2530   ENDIF
+2540   
+2550   // end of initialization code
+2560   
+2570 ENDMODULE internet

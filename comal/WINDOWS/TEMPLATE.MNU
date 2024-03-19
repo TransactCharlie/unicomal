@@ -1,0 +1,11 @@
+File := 1
+ New := 11
+ Load := 12
+ Save := 13
+ Quit := 14
+Edit := 2
+...
+Setup := 3
+ File format := 31
+  Binary := 311
+  Ascii := 312

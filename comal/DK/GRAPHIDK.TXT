@@ -1,0 +1,27 @@
+//
+// Danske fejl/hj‘lpe-meddelelser til grafikmodulet Ver. 3.10.
+//
+// (C) Copyright UniComal A/S 1989-1991.
+//
+0    "Ulovlig farve"
+1    "Ulovligt window"
+2    "Forkert sk‘rmtilstand"
+3    "Sk‘rmtilstand ikke muligt for maskinel"
+4    "Ulovlig viewport"
+5    "Forkert farve palette"
+6    "Forkert farve definition"
+7    "Baggrund ikke mulig"
+8    "Forkert baggrundsfarve"
+9    "Forkert kantfarve"
+10   "Forkert inq funktion"
+11   "Forkert tekst type"
+12   "Forkert tegns‘tsnummer"
+13   "POLYGON kr‘ver mindst 3 punkter"
+14   "Tals‘t til POLYGON for sm†"
+15   "Forkert sidenummer"
+16   "Forkert figurkoordinater"
+17   "Forkert figurstreng"
+18   "Uforenelige sk‘rmtilstande"
+19   "Forkert put type"
+20   "Forkert sk‘rmbilledfil format"
+
