@@ -15,7 +15,7 @@
       Dos(document.getElementById("jsdos"), {
       }).ready((fs, main) => {
         fs.extract("comal.zip").then(() => {
-          main(["-c", "comal\\COMAL.EXE"])
+          main(["-c", "comal\\COMAL.EXE comal\\go.cml"])
         });
       });
     </script>
